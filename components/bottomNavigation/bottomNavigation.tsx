@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Animated, { useAnimatedStyle, useDerivedValue, withSpring } from 'react-native-reanimated';
-import { Home, Flame, QrCode, History, Settings } from 'lucide-react-native';
+import { Home, Flame, QrCode, History, Settings, Check } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
 import { Shape } from './Shape';
 import { themeConfig } from '@/lib/theme';
@@ -13,12 +13,10 @@ interface TabItem {
 }
 
 const TABS: TabItem[] = [
-  { key: 'index', icon: Home, label: 'Home' },
-  { key: 'wallet', icon: Flame, label: 'Wallet' },
   { key: 'home', icon: Flame, label: 'Home' },
-  { key: 'qr', icon: QrCode, label: 'QR' },
+  { key: 'index', icon: Home, label: 'Index' },
   { key: 'history', icon: History, label: 'History' },
-  { key: 'settings', icon: Settings, label: 'Settings' },
+  { key: 'qr', icon: QrCode, label: 'QR' },
 ];
 
 interface BottomNavigationProps {
@@ -27,16 +25,20 @@ interface BottomNavigationProps {
   navigation: any;
 }
 
-export default function BottomNavigation({ state, navigation }: BottomNavigationProps) {
+export default function BottomNavigation({ state, descriptors, navigation }: BottomNavigationProps) {
   const { width: screenWidth } = Dimensions.get('window');
-  const TAB_WIDTH = screenWidth / 5;
+  const TAB_WIDTH = screenWidth / 4;
   const INDICATOR_RADIUS = 30;
 
   const { theme } = useTheme();
 
   // Track the center of the active tab
+  const visibleRoutes = state.routes.filter((route: any) => TABS.some(t => t.key === route.name));
+  const visibleIndex = visibleRoutes.findIndex((r: any) => r.key === state.routes[state.index]?.key);
+
   const translateX = useDerivedValue(() => {
-    return withSpring(state.index * TAB_WIDTH + TAB_WIDTH / 2, {
+    const idx = visibleIndex >= 0 ? visibleIndex : 0;
+    return withSpring(idx * TAB_WIDTH + TAB_WIDTH / 2, {
       damping: 15,
       stiffness: 100,
     });
@@ -61,7 +63,7 @@ export default function BottomNavigation({ state, navigation }: BottomNavigation
       <Animated.View style={[styles.indicator, indicatorStyle]}>
         <View style={styles.circle}>
           {/* Render active icon inside the circle */}
-          {React.createElement(TABS[state.index].icon, {
+          {visibleIndex >= 0 && React.createElement(TABS.find(t => t.key === visibleRoutes[visibleIndex]?.name)?.icon || Home, {
             size: 22,
             color: 'white',
           })}
@@ -70,9 +72,11 @@ export default function BottomNavigation({ state, navigation }: BottomNavigation
 
       {/* 3. The Tab Buttons */}
       <View style={styles.tabsContainer}>
-        {state.routes.map((route: any, index: number) => {
-          const isFocused = state.index === index;
-          const Icon = TABS[index].icon;
+        {visibleRoutes.map((route: any, index: number) => {
+          const isFocused = visibleIndex === index;
+          const tabItem = TABS.find(t => t.key === route.name);
+          if (!tabItem) return null;
+          const Icon = tabItem.icon;
 
           return (
             <TouchableOpacity

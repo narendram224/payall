@@ -1,120 +1,78 @@
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { type TextStyle, View } from 'react-native';
+import { View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useForm, Controller } from 'react-hook-form';
+import { GradientButton } from './ui/gradient-button';
+import { useAuth } from '../hooks/useAuth';
+import ErrorMsg from './ui/error-msg';
 
-const RESEND_CODE_INTERVAL_SECONDS = 30;
-
-const TABULAR_NUMBERS_STYLE: TextStyle = { fontVariant: ['tabular-nums'] };
-
-export function VerifyEmailForm() {
-  const { countdown, restartCountdown } = useCountdown(RESEND_CODE_INTERVAL_SECONDS);
-
-  function onSubmit() {
-    // TODO: Submit form and navigate to protected screen if successful
-  }
-
-  return (
-    <View className="gap-6">
-      <Card className="border-border/0 sm:border-border pb-4 shadow-none sm:shadow-sm sm:shadow-black/5">
-        <CardHeader>
-          <CardTitle className="text-center text-xl sm:text-left">Verify your email</CardTitle>
-          <CardDescription className="text-center sm:text-left">
-            Enter the verification code sent to m@example.com
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="gap-6">
-          <View className="gap-6">
-            <View className="gap-1.5">
-              <Label htmlFor="code">Verification code</Label>
-              <Input
-                id="code"
-                autoCapitalize="none"
-                returnKeyType="send"
-                keyboardType="numeric"
-                autoComplete="sms-otp"
-                textContentType="oneTimeCode"
-                onSubmitEditing={onSubmit}
-              />
-              <Button
-                variant="link"
-                size="sm"
-                disabled={countdown > 0}
-                onPress={() => {
-                  // TODO: Resend code
-                  restartCountdown();
-                }}>
-                <Text className="text-center text-xs">
-                  Didn&apos;t receive the code? Resend{' '}
-                  {countdown > 0 ? (
-                    <Text className="text-xs" style={TABULAR_NUMBERS_STYLE}>
-                      ({countdown})
-                    </Text>
-                  ) : null}
-                </Text>
-              </Button>
-            </View>
-            <View className="gap-3">
-              <Button className="w-full" onPress={onSubmit}>
-                <Text>Continue</Text>
-              </Button>
-              <Button
-                variant="link"
-                className="mx-auto"
-                onPress={() => {
-                  // TODO: Navigate to sign up screen
-                }}>
-                <Text>Cancel</Text>
-              </Button>
-            </View>
-          </View>
-        </CardContent>
-      </Card>
-    </View>
-  );
+interface VerifyEmailFormData {
+  code: string;
 }
 
-function useCountdown(seconds = 30) {
-  const [countdown, setCountdown] = React.useState(seconds);
-  const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
+export function VerifyEmailForm() {
+  const router = useRouter();
+  const { verifyEmailAsync, isVerifyingEmail } = useAuth();
 
-  const stopCountdown = React.useCallback(() => {
-    if (intervalRef.current !== null) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<VerifyEmailFormData>({
+    defaultValues: {
+      code: '',
+    },
+    mode: 'onSubmit',
+  });
 
-  const startCountdown = React.useCallback(() => {
-    stopCountdown();
-    setCountdown(seconds);
+  const validationRules = {
+    code: {
+      required: 'Verification code is required',
+    },
+  };
 
-    intervalRef.current = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          stopCountdown();
-          return 0;
-        }
+  const onSubmit = async (data: VerifyEmailFormData) => {
+    await verifyEmailAsync(data.code);
+    router.replace('/sign-in');
+  };
 
-        return prev - 1;
-      });
-    }, 1000);
-  }, [seconds, stopCountdown]);
+  return (
+    <View>
+      <View className="gap-6">
+        <View className="gap-1.5">
+          <Label htmlFor="code">Verification Code</Label>
+          <Controller
+            control={control}
+            name="code"
+            rules={validationRules.code}
+            render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
+               <View>
+                 <Input
+                   id="code"
+                   className="h-14 bg-white text-center text-lg tracking-widest"
+                   value={value}
+                   onChangeText={onChange}
+                   onBlur={onBlur}
+                   placeholder="------"
+                   keyboardType="number-pad"
+                   returnKeyType="done"
+                   onSubmitEditing={handleSubmit(onSubmit)}
+                 />
+                 {error && <ErrorMsg message={error.message} />}
+               </View>
+            )}
+          />
+        </View>
 
-  React.useEffect(() => {
-    startCountdown();
-
-    return stopCountdown;
-  }, [startCountdown, stopCountdown]);
-
-  return { countdown, restartCountdown: startCountdown };
+        <GradientButton
+          text={isVerifyingEmail ? 'Verifying...' : 'Verify Email'}
+          onPress={handleSubmit(onSubmit)}
+          loading={isVerifyingEmail}
+        />
+      </View>
+    </View>
+  );
 }

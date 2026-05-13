@@ -6,18 +6,21 @@ import { QrCode, Wallet, Gift } from 'lucide-react-native';
 
 const features = [
   {
+    id: 1,
     icon: QrCode,
     title: 'Scan & Pay',
     description: 'Pay using any UPI app',
     color: '#00B9F2',
   },
   {
+    id: 2,
     icon: Wallet,
     title: 'Wallet Money',
     description: 'Add money & get cashback',
     color: '#10B981',
   },
   {
+    id: 3,
     icon: Gift,
     title: 'Exclusive Offers',
     description: 'Get amazing discounts',
@@ -26,7 +29,7 @@ const features = [
 ];
 
 const FeatureCarousel = () => {
-  const renderFeature = ({ item, index }) => (
+  const renderFeature = ({ item, index }: any) => (
     <View className="flex-1 items-center justify-center px-6">
       <View className="bg-paytm-blue/10 mb-4 h-20 w-20 items-center justify-center rounded-full">
         <item.icon size={40} color={item.color} />

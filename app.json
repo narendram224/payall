@@ -3,6 +3,7 @@
     "name": "pocket-money",
     "slug": "pocket-money",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "web": {
       "favicon": "./assets/favicon.png"
     },
@@ -38,8 +39,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "beef2227-3613-43f3-9459-c263f47588db"
+        "projectId": "77e15413-d3d2-4cae-9836-9039f67fe5c9"
       }
-    }
+    },
+    "owner": "narendram224"
   }
 }

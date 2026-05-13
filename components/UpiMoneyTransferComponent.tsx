@@ -27,24 +27,20 @@ export const UpiMoneyTransferComponent = () => {
   ];
 
   return (
-    <View className="bg-white mx-4 mt-6 p-4 rounded-xl shadow-sm">
-      <Text className="text-gray-900 text-lg font-semibold mb-4">
-        UPI Money Transfer
-      </Text>
-      
+    <View className="mx-4 mt-6 rounded-xl bg-white p-4 shadow-sm">
+      <Text className="mb-4 text-lg font-semibold text-gray-900">UPI Money Transfer</Text>
+
       <View className="flex-row justify-between">
         {transferOptions.map((option, index) => (
           <TouchableOpacity
             key={index}
-            className="items-center flex-1"
-            style={{ marginHorizontal: index === 0 || index === 3 ? 0 : 8 }}
-          >
-            <View className={`w-14 h-14 ${option.color} rounded-full items-center justify-center mb-2`}>
+            className="flex-1 items-center"
+            style={{ marginHorizontal: index === 0 || index === 3 ? 0 : 8 }}>
+            <View
+              className={`h-14 w-14 ${option.color} mb-2 items-center justify-center rounded-full`}>
               <option.icon size={24} color="white" />
             </View>
-            <Text className="text-gray-700 text-xs text-center leading-tight">
-              {option.label}
-            </Text>
+            <Text className="text-center text-xs leading-tight text-gray-700">{option.label}</Text>
           </TouchableOpacity>
         ))}
       </View>

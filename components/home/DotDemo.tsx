@@ -10,7 +10,7 @@ const sampleData = Array.from({ length: 5 }, (_, i) => ({
 }));
 
 const DotStylesDemo = () => {
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({ item, index }: any) => (
     <View
       className="mx-4 flex-1 items-center justify-center rounded-xl"
       style={{ backgroundColor: item.color }}>

@@ -27,31 +27,25 @@ export const RechargeAndBillsComponent = () => {
   ];
 
   return (
-    <View className="bg-white mx-4 mt-4 p-4 rounded-xl shadow-sm">
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-gray-900 text-lg font-semibold">
-          Recharge & Bills
-        </Text>
+    <View className="mx-4 mt-4 rounded-xl bg-white p-4 shadow-sm">
+      <View className="mb-4 flex-row items-center justify-between">
+        <Text className="text-lg font-semibold text-gray-900">Recharge & Bills</Text>
         <TouchableOpacity>
-          <Text className="text-blue-600 text-sm font-medium">
-            View More
-          </Text>
+          <Text className="text-sm font-medium text-blue-600">View More</Text>
         </TouchableOpacity>
       </View>
-      
+
       <View className="flex-row justify-between">
         {billOptions.map((option, index) => (
           <TouchableOpacity
             key={index}
-            className="items-center flex-1"
-            style={{ marginHorizontal: index === 0 || index === 3 ? 0 : 8 }}
-          >
-            <View className={`w-14 h-14 ${option.color} rounded-full items-center justify-center mb-2`}>
+            className="flex-1 items-center"
+            style={{ marginHorizontal: index === 0 || index === 3 ? 0 : 8 }}>
+            <View
+              className={`h-14 w-14 ${option.color} mb-2 items-center justify-center rounded-full`}>
               <option.icon size={24} color="white" />
             </View>
-            <Text className="text-gray-700 text-xs text-center leading-tight">
-              {option.label}
-            </Text>
+            <Text className="text-center text-xs leading-tight text-gray-700">{option.label}</Text>
           </TouchableOpacity>
         ))}
       </View>

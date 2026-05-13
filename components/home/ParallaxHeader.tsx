@@ -155,7 +155,7 @@ const ParallaxHeader = ({ children }: { children: React.ReactNode }) => {
         })}
         contentContainerStyle={{
           paddingTop: HEADER_MAX_HEIGHT + 20,
-          marginBottom: 100,
+          paddingBottom: 120,
         }}>
         {children}
       </Animated.ScrollView>

@@ -8,13 +8,17 @@ interface IconWithTextProps {
   navigateTo?: string;
 }
 
+import { Pressable } from 'react-native';
+
 const IconWithText = ({ icon, text, navigateTo }: IconWithTextProps) => {
   return (
-    <Link href={navigateTo || '#'} className="flex flex-col items-center gap-2">
-      {icon}
-      <Text variant="small" className="break-words text-center" numberOfLines={2}>
-        {text}
-      </Text>
+    <Link href={navigateTo || '#'} asChild>
+      <Pressable className="w-full flex-col items-center justify-start gap-1.5">
+        {icon}
+        <Text className="text-center text-xs font-medium text-gray-700" numberOfLines={2}>
+          {text}
+        </Text>
+      </Pressable>
     </Link>
   );
 };

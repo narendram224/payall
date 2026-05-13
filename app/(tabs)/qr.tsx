@@ -17,7 +17,7 @@ export default function QRScreen() {
       <View className="space-y-6 p-6">
         {/* QR Code Display */}
         <View
-          className="rounded-2xl p-6 items-center"
+          className="items-center rounded-2xl p-6"
           style={{
             backgroundColor: theme.colors.card,
             shadowColor: colorScheme === 'dark' ? '#000' : '#000',
@@ -27,10 +27,10 @@ export default function QRScreen() {
             elevation: 8,
           }}>
           <QrCode size={200} color={theme.colors.text} />
-          <Text variant="h3" className="text-center mt-4 text-lg font-semibold">
+          <Text variant="h3" className="mt-4 text-center text-lg font-semibold">
             Your QR Code
           </Text>
-          <Text variant="muted" className="text-center mt-2">
+          <Text variant="muted" className="mt-2 text-center">
             Scan to receive money instantly
           </Text>
         </View>
@@ -41,14 +41,11 @@ export default function QRScreen() {
             Quick Actions
           </Text>
           <View className="space-y-3">
-            <Button
-              className="flex-row items-center justify-center gap-3 p-4">
+            <Button className="flex-row items-center justify-center gap-3 p-4">
               <Camera size={20} color="#ffffff" />
               <Text>Scan QR Code</Text>
             </Button>
-            <Button
-              variant="outline"
-              className="flex-row items-center justify-center gap-3 p-4">
+            <Button variant="outline" className="flex-row items-center justify-center gap-3 p-4">
               <Download size={20} color={theme.colors.primary} />
               <Text>Download QR</Text>
             </Button>
@@ -62,11 +59,11 @@ export default function QRScreen() {
           </Text>
           <View className="space-y-3">
             <View
-              className="flex-row items-center justify-between p-4 rounded-lg"
+              className="flex-row items-center justify-between rounded-lg p-4"
               style={{ backgroundColor: theme.colors.card }}>
               <View className="flex-row items-center gap-3">
                 <View
-                  className="w-10 h-10 rounded-full items-center justify-center"
+                  className="h-10 w-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: theme.colors.primary }}>
                   <Smartphone size={20} color="#ffffff" />
                 </View>
@@ -81,11 +78,11 @@ export default function QRScreen() {
             </View>
 
             <View
-              className="flex-row items-center justify-between p-4 rounded-lg"
+              className="flex-row items-center justify-between rounded-lg p-4"
               style={{ backgroundColor: theme.colors.card }}>
               <View className="flex-row items-center gap-3">
                 <View
-                  className="w-10 h-10 rounded-full items-center justify-center"
+                  className="h-10 w-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: theme.colors.secondary }}>
                   <QrCode size={20} color={theme.colors.text} />
                 </View>
@@ -108,7 +105,7 @@ export default function QRScreen() {
           </Text>
           <View className="space-y-3">
             <View
-              className="flex-row items-center justify-between p-4 rounded-lg"
+              className="flex-row items-center justify-between rounded-lg p-4"
               style={{ backgroundColor: theme.colors.card }}>
               <View>
                 <Text className="font-medium">Merchant Payment</Text>
@@ -120,7 +117,7 @@ export default function QRScreen() {
             </View>
 
             <View
-              className="flex-row items-center justify-between p-4 rounded-lg"
+              className="flex-row items-center justify-between rounded-lg p-4"
               style={{ backgroundColor: theme.colors.card }}>
               <View>
                 <Text className="font-medium">Person to Person</Text>

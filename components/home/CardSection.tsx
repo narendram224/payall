@@ -23,14 +23,14 @@ const CardSection = ({
   viewMoreHref = '',
 }: CardSectionProps) => {
   return (
-    <View className="m-4 rounded-lg bg-gray-50 p-4 ">
-      <View className="flex-row items-center justify-between">
-        <Text variant="small" className="mb-4">
+    <View className="mx-4 my-2 overflow-hidden rounded-2xl bg-white p-4 shadow-sm elevation-2">
+      <View className="mb-4 flex-row items-center justify-between">
+        <Text className="text-lg font-bold text-gray-800">
           {title}
         </Text>
         {viewMoreText && viewMoreHref ? (
-          <Link href={viewMoreHref}>
-            <Text variant="lead" className="text-primary">
+          <Link href={viewMoreHref as any}>
+            <Text className="font-semibold text-[#00B9F2]">
               {viewMoreText}
             </Text>
           </Link>
@@ -40,7 +40,7 @@ const CardSection = ({
         {iconTextItems.map((item, index) => (
           <View
             key={item.navigateTo}
-            className={`mb-8 ${index % 4 === 3 ? 'mr-0' : 'mr-[2.66%]'} w-[23%] `}>
+            className={`mb-8 ${index % 4 === 3 ? 'mr-0' : 'mr-[2.66%]'} w-[23%]`}>
             <IconWithText icon={item.icon} text={item.text} navigateTo={item.navigateTo} />
           </View>
         ))}

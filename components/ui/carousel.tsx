@@ -95,7 +95,7 @@ function Carousel<T extends CarouselItem>({
   const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
   const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(autoPlay);
   const scrollX = useSharedValue<number>(0);
-  const autoPlayTimerRef = useRef<NodeJS.Timeout>();
+  const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isScrolling = useRef<boolean>(false);
 
   // Create infinite data by duplicating 3 times
@@ -444,9 +444,9 @@ function Carousel<T extends CarouselItem>({
         <GestureDetector gesture={panGesture}>
           <View>
             <AnimatedFlatList
-              ref={flatListRef}
+              ref={flatListRef as any}
               data={infiniteData}
-              renderItem={renderItemWrapper}
+              renderItem={renderItemWrapper as any}
               keyExtractor={(item, index) => `carousel-${index}-${(item as any).id || index}`}
               horizontal
               pagingEnabled

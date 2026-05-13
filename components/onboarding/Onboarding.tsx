@@ -76,10 +76,8 @@ const Onboarding = ({ pages, onGetStarted }: Props) => {
         <PaginationElement length={pages.length} x={x} />
         <Button
           currentIndex={flatListIndex}
-          x={x}
           length={pages.length}
           flatListRef={flatListRef}
-          screenWidth={screenWidth}
           onGetStarted={onGetStarted}
         />
       </View>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, ScrollView, StatusBar, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SignInForm } from '@/components/sign-in-form';
+import { SignUpForm } from '@/components/sign-up-form';
 import { Image } from 'expo-image';
 
-export default function SignInScreen() {
+export default function SignUpScreen() {
   return (
     <SafeAreaView className="flex-1">
       <StatusBar barStyle="light-content" />
@@ -21,9 +21,9 @@ export default function SignInScreen() {
               />
             </View>
             <Text className="text-2xl font-bold text-secondary">Pocket Money</Text>
-            <Text className="mt-1 text-sm text-muted-foreground">Your Digital Wallet</Text>
+            <Text className="mt-1 text-sm text-muted-foreground">Create your account</Text>
           </View>
-          <SignInForm />
+          <SignUpForm />
         </View>
       </ScrollView>
     </SafeAreaView>

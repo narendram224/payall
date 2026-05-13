@@ -4,7 +4,7 @@ module.exports = {
   content: ['./App.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
 
   presets: [require('nativewind/preset')],
-    theme: {
+  theme: {
     extend: {
       colors: {
         border: 'hsl(var(--border))',

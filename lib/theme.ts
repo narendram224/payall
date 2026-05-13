@@ -16,6 +16,7 @@ export type Theme = {
     input: string;
     ring: string;
     text: string;
+    whiteText: string;
     textSecondary: string;
     muted: string;
     mutedForeground: string;
@@ -83,6 +84,7 @@ export const themeConfig: Record<'light' | 'dark', Theme> = {
       input: '#f1f5f9',
       ring: '#6366f1',
       text: '#1c1c1c',
+      whiteText: '#ffffff',
       textSecondary: '#6b7280',
       muted: '#f5f5f5',
       mutedForeground: '#6b7280',
@@ -148,6 +150,7 @@ export const themeConfig: Record<'light' | 'dark', Theme> = {
       input: '#374151',
       ring: '#8b5cf6',
       text: '#fafafa',
+      whiteText: '#ffffff',
       textSecondary: '#9ca3af',
       muted: '#2d2d2d',
       mutedForeground: '#9ca3af',

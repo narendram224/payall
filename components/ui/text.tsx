@@ -35,6 +35,8 @@ const textVariants = cva(
         large: 'text-lg font-semibold',
         small: 'text-sm font-medium leading-none',
         muted: 'text-muted-foreground text-sm',
+        white: 'text-white',
+        error: 'mt-1 text-sm text-red-600',
       },
     },
     defaultVariants: {
@@ -79,22 +81,10 @@ function Text({
   const textClass = React.useContext(TextClassContext);
   const Component = asChild ? Slot : RNText;
 
-  // Get theme color based on variant
-  const getThemeColor = () => {
-    switch (variant) {
-      case 'muted':
-        return theme.colors.mutedForeground;
-      case 'lead':
-        return theme.colors.mutedForeground;
-      default:
-        return theme.colors.text;
-    }
-  };
-
   return (
     <Component
       className={cn(textVariants({ variant }), textClass, className)}
-      style={[props.style, { color: getThemeColor() }]}
+      style={props.style}
       role={variant ? ROLE[variant] : undefined}
       aria-level={variant ? ARIA_LEVEL[variant] : undefined}
       {...props}

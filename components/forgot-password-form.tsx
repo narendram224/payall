@@ -1,50 +1,91 @@
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
+import * as React from 'react';
 import { View } from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import { useForm, Controller } from 'react-hook-form';
+import { GradientButton } from './ui/gradient-button';
+import { useAuth } from '../hooks/useAuth';
+import ErrorMsg from './ui/error-msg';
+
+interface ForgotPasswordFormData {
+  email: string;
+}
 
 export function ForgotPasswordForm() {
-  function onSubmit() {
-    // TODO: Submit form and navigate to reset password screen if successful
-  }
+  const router = useRouter();
+  const { forgotPasswordAsync, isForgottingPassword } = useAuth();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ForgotPasswordFormData>({
+    defaultValues: {
+      email: '',
+    },
+    mode: 'onSubmit',
+  });
+
+  const validationRules = {
+    email: {
+      required: 'Email is required',
+      pattern: {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: 'Please enter a valid email address',
+      },
+    },
+  };
+
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    await forgotPasswordAsync(data.email);
+    // Navigate to verify email or show success state
+    router.replace('/verify-email');
+  };
 
   return (
-    <View className="gap-6">
-      <Card className="border-border/0 sm:border-border shadow-none sm:shadow-sm sm:shadow-black/5">
-        <CardHeader>
-          <CardTitle className="text-center text-xl sm:text-left">Forgot password?</CardTitle>
-          <CardDescription className="text-center sm:text-left">
-            Enter your email to reset your password
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="gap-6">
-          <View className="gap-6">
-            <View className="gap-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="m@example.com"
-                keyboardType="email-address"
-                autoComplete="email"
-                autoCapitalize="none"
-                returnKeyType="send"
-                onSubmitEditing={onSubmit}
-              />
-            </View>
-            <Button className="w-full" onPress={onSubmit}>
-              <Text>Reset your password</Text>
-            </Button>
-          </View>
-        </CardContent>
-      </Card>
+    <View>
+      <View className="gap-6">
+        <View className="gap-1.5">
+          <Label htmlFor="email">Email</Label>
+          <Controller
+            control={control}
+            name="email"
+            rules={validationRules.email}
+            render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
+               <View>
+                 <Input
+                   id="email"
+                   className="h-14 bg-white"
+                   value={value}
+                   onChangeText={onChange}
+                   onBlur={onBlur}
+                   placeholder="m@example.com"
+                   keyboardType="email-address"
+                   autoComplete="email"
+                   autoCapitalize="none"
+                   returnKeyType="done"
+                   onSubmitEditing={handleSubmit(onSubmit)}
+                 />
+                 {error && <ErrorMsg message={error.message} />}
+               </View>
+            )}
+          />
+        </View>
+
+        <GradientButton
+          text={isForgottingPassword ? 'Sending...' : 'Send Reset Link'}
+          onPress={handleSubmit(onSubmit)}
+          loading={isForgottingPassword}
+        />
+      </View>
+      <Text className="mt-4 text-center text-sm">
+        Remember your password?{' '}
+        <Link href="/sign-in">
+          <Text className="text-sm text-primary underline underline-offset-4">Sign in</Text>
+        </Link>
+      </Text>
     </View>
   );
 }
