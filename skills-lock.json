@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "react-native-reanimated": {
+      "source": "dralgorhythm/claude-agentic-framework",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/languages/reanimated/SKILL.md",
+      "computedHash": "456790e1db75301d220f2b03252d5885ab62ba1b1773b3549a65c96fe677075a"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "computedHash": "41d24eafa7c3d82e270439808f7cfbc4d51aeb2d14f2809a2267c16275784d06"
+    }
+  }
+}
