@@ -1,37 +1,34 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as SecureStore from 'expo-secure-store';
 import { authService, LoginCredentials, RegisterCredentials } from '../api/auth';
 import { useRouter } from 'expo-router';
 
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const checkAuthStatus = useCallback(async () => {
-    try {
-      const token = await SecureStore.getItemAsync('access_token');
-      setIsAuthenticated(!!token);
-    } catch (error) {
-      console.error('Error checking auth status', error);
-      setIsAuthenticated(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    checkAuthStatus();
-  }, [checkAuthStatus]);
+  const { data: isAuthenticated = false, isLoading } = useQuery({
+    queryKey: ['auth_status'],
+    queryFn: async () => {
+      try {
+        const token = await SecureStore.getItemAsync('access_token');
+        return !!token;
+      } catch (error) {
+        console.error('Error checking auth status', error);
+        return false;
+      }
+    },
+    staleTime: Infinity,
+  });
 
   const loginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
     onSuccess: async (data) => {
       if (data.token) {
         await SecureStore.setItemAsync('access_token', data.token);
-        setIsAuthenticated(true);
+        queryClient.setQueryData(['auth_status'], true);
+        console.log("Auth Success", data.token);
+
         // Navigate to home after successful login
         router.replace('/(tabs)');
       } else {
@@ -64,8 +61,8 @@ export function useAuth() {
 
   const logout = async () => {
     await SecureStore.deleteItemAsync('access_token');
-    setIsAuthenticated(false);
     queryClient.clear();
+    queryClient.setQueryData(['auth_status'], false);
     router.replace('/sign-in');
   };
 

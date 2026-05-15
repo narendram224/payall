@@ -10,12 +10,12 @@ export default function Index() {
     // Check authentication and onboarding status
     const checkAuthStatus = async () => {
       try {
-        const [hasCompletedOnboarding, isAuthenticated] = await Promise.all([
+        const [hasCompletedOnboarding, token] = await Promise.all([
           SecureStore.getItemAsync('hasCompletedOnboarding'),
-          SecureStore.getItemAsync('isAuthenticated'),
+          SecureStore.getItemAsync('access_token'),
         ]);
 
-        if (isAuthenticated === 'true') {
+        if (token) {
           // User is authenticated, go to dashboard
           setInitialRoute('/(tabs)');
         } else if (hasCompletedOnboarding === 'true') {

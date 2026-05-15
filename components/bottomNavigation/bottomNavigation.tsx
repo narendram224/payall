@@ -16,7 +16,7 @@ const TABS: TabItem[] = [
   { key: 'home', icon: Flame, label: 'Home' },
   { key: 'index', icon: Home, label: 'Index' },
   { key: 'history', icon: History, label: 'History' },
-  { key: 'qr', icon: QrCode, label: 'QR' },
+  { key: 'settings', icon: Settings, label: 'Settings' },
 ];
 
 interface BottomNavigationProps {

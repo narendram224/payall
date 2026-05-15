@@ -1,188 +1,347 @@
-import { View, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, TextInput, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { Text } from '../../components/ui/text';
-import { Button } from '../../components/ui/button';
 import { useTheme } from '../../context/ThemeContext';
-import { TrendingUp, TrendingDown, Calendar, Filter } from 'lucide-react-native';
+import {
+  Search, SlidersHorizontal, ArrowUpRight, ArrowDownLeft,
+  Receipt, HelpCircle, Landmark, Building2, Gift, CreditCard,
+  ArrowDownRight, CheckCircle2, ChevronDown, Filter
+} from 'lucide-react-native';
+import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { LineChart } from 'react-native-chart-kit';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Input } from '@/components/ui/input';
+import { BottomSheet } from '../../components/ui/BottomSheet';
+
+const screenWidth = Dimensions.get('window').width;
+
+const WaveBackground = () => (
+  <View className="absolute top-0 left-0 right-0 h-[300px] opacity-20" pointerEvents="none">
+    <Svg height="100%" width="100%" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <Defs>
+        <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+          <Stop offset="0" stopColor="#3b82f6" stopOpacity="0.4" />
+          <Stop offset="1" stopColor="#1e3a8a" stopOpacity="0" />
+        </LinearGradient>
+      </Defs>
+      <Path
+        fill="url(#grad)"
+        d="M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,176C672,149,768,107,864,101.3C960,96,1056,128,1152,144C1248,160,1344,160,1392,160L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+      />
+    </Svg>
+  </View>
+);
+
+type TransactionType = 'send' | 'received' | 'recharge' | 'cashback';
+type TransactionStatus = 'success' | 'failed' | 'pending';
+
+interface Transaction {
+  id: string;
+  title: string;
+  date: string;
+  month: string;
+  amount: number;
+  type: TransactionType;
+  status: TransactionStatus;
+  method: string;
+}
+
+const MOCK_TRANSACTIONS: Transaction[] = [
+  { id: '1', title: 'BMTC BUS KA51AJ8584', date: '12 May', month: 'MAY 2026', amount: 24, type: 'send', status: 'success', method: 'SBI' },
+  { id: '2', title: 'BMTC BUS KA57F1099', date: '12 May', month: 'MAY 2026', amount: 290, type: 'send', status: 'success', method: 'HDFC' },
+  { id: '3', title: 'Transfer to ******2033', date: '11 May', month: 'MAY 2026', amount: 7000, type: 'send', status: 'success', method: 'SBI' },
+  { id: '4', title: 'Transfer to ******7132', date: '07 May', month: 'MAY 2026', amount: 15000, type: 'send', status: 'success', method: 'ICICI' },
+  { id: '5', title: 'TANISHQ BHS', date: '05 May', month: 'MAY 2026', amount: 9649, type: 'send', status: 'success', method: 'SBI' },
+  { id: '6', title: 'Salary from Acme Corp', date: '01 May', month: 'MAY 2026', amount: 85000, type: 'received', status: 'success', method: 'SBI' },
+  { id: '7', title: 'Jio Prepaid Recharge', date: '28 Apr', month: 'APR 2026', amount: 299, type: 'recharge', status: 'success', method: 'SBI' },
+  { id: '8', title: 'Amazon Cashback', date: '25 Apr', month: 'APR 2026', amount: 50, type: 'cashback', status: 'success', method: 'Wallet' },
+];
+
+const FilterChip = ({ label, selected, onPress, icon }: { label: string, selected: boolean, onPress: () => void, icon?: React.ReactNode }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    className={`mr-2 flex-row items-center rounded-full px-4 py-2 border ${selected ? 'border-blue-500 bg-[#3b82f620]' : 'border-gray-200 bg-white'}`}
+  >
+    {icon && <View className="mr-1">{icon}</View>}
+    <Text className={`text-xs tracking-wider uppercase font-medium ${selected ? 'text-blue-500' : 'text-gray-500'}`}>{label}</Text>
+    {!icon && <ChevronDown size={14} color={selected ? "#3b82f6" : "#6b7280"} className="ml-1" />}
+  </TouchableOpacity>
+);
+
+const getBankIcon = (method: string) => {
+  if (method === 'SBI') return <Landmark size={12} color="#fff" />;
+  if (method === 'HDFC') return <Building2 size={12} color="#fff" />;
+  if (method === 'ICICI') return <CreditCard size={12} color="#fff" />;
+  return <Landmark size={12} color="#fff" />;
+};
+
+const getTxIcon = (type: string, method: string) => {
+  if (type === 'send' && (method === 'SBI' || method === 'HDFC' || method === 'ICICI')) {
+    return <Landmark size={24} color="#3b82f6" />;
+  }
+  switch (type) {
+    case 'send': return <ArrowUpRight size={22} color="#ef4444" />;
+    case 'received': return <ArrowDownLeft size={22} color="#22c55e" />;
+    case 'recharge': return <Receipt size={22} color="#f59e0b" />;
+    case 'cashback': return <Gift size={22} color="#8b5cf6" />;
+    default: return <Receipt size={22} color="#6b7280" />;
+  }
+};
 
 export default function HistoryScreen() {
   const { theme } = useTheme();
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedStatus, setSelectedStatus] = useState('All');
+
+  const categories = ['All', 'Send', 'Received', 'Recharge', 'Cashback'];
+  const months = ['All', 'MAY 2026', 'APR 2026'];
+  const statuses = ['All', 'Success', 'Pending', 'Failed'];
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [tempMonth, setTempMonth] = useState('All');
+  const [tempCategory, setTempCategory] = useState('All');
+  const [tempStatus, setTempStatus] = useState('All');
+
+  const openFilters = () => {
+    setTempMonth(selectedMonth);
+    setTempCategory(selectedCategory);
+    setTempStatus(selectedStatus);
+    setIsFilterOpen(true);
+  };
+
+  const applyFilters = () => {
+    setSelectedMonth(tempMonth);
+    setSelectedCategory(tempCategory);
+    setSelectedStatus(tempStatus);
+    setIsFilterOpen(false);
+  };
+
+  const filteredTransactions = MOCK_TRANSACTIONS.filter(tx => {
+    const matchesSearch = tx.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesMonth = selectedMonth === 'All' || tx.month === selectedMonth;
+    const matchesCategory = selectedCategory === 'All' || tx.type === selectedCategory.toLowerCase();
+    const matchesStatus = selectedStatus === 'All' || tx.status === selectedStatus.toLowerCase();
+    return matchesSearch && matchesMonth && matchesCategory && matchesStatus;
+  });
+
+  const groupedTransactions = filteredTransactions.reduce((acc, tx) => {
+    if (!acc[tx.month]) acc[tx.month] = [];
+    acc[tx.month].push(tx);
+    return acc;
+  }, {} as Record<string, typeof MOCK_TRANSACTIONS>);
+
+  // Chart Data
+  const chartData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+    datasets: [
+      {
+        data: [2000, 4500, 2800, 8000, 5200],
+        color: (opacity = 1) => `rgba(34, 197, 94, ${opacity})`, // Green for Income
+        strokeWidth: 2
+      },
+      {
+        data: [1000, 3000, 2000, 5000, 3000],
+        color: (opacity = 1) => `rgba(239, 68, 68, ${opacity})`, // Red for Expense
+        strokeWidth: 2
+      }
+    ],
+    legend: ["Income", "Expense"]
+  };
+
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-      }}
-      className="flex-1">
-      <View className="space-y-6 p-6">
-        {/* Header Stats */}
-        <View className="space-y-4">
-          <View className="flex-row justify-between">
-            <View
-              className="mr-2 flex-1 rounded-xl p-4"
-              style={{ backgroundColor: theme.colors.card }}>
-              <View className="flex-row items-center gap-2">
-                <TrendingUp size={16} color={theme.colors.success} />
-                <Text variant="muted" className="text-sm">
-                  Income
-                </Text>
-              </View>
-              <Text className="mt-1 text-xl font-bold text-green-600">+₹3,500</Text>
-              <Text variant="muted" className="text-xs">
-                This month
-              </Text>
-            </View>
-            <View
-              className="ml-2 flex-1 rounded-xl p-4"
-              style={{ backgroundColor: theme.colors.card }}>
-              <View className="flex-row items-center gap-2">
-                <TrendingDown size={16} color={theme.colors.destructive} />
-                <Text variant="muted" className="text-sm">
-                  Expenses
-                </Text>
-              </View>
-              <Text className="mt-1 text-xl font-bold text-red-600">-₹2,200</Text>
-              <Text variant="muted" className="text-xs">
-                This month
-              </Text>
-            </View>
-          </View>
-        </View>
+    <SafeAreaView edges={['top']} className="flex-1" style={{ backgroundColor: theme.colors.background }}>
+      <WaveBackground />
 
-        {/* Filter Options */}
-        <View className="flex-row gap-3">
-          <Button variant="outline" className="flex-row items-center gap-2 px-4 py-2">
-            <Calendar size={16} color={theme.colors.primary} />
-            <Text className="text-sm">This Month</Text>
-          </Button>
-          <Button variant="outline" className="flex-row items-center gap-2 px-4 py-2">
-            <Filter size={16} color={theme.colors.primary} />
-            <Text className="text-sm">All Types</Text>
-          </Button>
-        </View>
-
-        {/* Transaction History */}
-        <View className="space-y-3">
-          <Text variant="h3" className="text-lg font-semibold">
-            Transaction History
-          </Text>
-          <View className="space-y-3">
-            {/* Today */}
-            <View className="space-y-2">
-              <Text variant="muted" className="text-sm font-medium">
-                Today
-              </Text>
-
-              <View
-                className="flex-row items-center justify-between rounded-lg p-4"
-                style={{ backgroundColor: theme.colors.card }}>
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="h-10 w-10 items-center justify-center rounded-full"
-                    style={{ backgroundColor: theme.colors.success + '20' }}>
-                    <TrendingUp size={20} color={theme.colors.success} />
-                  </View>
-                  <View>
-                    <Text className="font-medium">Salary Credit</Text>
-                    <Text variant="muted" className="text-sm">
-                      10:30 AM • Bank Transfer
-                    </Text>
-                  </View>
-                </View>
-                <Text className="font-semibold text-green-600">+₹25,000</Text>
-              </View>
-
-              <View
-                className="flex-row items-center justify-between rounded-lg p-4"
-                style={{ backgroundColor: theme.colors.card }}>
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="h-10 w-10 items-center justify-center rounded-full"
-                    style={{ backgroundColor: theme.colors.destructive + '20' }}>
-                    <TrendingDown size={20} color={theme.colors.destructive} />
-                  </View>
-                  <View>
-                    <Text className="font-medium">Grocery Shopping</Text>
-                    <Text variant="muted" className="text-sm">
-                      2:15 PM • Big Bazaar
-                    </Text>
-                  </View>
-                </View>
-                <Text className="font-semibold text-red-600">-₹850</Text>
-              </View>
-
-              <View
-                className="flex-row items-center justify-between rounded-lg p-4"
-                style={{ backgroundColor: theme.colors.card }}>
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="h-10 w-10 items-center justify-center rounded-full"
-                    style={{ backgroundColor: theme.colors.success + '20' }}>
-                    <TrendingUp size={20} color={theme.colors.success} />
-                  </View>
-                  <View>
-                    <Text className="font-medium">Money Received</Text>
-                    <Text variant="muted" className="text-sm">
-                      5:45 PM • From Priya
-                    </Text>
-                  </View>
-                </View>
-                <Text className="font-semibold text-green-600">+₹1,200</Text>
-              </View>
-            </View>
-
-            {/* Yesterday */}
-            <View className="space-y-2">
-              <Text variant="muted" className="text-sm font-medium">
-                Yesterday
-              </Text>
-
-              <View
-                className="flex-row items-center justify-between rounded-lg p-4"
-                style={{ backgroundColor: theme.colors.card }}>
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="h-10 w-10 items-center justify-center rounded-full"
-                    style={{ backgroundColor: theme.colors.destructive + '20' }}>
-                    <TrendingDown size={20} color={theme.colors.destructive} />
-                  </View>
-                  <View>
-                    <Text className="font-medium">Mobile Recharge</Text>
-                    <Text variant="muted" className="text-sm">
-                      11:20 AM • Jio Prepaid
-                    </Text>
-                  </View>
-                </View>
-                <Text className="font-semibold text-red-600">-₹299</Text>
-              </View>
-
-              <View
-                className="flex-row items-center justify-between rounded-lg p-4"
-                style={{ backgroundColor: theme.colors.card }}>
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="h-10 w-10 items-center justify-center rounded-full"
-                    style={{ backgroundColor: theme.colors.destructive + '20' }}>
-                    <TrendingDown size={20} color={theme.colors.destructive} />
-                  </View>
-                  <View>
-                    <Text className="font-medium">Electricity Bill</Text>
-                    <Text variant="muted" className="text-sm">
-                      4:30 PM • BSES Rajdhani
-                    </Text>
-                  </View>
-                </View>
-                <Text className="font-semibold text-red-600">-₹1,500</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* Load More */}
-        <Button variant="outline" className="p-4">
-          <Text>Load More Transactions</Text>
-        </Button>
+      <View className="mx-4 flex flex-row justify-between items-center">
+        <Text className="text-2xl font-semibold">History</Text>
+        <TouchableOpacity>
+          <HelpCircle size={24} color="red" />
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+
+        {/* Search Bar */}
+        <View className="mx-4 mt-4 flex-row items-center rounded-full bg-background px-4 py-3 border border-[#3f3f46]">
+          <Search size={20} color="#9ca3af" />
+          <TextInput
+            className="ml-3 flex-1 text-base text-white p-0 "
+            placeholder="Search transactions"
+            placeholderTextColor="#9ca3af"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            style={{ height: Platform.OS === 'ios' ? 24 : 'auto' }}
+          />
+          <View className="ml-2 h-6 w-[1px] bg-[#4b5563]" />
+          <TouchableOpacity className="ml-3 pl-1">
+            <SlidersHorizontal size={20} color="#9ca3af" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Filter Chips */}
+        <View className="mt-5 mb-2">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4" contentContainerStyle={{ paddingRight: 32 }}>
+            <FilterChip
+              label="Filter"
+              selected={false}
+              onPress={openFilters}
+              icon={<Filter size={14} color="#6b7280" />}
+            />
+            {categories.map(cat => (
+              <FilterChip
+                key={cat}
+                label={cat}
+                selected={selectedCategory === cat}
+                onPress={() => setSelectedCategory(cat)}
+              />
+            ))}
+            {months.map(m => (
+              <FilterChip
+                key={m}
+                label={m}
+                selected={selectedMonth === m}
+                onPress={() => setSelectedMonth(m)}
+              />
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Analytics Chart */}
+        <View className="mx-4 mt-6 mb-2">
+          <Text className="text-white text-lg font-medium mb-4">Analytics Overview</Text>
+          <LineChart
+            data={chartData}
+            width={screenWidth - 32}
+            height={180}
+            chartConfig={{
+              backgroundColor: "red",
+              backgroundGradientFrom: "#6108a1",
+              backgroundGradientTo: "#9111d9",
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(156, 163, 175, ${opacity})`,
+              style: { borderRadius: 16 },
+              propsForDots: { r: "4", strokeWidth: "2", stroke: "#1c1c1e" }
+            }}
+            bezier
+            style={{ borderRadius: 16 }}
+          />
+        </View>
+
+        {/* Transactions List */}
+        <View className="mt-4 px-4 pb-20">
+          {Object.keys(groupedTransactions).map(month => (
+            <View key={month} className="mb-6">
+              <Text className="text-gray-500 text-xs font-bold tracking-[0.1em] mb-2 uppercase">
+                {month.replace(' 20', " '")}
+              </Text>
+
+              <View >
+                {groupedTransactions[month].map((tx, index) => (
+                  <View key={tx.id} className={`flex-row items-center justify-between py-4 ${index !== groupedTransactions[month].length - 1 ? 'border-b border-gray-200 border-dashed' : ''}`}>
+                    <View className="flex-row items-center flex-1 pr-4">
+                      <View className={`w-12 h-12 rounded-full items-center justify-center mr-4 border border-gray-200 bg-white`}>
+                        {getTxIcon(tx.type, tx.method)}
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-gray-800 text-[15px] font-medium" numberOfLines={1}>{tx.title}</Text>
+                        <View className="flex-row items-center mt-1">
+                          <CheckCircle2 size={14} color="#22c55e" className="mr-1.5" />
+                          <Text className="text-gray-500 text-[13px]">{tx.date}</Text>
+                        </View>
+                        {tx.method === 'HDFC' && tx.amount > 200 && (
+                          <View className="bg-green-50 rounded px-2 py-1 self-start mt-2">
+                            <Text className="text-green-600 text-[10px] font-bold tracking-wider uppercase">COMPLETED WITHIN 8 SECONDS</Text>
+                          </View>
+                        )}
+                      </View>
+                    </View>
+                    <View className="items-end pl-2">
+                      <Text className={`text-[15px] font-semibold text-gray-800`}>
+                        ₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ))}
+
+          {Object.keys(groupedTransactions).length === 0 && (
+            <View className="items-center justify-center py-10">
+              <Text className="text-[#9ca3af] text-base">No transactions found</Text>
+            </View>
+          )}
+        </View>
+
+      </ScrollView>
+
+      <BottomSheet isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
+        <View className="mb-2">
+          <Text className="text-xl font-bold text-gray-800 mb-6">Filters</Text>
+
+          <Text className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wider">Category</Text>
+          <View className="flex-row flex-wrap mb-5">
+            {categories.map(cat => (
+              <TouchableOpacity
+                key={cat}
+                onPress={() => setTempCategory(cat)}
+                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempCategory === cat ? 'border-blue-500 bg-[#3b82f620]' : 'border-gray-200 bg-white'}`}
+              >
+                <Text className={`text-sm font-medium ${tempCategory === cat ? 'text-blue-500' : 'text-gray-700'}`}>{cat}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wider">Month</Text>
+          <View className="flex-row flex-wrap mb-5">
+            {months.map(m => (
+              <TouchableOpacity
+                key={m}
+                onPress={() => setTempMonth(m)}
+                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempMonth === m ? 'border-blue-500 bg-[#3b82f620]' : 'border-gray-200 bg-white'}`}
+              >
+                <Text className={`text-sm font-medium ${tempMonth === m ? 'text-blue-500' : 'text-gray-700'}`}>{m}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wider">Status</Text>
+          <View className="flex-row flex-wrap mb-8">
+            {statuses.map(s => (
+              <TouchableOpacity
+                key={s}
+                onPress={() => setTempStatus(s)}
+                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempStatus === s ? 'border-blue-500 bg-[#3b82f620]' : 'border-gray-200 bg-white'}`}
+              >
+                <Text className={`text-sm font-medium ${tempStatus === s ? 'text-blue-500' : 'text-gray-700'}`}>{s}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View className="flex-row items-center justify-between mt-2">
+            <TouchableOpacity
+              className="flex-1 py-3.5 border border-gray-300 rounded-xl mr-2 items-center"
+              onPress={() => {
+                setTempCategory('All');
+                setTempMonth('All');
+                setTempStatus('All');
+              }}
+            >
+              <Text className="text-gray-700 font-semibold text-base">Clear All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-1 py-3.5 bg-blue-500 rounded-xl ml-2 items-center"
+              onPress={applyFilters}
+            >
+              <Text className="text-white font-semibold text-base">Apply Filters</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </BottomSheet>
+    </SafeAreaView>
   );
 }

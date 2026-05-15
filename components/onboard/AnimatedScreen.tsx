@@ -20,6 +20,7 @@ import {
 } from './scenes';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
 
 const IntroductionAnimationScreen: React.FC = () => {
   const router = useRouter();
@@ -72,7 +73,10 @@ const IntroductionAnimationScreen: React.FC = () => {
     } else if (currentVal >= 0.6 && currentVal < 0.8) {
       toValue = 0.8;
     } else if (currentVal >= 0.8) {
-      router.navigate('sign-in');
+      SecureStore.setItemAsync('hasCompletedOnboarding', 'true').then(() => {
+        router.navigate('sign-in');
+      });
+      return;
     }
 
     console.log('Target animation value:', toValue);
