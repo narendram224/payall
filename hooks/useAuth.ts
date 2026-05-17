@@ -7,26 +7,37 @@ export function useAuth() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data: isAuthenticated = false, isLoading } = useQuery({
+  const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: false }, isLoading } = useQuery({
     queryKey: ['auth_status'],
     queryFn: async () => {
       try {
-        const token = await SecureStore.getItemAsync('access_token');
-        return !!token;
+        const [token, hasCompletedOnboarding] = await Promise.all([
+          SecureStore.getItemAsync('access_token'),
+          SecureStore.getItemAsync('hasCompletedOnboarding'),
+        ]);
+        return {
+          isAuthenticated: !!token,
+          hasCompletedOnboarding: hasCompletedOnboarding === 'true',
+        };
       } catch (error) {
         console.error('Error checking auth status', error);
-        return false;
+        return { isAuthenticated: false, hasCompletedOnboarding: false };
       }
     },
     staleTime: Infinity,
   });
+
+  const { isAuthenticated, hasCompletedOnboarding } = authState;
 
   const loginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
     onSuccess: async (data) => {
       if (data.token) {
         await SecureStore.setItemAsync('access_token', data.token);
-        queryClient.setQueryData(['auth_status'], true);
+        queryClient.setQueryData(['auth_status'], (old: any) => ({
+          ...(old || {}),
+          isAuthenticated: true,
+        }));
         console.log("Auth Success", data.token);
 
         // Navigate to home after successful login
@@ -62,12 +73,16 @@ export function useAuth() {
   const logout = async () => {
     await SecureStore.deleteItemAsync('access_token');
     queryClient.clear();
-    queryClient.setQueryData(['auth_status'], false);
+    queryClient.setQueryData(['auth_status'], (old: any) => ({
+      ...(old || {}),
+      isAuthenticated: false,
+    }));
     router.replace('/sign-in');
   };
 
   return {
     isAuthenticated,
+    hasCompletedOnboarding,
     isLoading,
     login: loginMutation.mutate,
     loginAsync: loginMutation.mutateAsync,

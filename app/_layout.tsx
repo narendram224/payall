@@ -15,8 +15,9 @@ const queryClient = new QueryClient({
     onError: (error: any, query) => {
       // FIX: Only show toast on the absolute final failure attempt
       if (query.state.status === 'error') {
-        const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred';
-        console.log("[QUERY ERROR]", errorMessage);
+        const errorMessage =
+          error.response?.data?.message || error.message || 'An unexpected error occurred';
+        console.log('[QUERY ERROR]', errorMessage);
         // Using setTimeout safely ensures the layout engine catches the toast registration event
         setTimeout(() => {
           toast.error(errorMessage);
@@ -26,8 +27,10 @@ const queryClient = new QueryClient({
   }),
   mutationCache: new MutationCache({
     onError: (error: any) => {
-      const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred';
-      console.log("[MUTATION ERROR]", errorMessage);
+      const errorMessage =
+        error.response?.data?.message || error.message || 'An unexpected error occurred';
+      console.log('[MUTATION ERROR]', errorMessage);
+      console.log('[MUTATION ERROR DATA]', error.response);
       setTimeout(() => {
         toast.error(errorMessage);
       }, 0);

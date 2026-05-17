@@ -6,10 +6,11 @@ import {
 import ParallaxHeader from '@/components/home/ParallaxHeader';
 import CardSection from '@/components/home/CardSection';
 import { Image } from 'expo-image';
-import { View } from 'lucide-react-native';
+import { View } from 'react-native';
 import BalanceCard from '@/components/home/BalanceCard';
 import { LinearGradient } from 'expo-linear-gradient';
 import ExclusiveOffer from '@/components/home/ExclusiveOffer';
+import ActionButtons from '@/components/home/ActionButtons';
 
 const CustomIcon = ({ uri }: { uri: string }) => {
   return <Image source={uri} style={{ width: 40, height: 40 }} contentFit='cover' />;
@@ -33,6 +34,9 @@ const Home = () => {
 
   return (
     <ParallaxHeader>
+      <View style={{ paddingVertical: 16 }}>
+        <ActionButtons />
+      </View>
       <CardSection title="Recharge Section" iconTextItems={rechargeSection} />
       <LinearGradient
         colors={['#FFA585', '#FFEDA0']}
