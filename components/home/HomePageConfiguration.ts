@@ -2,23 +2,60 @@ const RechargeSection = [
   {
     icon: require('@/assets/icons/recharge/mobile.png'),
     text: 'Mobile',
-    navigateTo: '/mobile',
+    navigateTo: '/mobile-recharge',
+  },
+  {
+    icon: require('@/assets/icons/recharge/electricity.png'),
+    text: 'DTH',
+    navigateTo: '/dth-recharge',
   },
   {
     icon: require('@/assets/icons/recharge/fastag.png'),
     text: 'Fastag',
     navigateTo: '/fastag',
   },
+];
 
+const BillPaySection = [
   {
-    icon: require('@/assets/icons/recharge/electricity.png'),
-    text: 'Recharge',
-    navigateTo: '/recharge',
+    icon: require('@/assets/icons/bill/electricity.png'),
+    text: 'Electricity',
+    navigateTo: '/bill-pay/electricity',
   },
   {
-    icon: require('@/assets/icons/recharge/emi.png'),
-    text: 'EMI',
-    navigateTo: '/emi',
+    icon: require('@/assets/icons/bill/water.png'),
+    text: 'Water',
+    navigateTo: '/bill-pay/water',
+  },
+  {
+    icon: require('@/assets/icons/bill/gas.png'),
+    text: 'Gas',
+    navigateTo: '/bill-pay/gas',
+  },
+  {
+    icon: require('@/assets/icons/bill/broadband.png'),
+    text: 'Broadband',
+    navigateTo: '/bill-pay/broadband',
+  },
+  {
+    icon: require('@/assets/icons/bill/landline.png'),
+    text: 'Landline',
+    navigateTo: '/bill-pay/landline',
+  },
+  {
+    icon: require('@/assets/icons/bill/lpg.png'),
+    text: 'LPG Gas',
+    navigateTo: '/bill-pay/lpg',
+  },
+  {
+    icon: require('@/assets/icons/bill/cable.png'),
+    text: 'Cable TV',
+    navigateTo: '/bill-pay/cable',
+  },
+  {
+    icon: require('@/assets/icons/bill/all.png'),
+    text: 'View All',
+    navigateTo: '/bill-pay/all',
   },
 ];
 
@@ -53,7 +90,6 @@ const FINANCESection = [
     text: 'Postpaid',
     navigateTo: '/postpaid',
   },
-
   {
     icon: require('@/assets/icons/finance/view-all.png'),
     text: 'View All',
@@ -85,4 +121,4 @@ const InsuranceSection = [
   },
 ];
 
-export { RechargeSection, FINANCESection, InsuranceSection };
+export { RechargeSection, BillPaySection, FINANCESection, InsuranceSection };
