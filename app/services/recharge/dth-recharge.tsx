@@ -27,10 +27,8 @@ const DTHRecharge = () => {
     try {
       setLoading(true);
       const data = await rechargeService.getProviders();
-
-      // Filter for DTH providers (service_id === 2 for DTH)
       const dthProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 2 && p.active === 1
+        (p: Provider) => p.service_id === 2 && p.active === 1,
       );
       setProviders(dthProviders);
     } catch (error) {
@@ -61,15 +59,13 @@ const DTHRecharge = () => {
     try {
       setLoading(true);
       const clientId = `RC${Date.now()}`;
-
       const response = await rechargeService.recharge({
         number: customerId,
         provider_id: selectedOperator?.id || 0,
-        amount: amount,
+        amount,
         client_id: clientId,
-        optional1: customerId, // Using customer ID as optional field for DTH
+        optional1: customerId,
       });
-
       if (response.status_id === 1) {
         setTransactionResult(response);
         setShowSummary(false);
@@ -95,7 +91,7 @@ const DTHRecharge = () => {
 
   if (loading && providers.length === 0) {
     return (
-      <View className="flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator size="large" />
         <Text className="mt-4 text-muted-foreground">Loading operators...</Text>
       </View>
@@ -114,60 +110,60 @@ const DTHRecharge = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="p-4">
-        <Text className="mb-6 text-2xl font-bold text-foreground">DTH Recharge</Text>
+    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+      <View className="mb-2">
+        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT OPERATOR</Text>
+      </View>
 
-        {!showSummary ? (
-          <View className="space-y-6">
-            <OperatorSelector
-              operators={providers}
-              selectedOperator={selectedOperator}
-              onSelectOperator={setSelectedOperator}
-            />
+      {!showSummary ? (
+        <View className="space-y-6">
+          <OperatorSelector
+            operators={providers}
+            selectedOperator={selectedOperator}
+            onSelectOperator={setSelectedOperator}
+          />
 
-            <NumberInput
-              label="Customer ID"
-              placeholder="Enter your DTH customer ID"
-              value={customerId}
-              onChangeText={setCustomerId}
-              maxLength={15}
-              keyboardType="numeric"
-            />
+          <NumberInput
+            label="Customer ID"
+            placeholder="Enter your DTH customer ID"
+            value={customerId}
+            onChangeText={setCustomerId}
+            maxLength={15}
+            keyboardType="numeric"
+          />
 
-            <AmountInput
-              value={amount}
-              onChangeText={setAmount}
-              quickAmounts={[100, 200, 300, 500, 1000]}
-            />
+          <AmountInput
+            value={amount}
+            onChangeText={setAmount}
+            quickAmounts={[100, 200, 300, 500, 1000]}
+          />
 
-            <Button onPress={handleProceed} disabled={loading} className="w-full">
+          <Button onPress={handleProceed} disabled={loading} className="w-full mt-2">
+            <Text className="font-semibold text-primary-foreground">
+              {loading ? 'Processing...' : 'Proceed'}
+            </Text>
+          </Button>
+        </View>
+      ) : (
+        <View className="space-y-6">
+          <TransactionSummary
+            operatorName={selectedOperator?.provider_name || ''}
+            number={customerId}
+            amount={amount}
+          />
+
+          <View className="flex-row gap-3 mt-2">
+            <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
+              <Text className="font-semibold text-foreground">Back</Text>
+            </Button>
+            <Button onPress={handleConfirm} disabled={loading} className="flex-1">
               <Text className="font-semibold text-primary-foreground">
-                {loading ? 'Processing...' : 'Proceed'}
+                {loading ? 'Processing...' : 'Confirm'}
               </Text>
             </Button>
           </View>
-        ) : (
-          <View className="space-y-6">
-            <TransactionSummary
-              operatorName={selectedOperator?.provider_name || ''}
-              number={customerId}
-              amount={amount}
-            />
-
-            <View className="flex-row gap-3">
-              <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
-                <Text className="font-semibold text-foreground">Back</Text>
-              </Button>
-              <Button onPress={handleConfirm} disabled={loading} className="flex-1">
-                <Text className="font-semibold text-primary-foreground">
-                  {loading ? 'Processing...' : 'Confirm'}
-                </Text>
-              </Button>
-            </View>
-          </View>
-        )}
-      </View>
+        </View>
+      )}
     </ScrollView>
   );
 };

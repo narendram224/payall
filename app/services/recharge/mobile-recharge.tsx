@@ -27,10 +27,8 @@ const MobileRecharge = () => {
     try {
       setLoading(true);
       const data = await rechargeService.getProviders();
-
-      // Filter for mobile providers (service_id === 1 for Mobile)
       const mobileProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 1 && p.active === 1
+        (p: Provider) => p.service_id === 1 && p.active === 1,
       );
       setProviders(mobileProviders);
     } catch (error) {
@@ -61,14 +59,12 @@ const MobileRecharge = () => {
     try {
       setLoading(true);
       const clientId = `RC${Date.now()}`;
-
       const response = await rechargeService.recharge({
         number: mobileNumber,
         provider_id: selectedOperator?.id || 0,
-        amount: amount,
+        amount,
         client_id: clientId,
       });
-
       if (response.status_id === 1) {
         setTransactionResult(response);
         setShowSummary(false);
@@ -94,7 +90,7 @@ const MobileRecharge = () => {
 
   if (loading && providers.length === 0) {
     return (
-      <View className="flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator size="large" />
         <Text className="mt-4 text-muted-foreground">Loading operators...</Text>
       </View>
@@ -113,60 +109,60 @@ const MobileRecharge = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="p-4">
-        <Text className="mb-6 text-2xl font-bold text-foreground">Mobile Recharge</Text>
+    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+      <View className="mb-2">
+        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT OPERATOR</Text>
+      </View>
 
-        {!showSummary ? (
-          <View className="space-y-6">
-            <OperatorSelector
-              operators={providers}
-              selectedOperator={selectedOperator}
-              onSelectOperator={setSelectedOperator}
-            />
+      {!showSummary ? (
+        <View className="space-y-6">
+          <OperatorSelector
+            operators={providers}
+            selectedOperator={selectedOperator}
+            onSelectOperator={setSelectedOperator}
+          />
 
-            <NumberInput
-              label="Mobile Number"
-              placeholder="Enter 10-digit mobile number"
-              value={mobileNumber}
-              onChangeText={setMobileNumber}
-              maxLength={10}
-              keyboardType="phone-pad"
-            />
+          <NumberInput
+            label="Mobile Number"
+            placeholder="Enter 10-digit mobile number"
+            value={mobileNumber}
+            onChangeText={setMobileNumber}
+            maxLength={10}
+            keyboardType="phone-pad"
+          />
 
-            <AmountInput
-              value={amount}
-              onChangeText={setAmount}
-              quickAmounts={[10, 20, 50, 100, 200, 500, 1000]}
-            />
+          <AmountInput
+            value={amount}
+            onChangeText={setAmount}
+            quickAmounts={[10, 20, 50, 100, 200, 500, 1000]}
+          />
 
-            <Button onPress={handleProceed} disabled={loading} className="w-full">
+          <Button onPress={handleProceed} disabled={loading} className="w-full mt-2">
+            <Text className="font-semibold text-primary-foreground">
+              {loading ? 'Processing...' : 'Proceed'}
+            </Text>
+          </Button>
+        </View>
+      ) : (
+        <View className="space-y-6">
+          <TransactionSummary
+            operatorName={selectedOperator?.provider_name || ''}
+            number={mobileNumber}
+            amount={amount}
+          />
+
+          <View className="flex-row gap-3 mt-2">
+            <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
+              <Text className="font-semibold text-foreground">Back</Text>
+            </Button>
+            <Button onPress={handleConfirm} disabled={loading} className="flex-1">
               <Text className="font-semibold text-primary-foreground">
-                {loading ? 'Processing...' : 'Proceed'}
+                {loading ? 'Processing...' : 'Confirm'}
               </Text>
             </Button>
           </View>
-        ) : (
-          <View className="space-y-6">
-            <TransactionSummary
-              operatorName={selectedOperator?.provider_name || ''}
-              number={mobileNumber}
-              amount={amount}
-            />
-
-            <View className="flex-row gap-3">
-              <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
-                <Text className="font-semibold text-foreground">Back</Text>
-              </Button>
-              <Button onPress={handleConfirm} disabled={loading} className="flex-1">
-                <Text className="font-semibold text-primary-foreground">
-                  {loading ? 'Processing...' : 'Confirm'}
-                </Text>
-              </Button>
-            </View>
-          </View>
-        )}
-      </View>
+        </View>
+      )}
     </ScrollView>
   );
 };

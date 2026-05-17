@@ -1,4 +1,4 @@
-import '../global.css'; // Keep your global CSS here
+import '../global.css';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';

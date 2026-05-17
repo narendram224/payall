@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Animated, { useAnimatedStyle, useDerivedValue, withSpring } from 'react-native-reanimated';
-import { Home, Flame, QrCode, History, Settings, Check, QrCodeIcon } from 'lucide-react-native';
+import { Home, Flame, QrCode, History, Settings, Wallet, Check, QrCodeIcon } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
 import { Shape } from './Shape';
 import { themeConfig } from '@/lib/theme';
@@ -18,6 +18,7 @@ const TABS: TabItem[] = [
   { key: 'history', icon: History, label: 'History' },
   { key: 'qr', icon: QrCodeIcon, label: 'QR' },
   { key: 'settings', icon: Settings, label: 'Settings' },
+  { key: 'wallet', icon: Wallet, label: 'Wallet' },
 ];
 
 interface BottomNavigationProps {
