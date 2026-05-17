@@ -39,137 +39,137 @@ export default function ServicesLayout() {
       {/* ── Recharge ── */}
       <Stack.Screen
         name="recharge/mobile-recharge"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['recharge/mobile-recharge']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['recharge/mobile-recharge']} /> }}
       />
       <Stack.Screen
         name="recharge/dth-recharge"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['recharge/dth-recharge']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['recharge/dth-recharge']} /> }}
       />
       <Stack.Screen
         name="recharge/mobile-postpaid"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['recharge/mobile-postpaid']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['recharge/mobile-postpaid']} /> }}
       />
       <Stack.Screen
         name="recharge/fastag"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['recharge/fastag']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['recharge/fastag']} /> }}
       />
 
       {/* ── Billing ── */}
       <Stack.Screen
         name="billing/electricity-bill"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/electricity-bill']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/electricity-bill']} /> }}
       />
       <Stack.Screen
         name="billing/landline"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/landline']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/landline']} /> }}
       />
       <Stack.Screen
         name="billing/verification"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/verification']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/verification']} /> }}
       />
       <Stack.Screen
         name="billing/electricity"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/electricity']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/electricity']} /> }}
       />
       <Stack.Screen
         name="billing/water"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/water']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/water']} /> }}
       />
       <Stack.Screen
         name="billing/gas"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/gas']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/gas']} /> }}
       />
       <Stack.Screen
         name="billing/broadband"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/broadband']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/broadband']} /> }}
       />
       <Stack.Screen
         name="billing/cable"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/cable']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/cable']} /> }}
       />
       <Stack.Screen
         name="billing/lpg"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/lpg']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/lpg']} /> }}
       />
       <Stack.Screen
         name="billing/all"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['billing/all']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/all']} /> }}
       />
 
       {/* ── Finance ── */}
       <Stack.Screen
         name="finance/dmt"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/dmt']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/dmt']} /> }}
       />
       <Stack.Screen
         name="finance/payout"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/payout']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/payout']} /> }}
       />
       <Stack.Screen
         name="finance/auto-collect"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/auto-collect']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/auto-collect']} /> }}
       />
       <Stack.Screen
         name="finance/payment-gateway"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/payment-gateway']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/payment-gateway']} /> }}
       />
       <Stack.Screen
         name="finance/gift-card"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/gift-card']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/gift-card']} /> }}
       />
       <Stack.Screen
         name="finance/car-loan"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/car-loan']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/car-loan']} /> }}
       />
       <Stack.Screen
         name="finance/emi"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/emi']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/emi']} /> }}
       />
       <Stack.Screen
         name="finance/gold"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/gold']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/gold']} /> }}
       />
       <Stack.Screen
         name="finance/silver"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/silver']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/silver']} /> }}
       />
       <Stack.Screen
         name="finance/loan"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/loan']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/loan']} /> }}
       />
       <Stack.Screen
         name="finance/postpaid"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/postpaid']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/postpaid']} /> }}
       />
       <Stack.Screen
         name="finance/view-all"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES['finance/view-all']} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['finance/view-all']} /> }}
       />
 
       {/* ── Insurance ── */}
       <Stack.Screen
         name="insurance"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title={PAGE_TITLES.insurance} /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES.insurance} /> }}
       />
       <Stack.Screen
         name="insurance/bike"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title="Bike Insurance" /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title="Bike Insurance" /> }}
       />
       <Stack.Screen
         name="insurance/car"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title="Car Insurance" /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title="Car Insurance" /> }}
       />
       <Stack.Screen
         name="insurance/health"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title="Health Insurance" /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title="Health Insurance" /> }}
       />
       <Stack.Screen
         name="insurance/life"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title="Life Insurance" /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title="Life Insurance" /> }}
       />
       <Stack.Screen
         name="insurance/all"
-        options={{ headerShown: true, header: ({ route }) => <AnimatedHeader title="All Insurance" /> }}
+        options={{ headerShown: true, header: () => <AnimatedHeader title="All Insurance" /> }}
       />
     </Stack>
   );

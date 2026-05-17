@@ -1,12 +1,19 @@
 import React from 'react';
-import { TouchableOpacity, Platform, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import Svg, { Path } from 'react-native-svg';
 import { ArrowLeft } from 'lucide-react-native';
 import { useNavigation } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const WAVE_H = 16;
 
 interface AnimatedHeaderProps {
   title: string;
@@ -15,7 +22,37 @@ interface AnimatedHeaderProps {
   onBack?: () => void;
 }
 
-const HEADER_HEIGHT = Platform.OS === 'ios' ? 96 : 78;
+function WaveBar() {
+const progress = useSharedValue(0);
+  
+  React.useEffect(() => {
+    progress.value = withSequence(
+      withTiming(1, { duration: 500 }),
+      withSpring(0, { damping: 14, stiffness: 140 })
+    );
+  }, []);
+
+  const waveStyle = useAnimatedStyle(() => ({
+    // 2. Changed from 0.85 to 1.0 so it spans the entire screen width
+    width: progress.value * SCREEN_WIDTH * 1.0, 
+    opacity: progress.value,
+  }));
+
+  return (
+   <View style={{ height: WAVE_H, backgroundColor: 'transparent', overflow: 'hidden' }}>
+      <Animated.View style={[waveStyle, { height: '100%' }]}>
+        {/* 3. Updated viewBox height to match WAVE_H (16) */}
+        <Svg width="100%" height="100%" viewBox={`0 0 400 ${WAVE_H}`} preserveAspectRatio="none">
+          <Path
+            {/* 4. Rescaled the Y-axis coordinates to utilize the new 16px height smoothly */}
+            d="M0,8 C50,0 80,16 120,8 S200,0 240,8 S320,16 400,8 L400,16 L0,16 Z"
+            fill="#6366f1"
+          />
+        </Svg>
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function AnimatedHeader({
   title,
@@ -24,90 +61,72 @@ export default function AnimatedHeader({
   onBack: externalOnBack,
 }: AnimatedHeaderProps) {
   const navigation = useNavigation();
-  const opacity = useSharedValue(0);
-  const targetY = (Platform.OS === 'ios' ? -8 : -4) - HEADER_HEIGHT + 16;
+  const insets = useSafeAreaInsets();
+
+  const offsetY = useSharedValue(-24);
+  const headerOpacity = useSharedValue(0);
 
   React.useEffect(() => {
-    opacity.value = withTiming(1, { duration: 320 });
+    headerOpacity.value = withSpring(1, { damping: 14, stiffness: 150 });
+    offsetY.value = withSpring(0, { damping: 14, stiffness: 150 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleBack = () => {
-    if (externalOnBack) {
-      externalOnBack();
-    } else if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  };
-
-  const headerStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ translateY: targetY * (1 - opacity.value) }],
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: headerOpacity.value,
+    transform: [{ translateY: offsetY.value }],
   }));
 
+  const handleBack = () => {
+    if (externalOnBack) externalOnBack();
+    else if (navigation.canGoBack()) navigation.goBack();
+  };
+
   return (
-    <Animated.View style={headerStyle}>
-      {/* Top decorative bar */}
-      <Animated.View
-        style={{
-          height: 3,
-          backgroundColor: '#6366f1',
-          opacity: 0.7,
-          borderRadius: 3,
-          marginHorizontal: 20,
-          marginBottom: 6,
-        }}
-      />
+    <Animated.View style={headerAnimatedStyle}>
+      <WaveBar />
 
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          paddingTop: insets.top + 2,
+          paddingBottom: 6,
           paddingHorizontal: 6,
-          paddingTop: 8,
-          paddingBottom: 4,
         }}>
-        {/* Back button */}
-        <TouchableOpacity
-          onPress={handleBack}
-          activeOpacity={0.7}
-          style={{
-            width: 40,
-            height: 36,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginRight: 4,
-          }}>
-          <ArrowLeft size={23} color="#6366f1" strokeWidth={2.2} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={handleBack}
+            activeOpacity={0.7}
+            style={{ width: 44, height: 36, alignItems: 'center', justifyContent: 'center', marginRight: 2 }}>
+            <ArrowLeft size={22} color="#6366f1" strokeWidth={2.4} />
+          </TouchableOpacity>
 
-        {/* Title + Subtitle */}
-        <View style={{ flex: 1 }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: 22,
-              fontWeight: '700',
-              color: '#1e1b4b',
-              letterSpacing: -0.4,
-              lineHeight: 28,
-            }}>
-            {title}
-          </Text>
-          {subtitle ? (
+          <View style={{ flex: 1, marginHorizontal: 4 }}>
             <Text
               numberOfLines={1}
               style={{
-                fontSize: 12.5,
-                fontWeight: '500',
-                color: '#9ca3af',
-                marginTop: 1,
-                letterSpacing: 0.15,
-                textTransform: 'uppercase',
+                fontSize: 20,
+                fontWeight: '700',
+                color: '#1e1b4b',
+                letterSpacing: -0.4,
+                lineHeight: 26,
               }}>
-              {subtitle}
+              {title}
             </Text>
-          ) : null}
+            {subtitle ? (
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 11,
+                  fontWeight: '500',
+                  color: '#9ca3af',
+                  marginTop: 1,
+                  letterSpacing: 0.1,
+                  textTransform: 'uppercase',
+                }}>
+                {subtitle}
+              </Text>
+            ) : null}
+          </View>
         </View>
       </View>
     </Animated.View>
