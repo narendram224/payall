@@ -73,7 +73,7 @@ export default function DMTVerificationScreen() {
           <View className="mb-8">
             <Text className="mb-2 text-3xl font-extrabold text-foreground">Money Transfer</Text>
             <Text className="text-base text-muted-foreground">
-              Enter the sender's mobile number to start sending money instantly.
+              Enter the sender&apos;s mobile number to start sending money instantly.
             </Text>
           </View>
 

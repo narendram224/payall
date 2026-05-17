@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, FlatList, ActivityIndicator, Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card } from '@/components/ui/card';
+import { Avatar, AvatarFallback, } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -128,7 +128,7 @@ export default function BeneficiariesScreen() {
               </View>
               <Text className="mb-2 text-lg font-semibold text-foreground">No Beneficiaries</Text>
               <Text className="mb-6 max-w-[250px] text-center text-muted-foreground">
-                You haven't added anyone yet. Add a beneficiary to start sending money.
+                You haven&apos;t added anyone yet. Add a beneficiary to start sending money.
               </Text>
               <Button onPress={handleAddBeneficiary}>
                 <Text className="font-medium text-white">Add First Beneficiary</Text>

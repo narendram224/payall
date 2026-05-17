@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, DimensionValue } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -18,7 +18,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 interface WaveLayerProps {
   duration: number;
   opacity: number;
-  top: string | number;
+  top: DimensionValue;
   initialRotation: number;
   scaleX: number;
   colors: [string, string, ...string[]];

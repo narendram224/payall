@@ -63,7 +63,7 @@ export default function AddBeneficiaryScreen() {
         <View className="mb-6">
           <Text className="mb-2 text-2xl font-bold text-foreground">Add Beneficiary</Text>
           <Text className="text-muted-foreground">
-            Enter the recipient's bank details. Ensure the details match their bank records.
+            Enter the recipient&#39s bank details. Ensure the details match their bank records.
           </Text>
         </View>
 

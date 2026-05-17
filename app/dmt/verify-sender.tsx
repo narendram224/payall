@@ -55,7 +55,7 @@ export default function VerifySenderScreen() {
             Verify Your Number
           </Text>
           <Text className="px-4 text-center leading-5 text-muted-foreground">
-            We've sent a 6-digit verification code to
+            We&apos;ve sent a 6-digit verification code to
           </Text>
           <Text className="mt-1 text-center font-semibold text-foreground">
             +91 {mobile_number}
@@ -74,7 +74,7 @@ export default function VerifySenderScreen() {
         </Button>
 
         <View className="mt-8 flex-row items-center justify-center">
-          <Text className="text-muted-foreground">Didn't receive the code? </Text>
+          <Text className="text-muted-foreground">Didn&apos;t receive the code? </Text>
           <Button
             variant="link"
             className="h-auto p-0"
