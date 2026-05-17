@@ -14,6 +14,11 @@ const RechargeSection = [
     text: 'Fastag',
     navigateTo: '/fastag',
   },
+  {
+    icon: require('@/assets/icons/recharge/postpaid.png'),
+    text: 'Postpaid',
+    navigateTo: '/mobile-postpaid',
+  },
 ];
 
 const BillPaySection = [
@@ -38,12 +43,17 @@ const BillPaySection = [
     navigateTo: '/bill-pay/broadband',
   },
   {
+    icon: require('@/assets/icons/bill/cable.png'),
+    text: 'Cable TV',
+    navigateTo: '/bill-pay/cable',
+  },
+  {
     icon: require('@/assets/icons/bill/landline.png'),
     text: 'Landline',
     navigateTo: '/bill-pay/landline',
   },
   {
-    icon: require('@/assets/icons/bill/lpg.png'),
+    icon: require('@/assets/icons/bill/gas.png'),
     text: 'LPG Gas',
     navigateTo: '/bill-pay/lpg',
   },
@@ -53,7 +63,7 @@ const BillPaySection = [
     navigateTo: '/bill-pay/cable',
   },
   {
-    icon: require('@/assets/icons/bill/all.png'),
+    icon: require('@/assets/icons/insurance/all.png'),
     text: 'View All',
     navigateTo: '/bill-pay/all',
   },
@@ -91,6 +101,16 @@ const FINANCESection = [
     navigateTo: '/postpaid',
   },
   {
+    icon: require('@/assets/icons/finance/dmt.png'),
+    text: 'DMT',
+    navigateTo: '/dmt',
+  },
+  {
+    icon: require('@/assets/icons/finance/postpaid.png'),
+    text: 'Payout',
+    navigateTo: '/payout',
+  },
+  {
     icon: require('@/assets/icons/finance/view-all.png'),
     text: 'View All',
     navigateTo: '/view-all',
@@ -101,18 +121,24 @@ const InsuranceSection = [
   {
     icon: require('@/assets/icons/insurance/bike.png'),
     text: 'Bike',
-    navigateTo: '/bike',
+    navigateTo: '/insurance',
   },
   {
     icon: require('@/assets/icons/insurance/car-insurance.png'),
     text: 'Car',
-    navigateTo: '/car',
+    navigateTo: '/insurance',
   },
 
   {
     icon: require('@/assets/icons/insurance/health.png'),
     text: 'Health',
-    navigateTo: '/health',
+    navigateTo: '/insurance',
+  },
+
+  {
+    icon: require('@/assets/icons/insurance/health.png'),
+    text: 'Life',
+    navigateTo: '/insurance',
   },
   {
     icon: require('@/assets/icons/insurance/all.png'),

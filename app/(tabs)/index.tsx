@@ -45,6 +45,7 @@ const Home = () => {
       </View>
       <CardSection title="Recharge Section" iconTextItems={rechargeSection} />
       <CardSection title="Bill Pay" iconTextItems={billPaySection} />
+      <CardSection title="Finance Section" iconTextItems={financeSection} />
       <LinearGradient
         colors={['#FFA585', '#FFEDA0']}
         start={{ x: 0, y: 0 }}
