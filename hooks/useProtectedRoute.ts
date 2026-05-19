@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 
 export function useProtectedRoute() {
   const { isAuthenticated, hasCompletedOnboarding, isLoading } = useAuth();
-  const segments = useSegments();
+  const segments = useSegments();  
   const router = useRouter();
 
   useEffect(() => {

@@ -62,7 +62,7 @@ const IntroductionAnimationScreen: React.FC = () => {
     let toValue;
     const currentVal = animationController.current.value;
 
-    console.log('Current animation value:', currentVal);
+    console.log('[Current Animation Value]', currentVal);
 
     if (currentVal >= 0 && currentVal < 0.2) {
       toValue = 0.2;
@@ -74,7 +74,7 @@ const IntroductionAnimationScreen: React.FC = () => {
       toValue = 0.8;
     } else if (currentVal >= 0.8) {
       SecureStore.setItemAsync('hasCompletedOnboarding', 'true').then(() => {
-        router.navigate('sign-in');
+        router.navigate('/sign-in');
       });
       return;
     }
