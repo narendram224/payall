@@ -3,6 +3,7 @@ import { View, Text, Animated, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Wallet, TrendingUp, Shield, Smartphone, ArrowRight } from 'lucide-react-native';
+import { useAuth } from '@/hooks/useAuth';
 
 interface OnboardingStep {
   id: number;
@@ -45,6 +46,7 @@ const onboardingSteps: OnboardingStep[] = [
 
 export default function SplashScreen() {
   const router = useRouter();
+  const { setOnboardingComplete, hasCompletedOnboarding } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
 
   // Animation values
@@ -56,8 +58,7 @@ export default function SplashScreen() {
   // Check if user has completed onboarding
   const checkOnboardingStatus = useCallback(async () => {
     try {
-      const hasCompletedOnboarding = await getItemAsync('hasCompletedOnboarding');
-      if (hasCompletedOnboarding === 'true') {
+      if (hasCompletedOnboarding) {
         router.replace('/(tabs)');
         return;
       }
@@ -68,29 +69,9 @@ export default function SplashScreen() {
 
   // Mark onboarding as complete
   const completeOnboarding = useCallback(async () => {
-    try {
-      await setItemAsync('hasCompletedOnboarding', 'true');
-    } catch (error) {
-      console.log('Error saving onboarding status:', error);
-    }
-  }, []);
-
-  // Simple storage helpers (temporary solution)
-  const getItemAsync = async (key: string): Promise<string | null> => {
-    try {
-      return Promise.resolve(localStorage.getItem(key));
-    } catch {
-      return Promise.resolve(null);
-    }
-  };
-
-  const setItemAsync = async (key: string, value: string): Promise<void> => {
-    try {
-      return Promise.resolve(localStorage.setItem(key, value));
-    } catch {
-      return Promise.resolve();
-    }
-  };
+    // 🌟 FIXED: Leverage unified hydration handler to sync TanStack Query instantly
+    await setOnboardingComplete();
+  }, [setOnboardingComplete]);
 
   const animateIcon = useCallback(() => {
     Animated.sequence([

@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { OTPInput } from '@/components/ui/otp-input';
 import { useMutation } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { toast } from 'react-native-sonner';
 
@@ -23,7 +23,7 @@ export default function VerifyBeneficiaryScreen() {
       payload.append('dmtbeneficiary_id', dmtbeneficiary_id || '');
       payload.append('otp', otpValue);
 
-      const response = await apiClient.post('v2/dmt/add_beneficiary_confirm', payload, {
+      const response = await Axios.post('v2/dmt/add_beneficiary_confirm', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;

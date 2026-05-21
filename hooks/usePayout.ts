@@ -8,7 +8,7 @@ import {
   UpiTransferData,
   BankTransferData,
   PayoutResponse,
-} from '@/api/payout';
+} from '@/services/payout/payout.service';
 
 const STALE_TIME = 5 * 60 * 1000; // 5 minutes
 

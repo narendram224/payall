@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 
 const API_BASE_URL = 'https://erp.pay2all.in/api/';
 
-const apiClient = axios.create({
+const Axios = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const apiClient = axios.create({
 });
 
 // Request interceptor to add the access token
-apiClient.interceptors.request.use(
+Axios.interceptors.request.use(
   async (config) => {
     try {
       const token = await SecureStore.getItemAsync('access_token');
@@ -30,7 +30,7 @@ apiClient.interceptors.request.use(
 );
 
 // Response interceptor for handling common errors (like 401 Unauthorized)
-apiClient.interceptors.response.use(
+Axios.interceptors.response.use(
   (response) => {
     // We accept only the success data implicitly everywhere in the app
     return response.data;
@@ -51,4 +51,4 @@ apiClient.interceptors.response.use(
   }
 );
 
-export default apiClient;
+export default Axios;

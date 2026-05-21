@@ -1,13 +1,12 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Text } from '@/components/ui/text';
 import * as React from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { GradientButton } from './ui/gradient-button';
-import { useAuth } from '../hooks/useAuth';
-import ErrorMsg from './ui/error-msg';
+import { GradientButton } from '@/components/ui/gradient-button';
+import { useAuth } from '@/hooks/useAuth';
+import ErrorMsg from '@/components/ui/error-msg';
 
 interface VerifyEmailFormData {
   code: string;
@@ -49,20 +48,20 @@ export function VerifyEmailForm() {
             name="code"
             rules={validationRules.code}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <Input
-                   id="code"
-                   className="h-14 bg-white text-center text-lg tracking-widest"
-                   value={value}
-                   onChangeText={onChange}
-                   onBlur={onBlur}
-                   placeholder="------"
-                   keyboardType="number-pad"
-                   returnKeyType="done"
-                   onSubmitEditing={handleSubmit(onSubmit)}
-                 />
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <Input
+                  id="code"
+                  className="h-14 bg-white text-center text-lg tracking-widest"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="------"
+                  keyboardType="number-pad"
+                  returnKeyType="done"
+                  onSubmitEditing={handleSubmit(onSubmit)}
+                />
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>

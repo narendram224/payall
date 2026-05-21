@@ -3,7 +3,7 @@ import { View, BackHandler } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Animated, { FadeInDown, FadeIn, ZoomIn } from 'react-native-reanimated';
 
@@ -23,7 +23,7 @@ export default function StatusScreen() {
       const payload = new FormData();
       payload.append('report_id', report_id || '');
 
-      const response = await apiClient.post('v1/dmt/status', payload, {
+      const response = await Axios.post('v1/dmt/status', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;

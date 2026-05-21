@@ -1,6 +1,6 @@
 import { formatINR } from '@/lib/utils';
 import { UserInfo } from '@/services/user/user.dto';
-import UserService from '@/services/user/user.service';
+import { userService } from '@/services/user/user.service';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
@@ -20,9 +20,10 @@ const MiniBalance = () => {
     refetch,
   } = useQuery<UserInfo>({
     queryKey: ['userInfo'],
-    queryFn: () => UserService.fetchUserInfo(),
+    queryFn: () => userService.getUser(),
     staleTime: 5 * 60 * 1000,
   });
+
   const displayEmail = userInfo?.email ?? '';
   const displayMobile = userInfo?.mobile ?? '';
   const balance: UserBalance | null = userInfo?.balance ?? null;

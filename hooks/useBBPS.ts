@@ -1,13 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   bbpsService,
-  BBPSCategory,
-  BBPSBiller,
-  BillFetchRequest,
-  BillFetchResponse,
-  BillPayRequest,
-  BillPayResponse,
-} from '@/api/bbps';
+} from '@/services/bbps/bbps.service';
+import { BBPSBiller, BBPSCategory, BillFetchRequest, BillFetchResponse, BillPayRequest, BillPayResponse } from '@/services/bbps/bbps.dto';
 
 const STALE_TIME = 5 * 60 * 1000; // 5 minutes
 

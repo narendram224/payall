@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useMutation } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { toast } from 'react-native-sonner';
 
@@ -34,7 +34,7 @@ export default function TransferScreen() {
       payload.append('long', '0.0');
       payload.append('channel_id', '2'); // IMPS
 
-      const response = await apiClient.post('v2/dmt/transfer', payload, {
+      const response = await Axios.post('v2/dmt/transfer', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;

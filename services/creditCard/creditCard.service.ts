@@ -1,20 +1,7 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
+import { CreditCardPayData, CreditCardPayResponse } from '@/services/creditCard/creditCard.dto';
 
-export interface CreditCardPayResponse {
-  status_id: number;
-  order_id: string;
-  amount: string;
-  utr?: string;
-  message: string;
-}
 
-export interface CreditCardPayData {
-  number: string;
-  provider_id: string;
-  amount: string;
-  client_id: string;
-  card_number?: string;
-}
 
 export const creditCardService = {
   payCreditCard: async (
@@ -29,7 +16,7 @@ export const creditCardService = {
       formData.append('card_number', data.card_number);
     }
 
-    const response = await apiClient.post<any, CreditCardPayResponse>(
+    const response = await Axios.post<any, CreditCardPayResponse>(
       'v1/payment/credit',
       formData,
       {

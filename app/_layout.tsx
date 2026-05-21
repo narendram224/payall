@@ -7,8 +7,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useProtectedRoute } from '../hooks/useProtectedRoute';
-import { Toaster } from 'react-native-sonner';
-import { toast } from 'react-native-sonner';
+import { Toaster, toast } from 'react-native-sonner';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -19,6 +18,10 @@ const queryClient = new QueryClient({
           error.response?.data?.message || error.message || 'An unexpected error occurred';
         console.log('[QUERY ERROR]', errorMessage);
         // Using setTimeout safely ensures the layout engine catches the toast registration event
+
+        console.log('[Erro]', error);
+        console.log('[QUERY]', query);
+
         setTimeout(() => {
           toast.error(errorMessage);
         }, 0);

@@ -14,6 +14,12 @@ export function useProtectedRoute() {
     const inBoard = segments[0] === 'board';
     const inSignIn = segments[0] === 'sign-in';
     const isRoot = segments.length === 0 || segments[0] === 'index';
+    console.log("Segments",segments);
+    console.log("hasCompleted",hasCompletedOnboarding);
+    console.log("isAuth",isAuthenticated);
+
+    
+    
 
     if (!isAuthenticated) {
       if (hasCompletedOnboarding) {

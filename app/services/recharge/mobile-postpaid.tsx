@@ -9,7 +9,7 @@ import PaymentSummary from '@/components/shared/PaymentSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
 import { Button } from '@/components/ui/button';
-import { rechargeService, Provider } from '@/api/recharge';
+import { rechargeService, Provider } from '@/services/recharge/recharge.service';
 
 const MobilePostpaid = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -31,7 +31,7 @@ const MobilePostpaid = () => {
       setLoading(true);
       const data = await rechargeService.getProviders();
       const postpaidProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 3 && p.active === 1,
+        (p: Provider) => p.service_id === 3 && p.active === 1
       );
       setProviders(postpaidProviders);
     } catch (error) {
@@ -114,9 +114,13 @@ const MobilePostpaid = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
       <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT OPERATOR</Text>
+        <Text className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          SELECT OPERATOR
+        </Text>
       </View>
 
       {loading && providers.length === 0 ? (
@@ -169,7 +173,7 @@ const MobilePostpaid = () => {
                 className="mt-2"
               />
 
-              <View className="flex-row gap-3 mt-2">
+              <View className="mt-2 flex-row gap-3">
                 <Button onPress={handleBack} variant="outline" className="flex-1">
                   <Text className="font-semibold">Back</Text>
                 </Button>

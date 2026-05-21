@@ -3,9 +3,9 @@ import { View, FlatList, ActivityIndicator, Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 // Assuming the shape based on typical DMT APIs
@@ -26,7 +26,7 @@ export default function BeneficiariesScreen() {
     queryKey: ['beneficiaries', mobile_number],
     queryFn: async () => {
       // The API uses query params
-      const response = await apiClient.get('v2/dmt/beneficiary', {
+      const response = await Axios.get('v2/dmt/beneficiary', {
         params: { mobile_number },
       });
       return response.data?.data || response.data || [];

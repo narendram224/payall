@@ -5,9 +5,8 @@ import { Bell, ChevronDown, RefreshCw } from 'lucide-react-native';
 import Svg, { Path } from 'react-native-svg';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
-import UserService from '@/services/user/user.service';
+import { userService } from '@/services/user/user.service';
 import { UserInfo } from '@/services/user/user.dto';
-import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
 import AnimatedReanimated, {
   useAnimatedStyle,
@@ -87,12 +86,10 @@ const getGreeting = (): string => {
 
 const ParallaxHeader = ({ children }: { children: React.ReactNode }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const router = useRouter();
   const { logout } = useAuth();
-
   const { data: userInfo, refetch } = useQuery<UserInfo>({
     queryKey: ['userInfo'],
-    queryFn: () => UserService.fetchUserInfo(),
+    queryFn: () => userService.getUser(),
     staleTime: 5 * 60 * 1000,
   });
 

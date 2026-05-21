@@ -1,36 +1,5 @@
-import apiClient from './client';
-
-export interface PolicyUrlResponse {
-  status_id: number;
-  url: string;
-  message: string;
-}
-
-export interface PolicyStatusData {
-  order_id: string;
-  status: string;
-  amount: string;
-  message: string;
-}
-
-export interface PolicyStatusResponse {
-  status_id: number;
-  data: PolicyStatusData;
-  message: string;
-}
-
-export interface InsuranceUrlData {
-  service_id: number | string;
-  amount: string;
-  name: string;
-  mobile: string;
-  email: string;
-  dob?: string;
-}
-
-export interface InsuranceStatusData {
-  order_id: string;
-}
+import Axios from '@/services/axios.service';
+import { PolicyUrlResponse, PolicyStatusResponse, InsuranceUrlData, InsuranceStatusData } from '@/services/policy/policy.dto';
 
 export const policyService = {
   getInsuranceUrl: async (
@@ -46,7 +15,7 @@ export const policyService = {
       formData.append('dob', data.dob);
     }
 
-    const response = await apiClient.post<any, PolicyUrlResponse>(
+    const response = await Axios.post<any, PolicyUrlResponse>(
       'v1/policy/encrypt',
       formData,
       {
@@ -62,7 +31,7 @@ export const policyService = {
     const formData = new FormData();
     formData.append('order_id', data.order_id);
 
-    const response = await apiClient.post<any, PolicyStatusResponse>(
+    const response = await Axios.post<any, PolicyStatusResponse>(
       'v1/policy/status',
       formData,
       {

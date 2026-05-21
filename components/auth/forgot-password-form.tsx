@@ -5,9 +5,9 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { GradientButton } from './ui/gradient-button';
-import { useAuth } from '../hooks/useAuth';
-import ErrorMsg from './ui/error-msg';
+import { GradientButton } from '@/components/ui/gradient-button';
+import { useAuth } from '@/hooks/useAuth';
+import ErrorMsg from '@/components/ui/error-msg';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -54,22 +54,22 @@ export function ForgotPasswordForm() {
             name="email"
             rules={validationRules.email}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <Input
-                   id="email"
-                   className="h-14 bg-white"
-                   value={value}
-                   onChangeText={onChange}
-                   onBlur={onBlur}
-                   placeholder="m@example.com"
-                   keyboardType="email-address"
-                   autoComplete="email"
-                   autoCapitalize="none"
-                   returnKeyType="done"
-                   onSubmitEditing={handleSubmit(onSubmit)}
-                 />
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <Input
+                  id="email"
+                  className="h-14 bg-white"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="m@example.com"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                  autoCapitalize="none"
+                  returnKeyType="done"
+                  onSubmitEditing={handleSubmit(onSubmit)}
+                />
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>

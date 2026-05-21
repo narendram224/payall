@@ -42,8 +42,8 @@ const Home = () => {
   return (
     <ParallaxHeader>
       <View style={{ paddingVertical: 16 }}>
-       <MiniBalance />
-        
+        <MiniBalance />
+
         <ActionButtons />
       </View>
       <CardSection title="Recharge Section" iconTextItems={rechargeSection} />

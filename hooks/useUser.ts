@@ -1,11 +1,10 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { userService, User, CommissionData } from '@/api/user';
+import { useQuery } from '@tanstack/react-query';
+import { userService } from '@/services/user/user.service';
+import { CommissionData, User } from '@/services/user/user.dto';
 
 const STALE_TIME = 5 * 60 * 1000; // 5 minutes
 
 export function useUser() {
-  const queryClient = useQueryClient();
-
   const { data: user, isLoading, refetch } = useQuery<User>({
     queryKey: ['user'],
     queryFn: () => userService.getUser(),

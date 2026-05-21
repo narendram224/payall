@@ -4,6 +4,7 @@ import { ImageURISource } from 'react-native';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import Onboarding from '@/components/onboarding/Onboarding';
+import { useAuth } from '@/hooks/useAuth';
 
 const onboardingPages: { text: string; image: ImageURISource }[] = [
   {
@@ -21,10 +22,11 @@ const onboardingPages: { text: string; image: ImageURISource }[] = [
 ];
 
 export default function OnboardingScreen() {
+  const { setOnboardingComplete } = useAuth();
   const handleGetStarted = async () => {
     try {
       // Mark onboarding as completed
-      await SecureStore.setItemAsync('hasCompletedOnboarding', 'true');
+      await setOnboardingComplete();
       // Navigate to sign-in screen
       router.replace('/sign-in');
     } catch (error) {

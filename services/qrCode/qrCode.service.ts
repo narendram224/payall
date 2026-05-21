@@ -1,17 +1,5 @@
-import apiClient from './client';
-
-export interface QRCodeResponse {
-  status_id: number;
-  qr_code: string;
-  qr_string: string;
-  upi_id: string;
-  name: string;
-}
-
-export interface GenerateQRCodeData {
-  amount?: string;
-  note?: string;
-}
+import Axios from '@/services/axios.service';
+import { QRCodeResponse, GenerateQRCodeData } from '@/services/qrCode/qrCode.dto';
 
 export const qrCodeService = {
   generateQRCode: async (data: GenerateQRCodeData): Promise<QRCodeResponse> => {
@@ -23,7 +11,7 @@ export const qrCodeService = {
       formData.append('note', data.note);
     }
 
-    const response = await apiClient.post<any, QRCodeResponse>(
+    const response = await Axios.post<any, QRCodeResponse>(
       'v1/upi/qr_code_generate',
       formData,
       {

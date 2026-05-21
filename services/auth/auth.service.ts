@@ -1,24 +1,5 @@
-import apiClient from './client';
-export { userService } from './user';
-
-export interface LoginCredentials {
-  email: string;
-  password?: string;
-}
-
-export interface RegisterCredentials {
-  first_name?: string;
-  last_name?: string;
-  email: string;
-  mobile?: string;
-  password?: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  email: string;
-  // Add other properties if available
-}
+import Axios from '@/services/axios.service';
+import { LoginCredentials, AuthResponse, RegisterCredentials } from '@/services/auth/auth.dto';
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
@@ -28,7 +9,7 @@ export const authService = {
       formData.append('password', credentials.password);
     }
 
-    const data = await apiClient.post<any, AuthResponse>('token', formData, {
+    const data = await Axios.post<any, AuthResponse>('token', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

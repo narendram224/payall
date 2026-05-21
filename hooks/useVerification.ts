@@ -12,7 +12,7 @@ import {
   ChallanData,
   VerifyBankAccountData,
   VerifyChallanData,
-} from '@/api/verification';
+} from '@/services/verification/verification.service';
 
 export function useSendAadhaarOtp() {
   const mutation = useMutation<VerificationResponse<AadhaarOtpData>, Error, string>({

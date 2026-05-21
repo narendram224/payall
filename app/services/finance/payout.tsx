@@ -19,7 +19,7 @@ import Animated, {
 import { toast } from 'react-native-sonner';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
-import { payoutService, Beneficiary } from '@/api/payout';
+import { payoutService, Beneficiary } from '@/services/payout/payout.service';
 import PaymentConfirmSheet from '@/components/bbps/PaymentConfirmSheet';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import {

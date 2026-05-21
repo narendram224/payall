@@ -1,15 +1,14 @@
-import apiClient from "@/api/client";
-import { UserInfo } from "./user.dto";
+import Axios from '@/services/axios.service';
+import { CommissionResponse, UserInfo } from '@/services/user/user.dto';
 
-
-const UserService =  {
-     fetchUserInfo : async () => {
-    const response = await apiClient.get<UserInfo>('user');
+export const userService = {
+  getUser: async () => {
+    const response = await Axios.get<UserInfo>('user');
     return response.data;
-    }
+  },
 
-
-   
-}
-
-export default UserService
+  getCommission: async () => {
+    const response = await Axios.get<CommissionResponse>('report/my-commission');
+    return response.data;
+  },
+};

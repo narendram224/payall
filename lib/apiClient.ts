@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 
 export const API_BASE_URL = 'https://dev-api.pay2all.in/'; // Adjust if different
 
-const apiClient = axios.create({
+const Axios = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Accept': 'application/json',
@@ -11,7 +11,7 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use(
+Axios.interceptors.request.use(
   async (config) => {
     try {
       const token = await SecureStore.getItemAsync('access_token');
@@ -32,4 +32,4 @@ apiClient.interceptors.request.use(
   }
 );
 
-export default apiClient;
+export default Axios;

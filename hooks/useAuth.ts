@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as SecureStore from 'expo-secure-store';
-import { authService, LoginCredentials, RegisterCredentials } from '../api/auth';
+import { authService } from '@/services/auth/auth.service';
 import { useRouter } from 'expo-router';
+import { LoginCredentials, RegisterCredentials } from '@/services/auth/auth.dto';
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -26,6 +27,19 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
   },
   staleTime: Infinity,
 });
+
+// 🌟 NEW HYDRATION HELPER: Updates both disk and memory cache instantly
+  const setOnboardingComplete = async () => {
+    try {
+      await SecureStore.setItemAsync('hasCompletedOnboarding', 'true');
+      queryClient.setQueryData(['auth_status'], (old: any) => ({
+        ...(old || {}),
+        hasCompletedOnboarding: true,
+      }));
+    } catch (error) {
+      console.error('Error writing onboarding complete state:', error);
+    }
+  };
 
   const { isAuthenticated, hasCompletedOnboarding } = authState;
   
@@ -96,6 +110,7 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
     isAuthenticated,
     hasCompletedOnboarding,
     isLoading,
+    setOnboardingComplete,
     login: loginMutation.mutate,
     loginAsync: loginMutation.mutateAsync,
     isLoggingIn: loginMutation.isPending,

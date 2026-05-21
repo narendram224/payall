@@ -7,7 +7,7 @@ import AmountInput from '@/components/recharge/AmountInput';
 import TransactionSummary from '@/components/recharge/TransactionSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import { Button } from '@/components/ui/button';
-import { rechargeService, Provider } from '@/api/recharge';
+import { rechargeService, Provider } from '@/services/recharge/recharge.service';
 
 const ElectricityBillPayment = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -19,15 +19,15 @@ const ElectricityBillPayment = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [transactionResult, setTransactionResult] = useState<any>(null);
 
-  useEffect(() => { loadProviders(); }, []);
+  useEffect(() => {
+    loadProviders();
+  }, []);
 
   const loadProviders = async () => {
     try {
       setLoading(true);
       const data = await rechargeService.getProviders();
-      const electricityProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 3,
-      );
+      const electricityProviders = data.providers.filter((p: Provider) => p.service_id === 3);
       setProviders(electricityProviders);
     } catch {
       console.error('Error loading providers:');
@@ -38,9 +38,18 @@ const ElectricityBillPayment = () => {
   };
 
   const handleProceed = () => {
-    if (!selectedOperator) { Alert.alert('Error', 'Please select an operator'); return; }
-    if (!customerId || customerId.length < 5) { Alert.alert('Error', 'Please enter a valid customer ID'); return; }
-    if (!amount || parseFloat(amount) <= 0) { Alert.alert('Error', 'Please enter a valid amount'); return; }
+    if (!selectedOperator) {
+      Alert.alert('Error', 'Please select an operator');
+      return;
+    }
+    if (!customerId || customerId.length < 5) {
+      Alert.alert('Error', 'Please enter a valid customer ID');
+      return;
+    }
+    if (!amount || parseFloat(amount) <= 0) {
+      Alert.alert('Error', 'Please enter a valid amount');
+      return;
+    }
     setShowSummary(true);
   };
 
@@ -99,9 +108,13 @@ const ElectricityBillPayment = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
       <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT PROVIDER</Text>
+        <Text className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          SELECT PROVIDER
+        </Text>
       </View>
 
       {!showSummary ? (
@@ -127,7 +140,7 @@ const ElectricityBillPayment = () => {
             quickAmounts={[500, 1000, 1500, 2000, 5000]}
           />
 
-          <Button onPress={handleProceed} disabled={loading} className="w-full mt-2">
+          <Button onPress={handleProceed} disabled={loading} className="mt-2 w-full">
             <Text className="font-semibold text-primary-foreground">
               {loading ? 'Processing...' : 'Proceed to Pay'}
             </Text>
@@ -135,7 +148,7 @@ const ElectricityBillPayment = () => {
         </View>
       ) : (
         <View className="space-y-6">
-          <View className="bg-card rounded-xl p-5 shadow-sm border border-border">
+          <View className="rounded-xl border border-border bg-card p-5 shadow-sm">
             <TransactionSummary
               operatorName={selectedOperator?.provider_name || ''}
               number={customerId}
@@ -143,7 +156,7 @@ const ElectricityBillPayment = () => {
             />
           </View>
 
-          <View className="flex-row gap-3 mt-2">
+          <View className="mt-2 flex-row gap-3">
             <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
               <Text className="font-semibold text-foreground">Back</Text>
             </Button>

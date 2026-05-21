@@ -21,10 +21,12 @@ import {
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
+import { useAuth } from '@/hooks/useAuth';
 
 const IntroductionAnimationScreen: React.FC = () => {
   const router = useRouter();
   const window = useWindowDimensions();
+  const { setOnboardingComplete } = useAuth(); // 🌟 Pull from auth context
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -73,7 +75,7 @@ const IntroductionAnimationScreen: React.FC = () => {
     } else if (currentVal >= 0.6 && currentVal < 0.8) {
       toValue = 0.8;
     } else if (currentVal >= 0.8) {
-      SecureStore.setItemAsync('hasCompletedOnboarding', 'true').then(() => {
+      setOnboardingComplete().then(() => {
         router.navigate('/sign-in');
       });
       return;
@@ -81,7 +83,7 @@ const IntroductionAnimationScreen: React.FC = () => {
 
     console.log('Target animation value:', toValue);
     toValue !== undefined && playAnimation(toValue);
-  }, [playAnimation, router]);
+  }, [playAnimation, router, setOnboardingComplete]);
 
   const onBackClick = useCallback(() => {
     let toValue;

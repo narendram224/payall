@@ -98,3 +98,25 @@ export interface Role {
   role_title: string
   updated_at: any
 }
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+  balance: string;
+  wallet_balance: string;
+  avatar?: string;
+}
+
+export interface CommissionData {
+  total: string;
+  today: string;
+  week: string;
+  month: string;
+}
+
+export interface CommissionResponse {
+  status_id: number;
+  data: CommissionData;
+  message: string;
+}
