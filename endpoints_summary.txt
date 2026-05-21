@@ -1,0 +1,77 @@
+/undefined/Apps -> user: GET {{url}}user
+/undefined/Apps -> services: GET {{url}}services
+/undefined/Apps -> providers: GET {{url}}providers
+/undefined/Apps -> Commission: GET {{url}}report/my-commission
+/undefined/Payout (Bank Settlement)/UPI -> get-customer: POST {{url}}v1/upi/get-customer
+/undefined/Payout (Bank Settlement)/UPI -> add-customer: POST {{url}}v1/upi/add-customer
+/undefined/Payout (Bank Settlement)/UPI -> add-customer-confirm: POST {{url}}v1/upi/add-customer-confirm
+/undefined/Payout (Bank Settlement)/UPI -> Upi transfer: POST {{url}}v1/payout/upi_transfer
+/undefined/Payout (Bank Settlement)/IMPS/ NEFT -> Get Customer: POST {{url}}v1/upi/get-customer
+/undefined/Payout (Bank Settlement)/IMPS/ NEFT -> Add Customer: POST {{url}}v1/upi/add-customer
+/undefined/Payout (Bank Settlement)/IMPS/ NEFT -> Add Customer (Verify): POST {{url}}v1/upi/add-customer-confirm
+/undefined/Payout (Bank Settlement)/IMPS/ NEFT -> Transfer: POST {{url}}v1/payout/bank_transfer
+/undefined/Payout (Bank Settlement)/IMPS/ NEFT -> Beneficiary List: GET {{url}}v1/payout/beneficiary
+/undefined/Mobile/DTH Recharge -> Transaction: POST {{url}}v1/payment/recharge
+/undefined/Mobile/DTH Recharge -> Status: POST {{url}}v1/payment/status
+/undefined/Verification Suit/Aadhaar Verify -> Aadhaar Verify (Send OTP): POST {{url}}v1/verify/aadhaar/otp
+/undefined/Verification Suit/Aadhaar Verify -> Aadhaar Verify (Verify OTP): POST {{url}}v1/verify/aadhaar/otp/verify
+/undefined/Verification Suit -> Pan Number Verify: POST {{url}}v1/verify/pan
+/undefined/Verification Suit -> UPI Name Verify: POST {{url}}v1/verify/upi
+/undefined/Verification Suit -> Bank Account: POST {{url}}v1/verify/bank_account
+/undefined/Verification Suit -> GST Verify: POST {{url}}v1/verify/gst
+/undefined/Verification Suit -> Challan: POST {{url}}v1/verify/chalan
+/undefined/Verification Suit -> IFSC Verification: POST {{url}}v1/verify/ifsc
+/undefined/Outlet -> Create Outlet: POST {{url}}outlet/store
+/undefined/Outlet -> Outlet List: GET {{url}}outlet?mobile_number=8802034056
+/undefined/Outlet -> State: GET {{url}}outlet/state
+/undefined/Outlet -> City: GET {{url}}outlet/city/{{state_id}}
+/undefined/Outlet -> District: GET {{url}}outlet/district/{{state_id}}
+/undefined/Credit Card Bill Payment -> Payment: POST {{url}}v1/payment/credit
+/undefined/QR Code -> Generate QR Code: POST {{url}}v1/upi/qr_code_generate
+/undefined/BBPS -> category: GET {{url}}bbps/category
+/undefined/BBPS -> category/{category_slug}: GET {{url}}bbps/category/loan-repayment
+/undefined/BBPS -> Biller: GET {{url}}bbps/biller/AMRU00000PUNIU
+/undefined/BBPS -> Bill Fetch: POST {{url}}bbps/fetch
+/undefined/BBPS -> Bill Payment: POST {{url}}bbps/payment
+/undefined/Bill Payments/LIC Bill Payment -> Fetch Bill: POST {{url}}v1/Bill/fetch
+/undefined/Bill Payments/LIC Bill Payment -> Payment: POST {{url}}v1/payment/recharge
+/undefined/Bill Payments/GAS Bill Payment -> Fetch Bill: POST {{url}}v1/Bill/fetch
+/undefined/Bill Payments/GAS Bill Payment -> Payment: POST {{url}}v1/payment/recharge
+/undefined/Bill Payments/Electricity Bill Payment -> Fetch Bill: POST {{url}}v1/bill/fetch
+/undefined/Bill Payments/Electricity Bill Payment -> Payment: POST {{url}}v1/payment/recharge
+/undefined/DMT -> verification: POST {{url}}v2/dmt/verification
+/undefined/DMT -> banks: GET {{url}}v1/dmt/banks
+/undefined/DMT -> get baneficiary by id: GET {{url}}v1/dmt/beneficiary?mobile_number=8860181421
+/undefined/DMT -> add_sender: POST {{url}}v2/dmt/add_sender
+/undefined/DMT -> add_sender_confirm: POST {{url}}v2/dmt/add_sender_confirm
+/undefined/DMT -> sender_kyc: POST {{url}}v2/dmt/sender_kyc
+/undefined/DMT -> add_beneficiary: POST {{url}}v2/dmt/add_beneficiary
+/undefined/DMT -> add_beneficiary_confirm: POST {{url}}v2/dmt/add_beneficiary_confirm
+/undefined/DMT -> all_beneficiary: GET {{url}}v2/dmt/beneficiary?mobile_number=8802034056&bank_account_number=8860181421&beneficiary_name=Sanjay Yadav
+/undefined/DMT -> delete Beneficiary: POST {{url}}v1/dmt/delete_beneficiary
+/undefined/DMT -> delete Beneficiary Confirm: POST {{url}}v1/dmt/delete_beneficiary_confirm
+/undefined/DMT -> Generate OTP: POST {{url}}v2/dmt/generate_otp
+/undefined/DMT -> transfer: POST {{url}}v2/dmt/transfer
+/undefined/DMT -> status: POST {{url}}v1/dmt/status
+/undefined/PPI -> login: POST {{url}}v1/ppi/login
+/undefined/PPI -> login Confirm: POST {{url}}v1/ppi/login-confirm
+/undefined/PPI -> verification: POST {{url}}v1/ppi/verification
+/undefined/PPI -> banks: GET {{url}}v1/dmt/banks
+/undefined/PPI -> get baneficiary by id: GET {{url}}v1/dmt/beneficiary?mobile_number=8860181421
+/undefined/PPI -> add_sender: POST {{url}}v1/ppi/add_sender
+/undefined/PPI -> add_sender_confirm: POST {{url}}v1/ppi/add_sender_confirm
+/undefined/PPI -> sender_kyc: POST {{url}}v1/ppi/sender_kyc
+/undefined/PPI -> add_beneficiary: POST {{url}}v1/ppi/add_beneficiary
+/undefined/PPI -> add_beneficiary_confirm: POST {{url}}v1/ppi/add_beneficiary_confirm
+/undefined/PPI -> all_beneficiary: GET {{url}}v2/dmt/beneficiary?mobile_number=8802034056
+/undefined/PPI -> delete Beneficiary: POST {{url}}v1/ppi/delete_beneficiary
+/undefined/PPI -> delete Beneficiary Confirm: POST {{url}}v1/dmt/delete_beneficiary_confirm
+/undefined/PPI -> Generate OTP: POST {{url}}v2/dmt/generate_otp
+/undefined/PPI -> transfer: POST {{url}}v2/dmt/transfer
+/undefined/PPI -> status: POST {{url}}v1/dmt/status
+/undefined/PPI -> landing: POST {{url}}dmt/landing
+/undefined/PPI -> testlanding Copy: POST {{url}}aeps/landing
+/undefined/Policy -> Get URL: POST {{url}}v1/policy/encrypt
+/undefined/Policy -> Status: POST {{url}}v1/policy/status
+/undefined -> callback (Example): POST http://www.yourwebsite.com/callback_webhook.php
+/undefined -> access token: POST {{url}}token

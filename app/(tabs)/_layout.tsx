@@ -4,8 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
   return (
-    <SafeAreaView className='flex-1'>
-
+    <SafeAreaView className="flex-1">
       <Tabs
         initialRouteName="home"
         tabBar={(props) => <BottomNavigation {...props} />}
@@ -16,10 +15,9 @@ export default function TabLayout() {
         <Tabs.Screen name="index" options={{ title: 'Index' }} />
         <Tabs.Screen name="history" options={{ title: 'History' }} />
         <Tabs.Screen name="qr" options={{ title: 'QR' }} />
-        <Tabs.Screen name="settings" options={{ href: null }} />
-        <Tabs.Screen name="wallet" options={{ href: null }} />
+        <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
+        <Tabs.Screen name="wallet" options={{ title: 'Wallet' }} />
       </Tabs>
     </SafeAreaView>
-
   );
 }

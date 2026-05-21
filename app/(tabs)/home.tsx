@@ -13,6 +13,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { LinearGradient } from 'expo-linear-gradient';
 import { cn } from '@/lib/utils';
 import { Pressable } from 'react-native-gesture-handler';
+import MiniBalance from '@/components/home/MiniBalance';
 
 const bannerData = [
   {

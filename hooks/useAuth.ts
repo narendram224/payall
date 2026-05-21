@@ -7,26 +7,37 @@ export function useAuth() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data: isAuthenticated = false, isLoading } = useQuery({
-    queryKey: ['auth_status'],
-    queryFn: async () => {
-      try {
-        const token = await SecureStore.getItemAsync('access_token');
-        return !!token;
-      } catch (error) {
-        console.error('Error checking auth status', error);
-        return false;
-      }
-    },
-    staleTime: Infinity,
-  });
+const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: false }, isLoading } = useQuery({
+  queryKey: ['auth_status'],
+  queryFn: async () => {
+    try {
+      const [token, hasCompletedOnboarding] = await Promise.all([
+        SecureStore.getItemAsync('access_token'),
+        SecureStore.getItemAsync('hasCompletedOnboarding'),
+      ]);
+      return {
+        isAuthenticated: !!token,
+        hasCompletedOnboarding: hasCompletedOnboarding === 'true',
+      };
+    } catch (error) {
+      console.error('Error checking auth status', error);
+      return { isAuthenticated: false, hasCompletedOnboarding: false };
+    }
+  },
+  staleTime: Infinity,
+});
 
+  const { isAuthenticated, hasCompletedOnboarding } = authState;
+  
   const loginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
     onSuccess: async (data) => {
       if (data.token) {
         await SecureStore.setItemAsync('access_token', data.token);
-        queryClient.setQueryData(['auth_status'], true);
+        queryClient.setQueryData(['auth_status'], (old: any) => ({
+          ...(old || {}),
+          isAuthenticated: true,
+        }));
         console.log("Auth Success", data.token);
 
         // Navigate to home after successful login
@@ -59,15 +70,31 @@ export function useAuth() {
     mutationFn: (code: string) => authService.verifyEmail(code),
   });
 
-  const logout = async () => {
+ const logout = async () => {
+  try {
+    // 1. Clear the authentication token from local hardware storage
     await SecureStore.deleteItemAsync('access_token');
-    queryClient.clear();
-    queryClient.setQueryData(['auth_status'], false);
+    
+    // 2. Instead of queryClient.clear(), explicitly update the auth payload 
+    // or invalidate it so it fetches fresh data from SecureStore
+    queryClient.setQueryData(['auth_status'], (old: any) => {
+      return {
+        isAuthenticated: false,
+        // Keep the old flag if it exists, otherwise fall back to true since they just logged out!
+        hasCompletedOnboarding: old?.hasCompletedOnboarding ?? true, 
+      };
+    });
+
+    // 3. Force clean redirect
     router.replace('/sign-in');
-  };
+  } catch (error) {
+    console.error("Error during secure log out:", error);
+  }
+};
 
   return {
     isAuthenticated,
+    hasCompletedOnboarding,
     isLoading,
     login: loginMutation.mutate,
     loginAsync: loginMutation.mutateAsync,

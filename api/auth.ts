@@ -1,4 +1,5 @@
 import apiClient from './client';
+export { userService } from './user';
 
 export interface LoginCredentials {
   email: string;
@@ -39,7 +40,8 @@ export const authService = {
   },
 
   register: async (credentials: RegisterCredentials): Promise<any> => {
-    // Dummy endpoint for sign-up
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /register with FormData { first_name, last_name, email, mobile, password }
     console.log("Mock Registering user...", credentials);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -49,7 +51,8 @@ export const authService = {
   },
 
   forgotPassword: async (email: string): Promise<any> => {
-    // Dummy endpoint for forgot-password
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /forgot-password with FormData { email }
     console.log("Mock Forgot Password for...", email);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -59,7 +62,8 @@ export const authService = {
   },
 
   resetPassword: async (password: string, token: string): Promise<any> => {
-    // Dummy endpoint for reset-password
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /reset-password with FormData { password, token }
     console.log("Mock Reset Password with token...", token);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -69,7 +73,8 @@ export const authService = {
   },
 
   verifyEmail: async (code: string): Promise<any> => {
-    // Dummy endpoint for verify-email
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /verify-email with FormData { code }
     console.log("Mock Verify Email with code...", code);
     return new Promise((resolve) => {
       setTimeout(() => {
