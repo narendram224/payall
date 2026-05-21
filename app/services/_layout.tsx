@@ -16,6 +16,7 @@ const PAGE_TITLES: Record<string, string> = {
   'billing/cable': 'Cable TV',
   'billing/lpg': 'LPG Gas',
   'billing/all': 'All Bills',
+  'billing/credit-card': 'Credit Card Bill',
   'finance/dmt': 'DMT',
   'finance/payout': 'Payout',
   'finance/auto-collect': 'Auto Collect',
@@ -94,6 +95,10 @@ export default function ServicesLayout() {
       <Stack.Screen
         name="billing/all"
         options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/all']} /> }}
+      />
+      <Stack.Screen
+        name="billing/credit-card"
+        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/credit-card']} /> }}
       />
 
       {/* ── Finance ── */}

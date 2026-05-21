@@ -1,28 +1,114 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
+import { View, ScrollView, Pressable, TextInput, ActivityIndicator } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { FadeInDown, useReducedMotion } from 'react-native-reanimated';
+import { toast } from 'react-native-sonner';
 
-const CarLoan = () => {
+const LOAN_AMOUNTS = [100000, 300000, 500000, 700000, 1000000];
+const VEHICLE_TYPES = ['New', 'Used'];
+const EMPLOYMENT_TYPES = ['Salaried', 'Self-Employed', 'Business'];
+
+export default function CarLoanScreen() {
+  const reducedMotion = useReducedMotion();
+  const [loanAmount, setLoanAmount] = useState('');
+  const [vehicleType, setVehicleType] = useState('');
+  const [income, setIncome] = useState('');
+  const [employment, setEmployment] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const formatLakh = (n: number) => n >= 100000 ? `₹${n / 100000}L` : `₹${n / 1000}K`;
+
+  const handleSubmit = async () => {
+    if (!loanAmount || !vehicleType || !income || !employment || !mobile) {
+      toast.error('Please fill all fields'); return;
+    }
+    if (mobile.length !== 10) { toast.error('Enter valid 10-digit mobile'); return; }
+    setLoading(true);
+    await new Promise(r => setTimeout(r, 1200));
+    setLoading(false);
+    toast.success('Our team will contact you shortly!');
+  };
+
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
-      <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">FINANCE</Text>
-      </View>
-      <View className="space-y-6 mt-2">
-        <Text className="text-2xl font-bold text-foreground">Car Loan</Text>
-        <Text className="text-muted-foreground text-base leading-relaxed">
-          Apply for a car loan with competitive interest rates. Get instant approval and drive your dream car home today.
-        </Text>
-        <View className="rounded-2xl bg-card border border-border p-5">
-          <Text className="text-sm font-semibold text-foreground mb-3">Loan Amount Required</Text>
-          <Text className="text-sm text-muted-foreground mb-4">Enter the loan amount you need to purchase your car.</Text>
-          <Button className="w-full mt-2">
-            <Text className="font-semibold text-primary-foreground">Apply Now</Text>
-          </Button>
-        </View>
-      </View>
-    </ScrollView>
-  );
-};
+    <View className="flex-1 bg-background">
+      <LinearGradient colors={['#f59e0b', '#f97316']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-6 pt-4">
+        <Text className="text-xl font-bold text-white">🚗 Car Loan</Text>
+        <Text className="mt-0.5 text-sm text-white/70">Quick approval, competitive rates</Text>
+      </LinearGradient>
 
-export default CarLoan;
+      <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+        {/* Loan Amount */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5">
+          <Text className="mb-2 text-sm font-bold text-foreground">Loan Amount Required</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="-mx-4 px-4 mb-3">
+            {LOAN_AMOUNTS.map(a => (
+              <Pressable key={a} onPress={() => setLoanAmount(String(a))} className={`mr-2 rounded-full border px-4 py-2 ${loanAmount === String(a) ? 'border-amber-500 bg-amber-50' : 'border-border bg-card'}`}>
+                <Text className={`text-sm font-bold ${loanAmount === String(a) ? 'text-amber-600' : 'text-foreground'}`}>{formatLakh(a)}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          <TextInput placeholder="Or enter custom amount" placeholderTextColor="#9ca3af" value={loanAmount} onChangeText={setLoanAmount} keyboardType="numeric" className="rounded-xl border border-border bg-card px-4 py-3.5 text-sm text-foreground" />
+        </Animated.View>
+
+        {/* Vehicle Type */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(80).duration(300)} className="mb-5">
+          <Text className="mb-2 text-sm font-bold text-foreground">Vehicle Type</Text>
+          <View className="flex-row gap-3">
+            {VEHICLE_TYPES.map(v => (
+              <Pressable key={v} onPress={() => setVehicleType(v)} className={`flex-1 items-center rounded-xl border py-3 ${vehicleType === v ? 'border-amber-500 bg-amber-50' : 'border-border bg-card'}`}>
+                <Text className={`text-sm font-bold ${vehicleType === v ? 'text-amber-600' : 'text-foreground'}`}>{v}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </Animated.View>
+
+        {/* Monthly Income */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(160).duration(300)} className="mb-5">
+          <Text className="mb-2 text-sm font-bold text-foreground">Monthly Income (₹)</Text>
+          <TextInput placeholder="Enter monthly income" placeholderTextColor="#9ca3af" value={income} onChangeText={setIncome} keyboardType="numeric" className="rounded-xl border border-border bg-card px-4 py-3.5 text-sm text-foreground" />
+        </Animated.View>
+
+        {/* Employment Type */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(240).duration(300)} className="mb-5">
+          <Text className="mb-2 text-sm font-bold text-foreground">Employment Type</Text>
+          <View className="flex-row flex-wrap gap-2">
+            {EMPLOYMENT_TYPES.map(e => (
+              <Pressable key={e} onPress={() => setEmployment(e)} className={`rounded-full border px-4 py-2 ${employment === e ? 'border-amber-500 bg-amber-50' : 'border-border bg-card'}`}>
+                <Text className={`text-sm font-bold ${employment === e ? 'text-amber-600' : 'text-foreground'}`}>{e}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </Animated.View>
+
+        {/* Mobile */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(320).duration(300)} className="mb-5">
+          <Text className="mb-2 text-sm font-bold text-foreground">Mobile Number</Text>
+          <View className="flex-row items-center overflow-hidden rounded-xl border border-border bg-card">
+            <View className="border-r border-border bg-muted px-3 py-3.5"><Text className="font-semibold text-foreground">+91</Text></View>
+            <TextInput placeholder="10-digit mobile" placeholderTextColor="#9ca3af" value={mobile} onChangeText={setMobile} keyboardType="numeric" maxLength={10} className="flex-1 px-3 py-3.5 text-sm text-foreground" />
+          </View>
+        </Animated.View>
+
+        {/* Info Card */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(400).duration(300)} className="mb-5 rounded-2xl bg-amber-50 p-4 border border-amber-100">
+          <Text className="text-sm font-bold text-amber-800 mb-1">Loan Highlights</Text>
+          <Text className="text-xs text-amber-700">✓ Loans from ₹50,000 to ₹25 Lakhs</Text>
+          <Text className="text-xs text-amber-700 mt-0.5">✓ Tenure: 12–84 months</Text>
+          <Text className="text-xs text-amber-700 mt-0.5">✓ Rates from 8.5% p.a.</Text>
+          <Text className="text-xs text-amber-700 mt-0.5">✓ Approval in 24 hours</Text>
+        </Animated.View>
+
+        {/* CTA */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(480).duration(300)}>
+          <Pressable onPress={handleSubmit} disabled={loading}>
+            <LinearGradient colors={['#f59e0b', '#f97316']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} className="items-center rounded-2xl py-4">
+              {loading ? <ActivityIndicator color="white" /> : <Text className="text-base font-bold text-white">Check Eligibility</Text>}
+            </LinearGradient>
+          </Pressable>
+        </Animated.View>
+      </ScrollView>
+    </View>
+  );
+}

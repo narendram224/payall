@@ -47,6 +47,7 @@ function RootLayoutNav() {
       <Stack.Screen name="splash" options={{ headerShown: false }} />
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="ppi" options={{ headerShown: false }} />
     </Stack>
   );
 }

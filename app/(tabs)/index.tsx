@@ -12,6 +12,7 @@ import BalanceCard from '@/components/home/BalanceCard';
 import { LinearGradient } from 'expo-linear-gradient';
 import ExclusiveOffer from '@/components/home/ExclusiveOffer';
 import ActionButtons from '@/components/home/ActionButtons';
+import MiniBalance from '@/components/home/MiniBalance';
 
 const CustomIcon = ({ uri }: { uri: string }) => {
   return <Image source={uri} style={{ width: 40, height: 40 }} contentFit="cover" />;
@@ -41,6 +42,8 @@ const Home = () => {
   return (
     <ParallaxHeader>
       <View style={{ paddingVertical: 16 }}>
+       <MiniBalance />
+        
         <ActionButtons />
       </View>
       <CardSection title="Recharge Section" iconTextItems={rechargeSection} />
