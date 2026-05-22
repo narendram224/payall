@@ -62,15 +62,17 @@ const FastagRecharge = () => {
           <Car size={28} color="#6366f1" strokeWidth={2} />
         </View>
         <View style={styles.heroTextWrap}>
-          <Text style={styles.heroTitle}>FASTag Recharge</Text>
-          <Text style={styles.heroSubtitle}>Fast, cashless toll payments across India</Text>
+          <Text className="text-2xl font-bold tracking-tight text-gray-700">FASTag Recharge</Text>
+          <Text className="mt-1 text-sm text-gray-400">
+            Fast, cashless toll payments across India
+          </Text>
         </View>
       </Animated.View>
 
       {/* Benefits Banner */}
       <Animated.View entering={reducedMotion ? undefined : FadeInDown.duration(300).delay(60)}>
         <View style={styles.benefitsBanner}>
-          <Text style={styles.benefitsTitle}>Why FASTag with Pay2All?</Text>
+          <Text className="text-lg font-semibold text-white">Why FASTag with Pay2All?</Text>
           <View style={styles.benefitsList}>
             {BENEFITS.map((benefit, index) => (
               <Animated.View
@@ -185,7 +187,6 @@ const FastagRecharge = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1c1c1c',
   },
   contentContainer: {
     paddingHorizontal: 16,
@@ -202,7 +203,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   heroIconWrap: {
-    backgroundColor: '#1e1b4b',
     borderRadius: 14,
     padding: 14,
     borderWidth: 1,
@@ -256,7 +256,6 @@ const styles = StyleSheet.create({
 
   /* Form Card */
   formCard: {
-    backgroundColor: '#2d2d2d',
     borderRadius: 18,
     paddingHorizontal: 18,
     paddingVertical: 20,
@@ -279,7 +278,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   textInput: {
-    backgroundColor: '#1c1c1c',
     borderRadius: 12,
     borderWidth: 1.5,
     borderColor: '#3f3f3f',
@@ -306,7 +304,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 9,
     borderRadius: 10,
-    backgroundColor: '#1c1c1c',
     borderWidth: 1.5,
     borderColor: '#3f3f3f',
   },

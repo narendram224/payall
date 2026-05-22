@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import OperatorSelector from '@/components/recharge/OperatorSelector';
 import NumberInput from '@/components/recharge/NumberInput';
@@ -7,7 +7,9 @@ import AmountInput from '@/components/recharge/AmountInput';
 import TransactionSummary from '@/components/recharge/TransactionSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import { Button } from '@/components/ui/button';
-import { rechargeService, Provider } from '@/services/recharge/recharge.service';
+import { rechargeService } from '@/services/recharge/recharge.service';
+import { Provider } from '@/services/recharge/recharge.dto';
+import { toast } from 'react-native-sonner';
 
 const ElectricityBillPayment = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -30,8 +32,7 @@ const ElectricityBillPayment = () => {
       const electricityProviders = data.providers.filter((p: Provider) => p.service_id === 3);
       setProviders(electricityProviders);
     } catch {
-      console.error('Error loading providers:');
-      Alert.alert('Error', 'Failed to load operators');
+      toast.error('Failed to load operators');
     } finally {
       setLoading(false);
     }
@@ -39,15 +40,15 @@ const ElectricityBillPayment = () => {
 
   const handleProceed = () => {
     if (!selectedOperator) {
-      Alert.alert('Error', 'Please select an operator');
+      toast.error('Please select an operator');
       return;
     }
     if (!customerId || customerId.length < 5) {
-      Alert.alert('Error', 'Please enter a valid customer ID');
+      toast.error('Please enter a valid customer ID');
       return;
     }
     if (!amount || parseFloat(amount) <= 0) {
-      Alert.alert('Error', 'Please enter a valid amount');
+      toast.error('Please enter a valid amount');
       return;
     }
     setShowSummary(true);
@@ -69,11 +70,11 @@ const ElectricityBillPayment = () => {
         setShowSummary(false);
         setShowSuccess(true);
       } else {
-        Alert.alert('Transaction Failed', response.message || 'Please try again');
+        toast.error(response.message || 'Please try again');
       }
     } catch (error) {
       console.error('Recharge error:', error);
-      Alert.alert('Error', 'Transaction failed. Please try again.');
+      toast.error('Transaction failed. Please try again.');
     } finally {
       setLoading(false);
     }

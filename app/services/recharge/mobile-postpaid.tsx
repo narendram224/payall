@@ -117,7 +117,7 @@ const MobilePostpaid = () => {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#1c1c1c' }}
+      style={{ flex: 1 }}
       contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 40 }}>
       {/* Benefits Banner */}
       <View style={styles.benefitsBanner}>

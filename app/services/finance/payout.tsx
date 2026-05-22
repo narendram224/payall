@@ -19,24 +19,12 @@ import Animated, {
 import { toast } from 'react-native-sonner';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
-import { payoutService, Beneficiary } from '@/services/payout/payout.service';
+import { payoutService } from '@/services/payout/payout.service';
 import PaymentConfirmSheet from '@/components/bbps/PaymentConfirmSheet';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
-import {
-  User,
-  Building2,
-  CreditCard,
-  Plus,
-  Phone,
-  Smartphone,
-  KeyRound,
-  Wallet,
-  Send,
-  HelpCircle,
-  ArrowLeft,
-  ChevronLeft,
-} from 'lucide-react-native';
+import { User, Building2, CreditCard, Plus, Wallet, Send, ChevronLeft } from 'lucide-react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Beneficiary } from '@/services/payout/payout.dto';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 

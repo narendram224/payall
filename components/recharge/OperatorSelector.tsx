@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, Image, ActivityIndicator } from 'react-native';
 import { cn } from '@/lib/utils';
-import { Provider } from '@/services/recharge/recharge.service';
+import { Provider } from '@/services/recharge/recharge.dto';
 
 interface OperatorSelectorProps {
   operators: Provider[];
