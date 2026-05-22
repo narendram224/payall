@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert, StyleSheet } from 'react-native';
+import { CheckCircle2 } from 'lucide-react-native';
 import { router } from 'expo-router';
 import UPIInput from '@/components/forms/UPIInput';
 import FrequencySelector from '@/components/forms/FrequencySelector';
@@ -78,9 +79,23 @@ const AutoCollect = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
-      <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">AUTO COLLECT</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: '#1c1c1c' }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 24 }}>
+
+      {/* Benefits Banner */}
+      <View style={styles.benefitsBanner}>
+        <Text style={styles.benefitsTitle}>🔄 Auto Collect</Text>
+        <Text style={styles.benefitsSubtitle}>Automate your recurring collections</Text>
+        {[
+          'Set once, collect automatically',
+          'Daily, weekly or monthly schedules',
+          'Instant UPI-based collection',
+          'Real-time collection alerts',
+        ].map((point, i) => (
+          <View key={i} style={styles.benefitRow}>
+            <CheckCircle2 size={16} color="#10b981" />
+            <Text style={styles.benefitText}>{point}</Text>
+          </View>
+        ))}
       </View>
 
       {/* Step Indicator */}
@@ -199,5 +214,20 @@ const AutoCollect = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  benefitsBanner: {
+    backgroundColor: '#1e1b4b',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#312e81',
+  },
+  benefitsTitle: { color: '#fff', fontSize: 16, fontWeight: '700', marginBottom: 4 },
+  benefitsSubtitle: { color: '#a5b4fc', fontSize: 13, marginBottom: 12 },
+  benefitRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  benefitText: { color: '#e0e7ff', fontSize: 13, flex: 1 },
+});
 
 export default AutoCollect;

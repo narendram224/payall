@@ -4,10 +4,19 @@ import { Text } from '@/components/ui/text';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown, useReducedMotion } from 'react-native-reanimated';
 import { toast } from 'react-native-sonner';
+import { CheckCircle2 } from 'lucide-react-native';
 
 type Mode = 'buy' | 'sell';
 type InputMode = 'weight' | 'amount';
 const GOLD_RATE = 6420; // per gram 24K
+
+const GOLD_BENEFITS = [
+  'Start from just ₹1',
+  '99.9% pure 24K gold',
+  'Secure vault storage by Augmont',
+  'Convert to physical gold anytime',
+  'Real-time gold price tracking',
+];
 
 export default function GoldScreen() {
   const reducedMotion = useReducedMotion();
@@ -41,6 +50,26 @@ export default function GoldScreen() {
       </LinearGradient>
 
       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {/* Benefits Section */}
+        <Animated.View
+          entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}
+          className="mb-6 rounded-2xl p-4"
+          style={{ backgroundColor: '#1e1b4b' }}
+        >
+          <Text className="mb-3 text-base font-bold text-white">Digital Gold Investment</Text>
+          {GOLD_BENEFITS.map((benefit, index) => (
+            <Animated.View
+              key={benefit}
+              entering={reducedMotion ? undefined : FadeInDown.delay(index * 50).duration(300)}
+              className="mb-2 flex-row items-center gap-2"
+            >
+              <CheckCircle2 size={16} color="#10b981" strokeWidth={2.5} />
+              <Text className="flex-1 text-sm text-white">{benefit}</Text>
+            </Animated.View>
+          ))}
+        </Animated.View>
+
         {/* Buy/Sell Toggle */}
         <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5 flex-row gap-2 rounded-2xl bg-muted p-1">
           {(['buy','sell'] as Mode[]).map(m => (

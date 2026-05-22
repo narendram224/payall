@@ -18,33 +18,33 @@ const AmountInput: React.FC<AmountInputProps> = ({
 }) => {
   return (
     <View className={cn('w-full', className)}>
-      <Text className="text-lg font-semibold mb-3 text-foreground">Enter Amount</Text>
+      <Text className="mb-2 mt-4 px-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+        Enter Amount
+      </Text>
       <Input
         value={value}
         onChangeText={onChangeText}
         placeholder="Enter amount"
         keyboardType="numeric"
-        className="text-xl font-bold text-center h-14"
+        className="h-14 text-center text-xl font-bold"
       />
       {quickAmounts.length > 0 && (
-        <View className="flex-row flex-wrap gap-2 mt-4">
+        <View className="mt-4 flex-row flex-wrap gap-2">
           {quickAmounts.map((amount) => (
             <Pressable
               key={amount}
               onPress={() => onChangeText(amount.toString())}
               className={cn(
-                'px-4 py-2 rounded-lg border-2 min-w-[70px] items-center justify-center',
+                'min-w-[70px] items-center justify-center rounded-lg border-2 px-4 py-2',
                 value === amount.toString()
                   ? 'border-primary bg-primary/10'
                   : 'border-border bg-card'
-              )}
-            >
+              )}>
               <Text
                 className={cn(
                   'text-sm font-semibold',
-                  value === amount.toString() ? 'text-primary' : 'text-foreground'
-                )}
-              >
+                  value === amount.toString() ? 'text-primary' : 'text-slate-600'
+                )}>
                 ₹{amount}
               </Text>
             </Pressable>

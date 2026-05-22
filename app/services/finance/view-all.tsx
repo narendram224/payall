@@ -24,8 +24,8 @@ export default function ViewAllFinance() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <View className="flex-1 bg-background">
-      <LinearGradient colors={['#6366f1', '#8b5cf6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-6 pt-4">
+    <View style={{ flex: 1, backgroundColor: '#1c1c1c' }}>
+      <LinearGradient colors={['#1e1b4b', '#312e81']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-6 pt-4">
         <Text className="text-xl font-bold text-white">Finance Services</Text>
         <Text className="mt-1 text-sm text-white/70">All financial services in one place</Text>
       </LinearGradient>

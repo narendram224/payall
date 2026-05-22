@@ -70,6 +70,25 @@ export default function BikeInsurance() {
         className="flex-1 px-4 pt-5"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {/* Info Banner */}
+        <Animated.View
+          entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}
+          className="mb-5 overflow-hidden rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4">
+          <Text className="mb-3 text-sm font-bold text-amber-400">Two-Wheeler Insurance</Text>
+          {[
+            'Covers theft & accidental damage',
+            'Third-party liability covered',
+            'Cashless repairs at 4000+ garages',
+            'NCB up to 50% discount',
+          ].map((item, i) => (
+            <View key={i} className="mb-2 flex-row items-center gap-2 last:mb-0">
+              <View className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <Text className="flex-1 text-xs text-amber-300/80">{item}</Text>
+            </View>
+          ))}
+        </Animated.View>
+
         {/* Vehicle Number */}
         <Animated.View
           entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}

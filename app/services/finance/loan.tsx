@@ -4,6 +4,7 @@ import { Text } from '@/components/ui/text';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown, useReducedMotion } from 'react-native-reanimated';
 import { toast } from 'react-native-sonner';
+import { CheckCircle2 } from 'lucide-react-native';
 
 const AMOUNTS = [10000, 25000, 50000, 100000, 200000, 500000];
 const PURPOSES = ['Medical', 'Education', 'Travel', 'Business', 'Wedding', 'Other'];
@@ -11,6 +12,14 @@ const EMPLOYMENT = ['Salaried', 'Self-Employed', 'Business'];
 
 const formatAmt = (n: number) =>
   n >= 100000 ? `₹${n / 100000}L` : `₹${n / 1000}K`;
+
+const LOAN_BENEFITS = [
+  'Loan from ₹10,000 to ₹10,00,000',
+  'Interest from 10.5% p.a.',
+  '100% digital process',
+  'Instant disbursal in 24 hours',
+  'No collateral required',
+];
 
 export default function LoanScreen() {
   const reducedMotion = useReducedMotion();
@@ -45,6 +54,26 @@ export default function LoanScreen() {
       </LinearGradient>
 
       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {/* Benefits Section */}
+        <Animated.View
+          entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}
+          className="mb-6 rounded-2xl p-4"
+          style={{ backgroundColor: '#1e1b4b' }}
+        >
+          <Text className="mb-3 text-base font-bold text-white">Instant Personal Loan</Text>
+          {LOAN_BENEFITS.map((benefit, index) => (
+            <Animated.View
+              key={benefit}
+              entering={reducedMotion ? undefined : FadeInDown.delay(index * 50).duration(300)}
+              className="mb-2 flex-row items-center gap-2"
+            >
+              <CheckCircle2 size={16} color="#10b981" strokeWidth={2.5} />
+              <Text className="flex-1 text-sm text-white">{benefit}</Text>
+            </Animated.View>
+          ))}
+        </Animated.View>
+
         {/* Amount */}
         <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5">
           <Text className="mb-2 text-sm font-bold text-foreground">Loan Amount Required</Text>

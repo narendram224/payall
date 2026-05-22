@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert, StyleSheet } from 'react-native';
+import { CheckCircle2 } from 'lucide-react-native';
 import { router } from 'expo-router';
 import PaymentMethodSelector, { PaymentMethod } from '@/components/selectors/PaymentMethodSelector';
 import BankDetailsInput from '@/components/forms/BankDetailsInput';
@@ -78,9 +79,23 @@ const PaymentGateway = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
-      <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">PAYMENT GATEWAY</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: '#1c1c1c' }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 40 }}>
+
+      {/* Benefits Banner */}
+      <View style={styles.benefitsBanner}>
+        <Text style={styles.benefitsTitle}>💳 Payment Gateway</Text>
+        <Text style={styles.benefitsSubtitle}>Secure multi-mode payment processing</Text>
+        {[
+          'Supports UPI, Cards, Net Banking & Wallets',
+          'Instant payment confirmation',
+          'Bank-grade 256-bit encryption',
+          'Zero transaction failure rate',
+        ].map((point, i) => (
+          <View key={i} style={styles.benefitRow}>
+            <CheckCircle2 size={16} color="#10b981" />
+            <Text style={styles.benefitText}>{point}</Text>
+          </View>
+        ))}
       </View>
 
       <PaymentMethodSelector
@@ -160,5 +175,20 @@ const PaymentGateway = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  benefitsBanner: {
+    backgroundColor: '#1e1b4b',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#312e81',
+  },
+  benefitsTitle: { color: '#fff', fontSize: 16, fontWeight: '700', marginBottom: 4 },
+  benefitsSubtitle: { color: '#a5b4fc', fontSize: 13, marginBottom: 12 },
+  benefitRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  benefitText: { color: '#e0e7ff', fontSize: 13, flex: 1 },
+});
 
 export default PaymentGateway;

@@ -24,6 +24,10 @@ const MiniBalance = () => {
     staleTime: 5 * 60 * 1000,
   });
 
+  console.log('Is loading:', isLoading);
+  console.log('Is error:', isError);
+  console.log('User info:', userInfo);
+
   const displayEmail = userInfo?.email ?? '';
   const displayMobile = userInfo?.mobile ?? '';
   const balance: UserBalance | null = userInfo?.balance ?? null;

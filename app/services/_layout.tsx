@@ -9,7 +9,6 @@ const PAGE_TITLES: Record<string, string> = {
   'billing/electricity-bill': 'Electricity Bill',
   'billing/landline': 'Landline Bill',
   'billing/verification': 'Aadhaar Verification',
-  'billing/electricity': 'Electricity',
   'billing/water': 'Water',
   'billing/gas': 'Gas Bill',
   'billing/broadband': 'Broadband',
@@ -68,10 +67,7 @@ export default function ServicesLayout() {
         name="billing/verification"
         options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/verification']} /> }}
       />
-      <Stack.Screen
-        name="billing/electricity"
-        options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/electricity']} /> }}
-      />
+
       <Stack.Screen
         name="billing/water"
         options={{ headerShown: true, header: () => <AnimatedHeader title={PAGE_TITLES['billing/water']} /> }}

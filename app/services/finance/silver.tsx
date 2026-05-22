@@ -17,9 +17,9 @@ export default function SilverScreen() {
   const amount = inputMode === 'weight' ? (value ? parseFloat(value) * SILVER_RATE : 0).toFixed(2) : value || '0';
 
   return (
-    <View className="flex-1 bg-background">
-      <LinearGradient colors={['#94a3b8', '#64748b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-8 pt-4">
-        <Text className="text-xl font-bold text-white">🥈 Digital Silver</Text>
+    <View style={{ flex: 1, backgroundColor: '#1c1c1c' }}>
+      <LinearGradient colors={['#475569', '#334155']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-8 pt-4">
+        <Text className="text-xl font-bold text-white">Digital Silver</Text>
         <Text className="mt-0.5 text-sm text-white/70">Pure Silver • Stored Securely</Text>
         <View className="mt-4 rounded-2xl bg-white/20 p-4">
           <View className="flex-row items-center justify-between">
@@ -35,6 +35,17 @@ export default function SilverScreen() {
       </LinearGradient>
 
       <ScrollView className="flex-1 px-4 pt-5" contentContainerStyle={{ paddingBottom: 40 }}>
+        {/* Benefits Banner */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5 rounded-2xl p-4" style={{ backgroundColor: '#1e2a3a', borderWidth: 1, borderColor: '#334155' }}>
+          <Text className="text-base font-bold text-white mb-1">🥈 Digital Silver Investment</Text>
+          <Text className="text-xs mb-3" style={{ color: '#94a3b8' }}>Invest in 99.9% pure silver digitally</Text>
+          {['Start from just ₹10', 'Sell anytime at live rates', 'Secure vault storage', 'No making charges'].map((tip, i) => (
+            <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#64748b' }} />
+              <Text style={{ color: '#cbd5e1', fontSize: 13 }}>{tip}</Text>
+            </View>
+          ))}
+        </Animated.View>
         <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5 flex-row gap-2 rounded-2xl bg-muted p-1">
           {(['buy', 'sell'] as const).map(m => (
             <Pressable key={m} onPress={() => setMode(m)} className={`flex-1 items-center rounded-xl py-3 ${mode === m ? 'bg-white' : ''}`}>

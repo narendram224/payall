@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Alert, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import OperatorSelector from '@/components/recharge/OperatorSelector';
 import NumberInput from '@/components/recharge/NumberInput';
@@ -10,6 +10,7 @@ import SuccessScreen from '@/components/recharge/SuccessScreen';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
 import { Button } from '@/components/ui/button';
 import { rechargeService, Provider } from '@/services/recharge/recharge.service';
+import { CheckCircle2, FileText, Clock, Shield } from 'lucide-react-native';
 
 const MobilePostpaid = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -113,22 +114,28 @@ const MobilePostpaid = () => {
     );
   }
 
-  return (
+      return (
     <ScrollView
-      className="flex-1 bg-background"
-      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
-      <View className="mb-2">
-        <Text className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          SELECT OPERATOR
-        </Text>
+      style={{ flex: 1, backgroundColor: '#1c1c1c' }}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 40 }}>
+
+      {/* Benefits Banner */}
+      <View style={styles.benefitsBanner}>
+        <Text style={styles.benefitsTitle}>📱 Postpaid Bill Payment</Text>
+        <Text style={styles.benefitsSubtitle}>Pay your postpaid bill instantly</Text>
+        {[
+          'Supports all operators: Jio, Airtel, Vi, BSNL',
+          'Auto-fetch your due amount',
+          'Instant payment confirmation',
+          'No convenience fee',
+        ].map((point, i) => (
+          <View key={i} style={styles.benefitRow}>
+            <CheckCircle2 size={16} color="#10b981" />
+            <Text style={styles.benefitText}>{point}</Text>
+          </View>
+        ))}
       </View>
 
-      {loading && providers.length === 0 ? (
-        <View className="items-center justify-center py-12">
-          <ActivityIndicator size="large" color="#6366f1" />
-          <Text className="mt-2 text-muted-foreground">Loading operators...</Text>
-        </View>
-      ) : (
         <View className="space-y-6">
           <OperatorSelector
             operators={providers}
@@ -184,11 +191,43 @@ const MobilePostpaid = () => {
             </View>
           )}
         </View>
-      )}
 
       <LoadingOverlay visible={loading && providers.length > 0} message="Processing..." />
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  benefitsBanner: {
+    backgroundColor: '#1e1b4b',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#312e81',
+  },
+  benefitsTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  benefitsSubtitle: {
+    color: '#a5b4fc',
+    fontSize: 13,
+    marginBottom: 12,
+  },
+  benefitRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  benefitText: {
+    color: '#e0e7ff',
+    fontSize: 13,
+    flex: 1,
+  },
+});
 
 export default MobilePostpaid;

@@ -28,14 +28,25 @@ export default function EMICalculator() {
     `₹${Math.round(n).toLocaleString('en-IN')}`;
 
   return (
-    <View className="flex-1 bg-background">
-      <LinearGradient colors={['#6366f1', '#8b5cf6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-6 pt-4">
-        <Text className="text-xl font-bold text-white">🧮 EMI Calculator</Text>
-        <Text className="mt-0.5 text-sm text-white/70">Plan your loan repayment</Text>
+    <View className="flex-1 bg-[#1c1c1c]">
+      <LinearGradient colors={['#1e1b4b', '#312e81']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="px-4 pb-6 pt-4">
+        <Text className="text-xl font-bold text-white">EMI Calculator</Text>
+        <Text className="mt-0.5 text-sm text-white/70">Plan your loan repayment smartly</Text>
       </LinearGradient>
 
       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
-        {/* Loan Amount */}
+        {/* Info Banner */}
+        <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5 rounded-2xl border border-indigo-800 bg-[#1e1b4b] p-4">
+          <Text className="text-base font-bold text-white mb-2">🧮 EMI Calculator</Text>
+          <Text className="text-xs text-indigo-300 mb-3">Understand your loan repayment before you commit</Text>
+          {['Compare different loan amounts', 'See exact monthly outflow', 'Principal vs interest breakdown', 'Try different tenures'].map((tip, i) => (
+            <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#6366f1' }} />
+              <Text style={{ color: '#c7d2fe', fontSize: 13 }}>{tip}</Text>
+            </View>
+          ))}
+        </Animated.View>
+
         <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5">
           <View className="mb-2 flex-row items-center justify-between">
             <Text className="text-sm font-bold text-foreground">Loan Amount</Text>

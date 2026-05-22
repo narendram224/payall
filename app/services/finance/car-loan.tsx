@@ -4,10 +4,19 @@ import { Text } from '@/components/ui/text';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown, useReducedMotion } from 'react-native-reanimated';
 import { toast } from 'react-native-sonner';
+import { CheckCircle2 } from 'lucide-react-native';
 
 const LOAN_AMOUNTS = [100000, 300000, 500000, 700000, 1000000];
 const VEHICLE_TYPES = ['New', 'Used'];
 const EMPLOYMENT_TYPES = ['Salaried', 'Self-Employed', 'Business'];
+
+const CAR_LOAN_BENEFITS = [
+  'Up to 90% of car value financed',
+  'Interest from 7.5% p.a.',
+  'Tenure up to 7 years',
+  'Quick approval in 48 hours',
+  'New & used car loans available',
+];
 
 export default function CarLoanScreen() {
   const reducedMotion = useReducedMotion();
@@ -39,6 +48,26 @@ export default function CarLoanScreen() {
       </LinearGradient>
 
       <ScrollView className="flex-1 px-4 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {/* Benefits Section */}
+        <Animated.View
+          entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}
+          className="mb-6 rounded-2xl p-4"
+          style={{ backgroundColor: '#1e1b4b' }}
+        >
+          <Text className="mb-3 text-base font-bold text-white">Car Loan Made Easy</Text>
+          {CAR_LOAN_BENEFITS.map((benefit, index) => (
+            <Animated.View
+              key={benefit}
+              entering={reducedMotion ? undefined : FadeInDown.delay(index * 50).duration(300)}
+              className="mb-2 flex-row items-center gap-2"
+            >
+              <CheckCircle2 size={16} color="#10b981" strokeWidth={2.5} />
+              <Text className="flex-1 text-sm text-white">{benefit}</Text>
+            </Animated.View>
+          ))}
+        </Animated.View>
+
         {/* Loan Amount */}
         <Animated.View entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)} className="mb-5">
           <Text className="mb-2 text-sm font-bold text-foreground">Loan Amount Required</Text>
