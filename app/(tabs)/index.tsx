@@ -8,7 +8,6 @@ import ParallaxHeader from '@/components/home/ParallaxHeader';
 import CardSection from '@/components/home/CardSection';
 import { Image } from 'expo-image';
 import { View } from 'react-native';
-import BalanceCard from '@/components/home/BalanceCard';
 import { LinearGradient } from 'expo-linear-gradient';
 import ExclusiveOffer from '@/components/home/ExclusiveOffer';
 import ActionButtons from '@/components/home/ActionButtons';
@@ -42,59 +41,32 @@ const Home = () => {
   return (
     <ParallaxHeader>
       <View style={{ paddingVertical: 16 }}>
-       <MiniBalance />
-        
+        <MiniBalance />
         <ActionButtons />
       </View>
-      <CardSection title="Recharge Section" iconTextItems={rechargeSection} />
-      <CardSection title="Bill Pay" iconTextItems={billPaySection} />
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
+
+      <CardSection title="Recharge" iconTextItems={rechargeSection} />
+      <CardSection title="Bills" iconTextItems={billPaySection} />
+
       <LinearGradient
         colors={['#FFA585', '#FFEDA0']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        className="m-4 p-4 ">
+        className="m-4 p-4">
         <ExclusiveOffer />
       </LinearGradient>
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
+
+      <CardSection title="Finance" iconTextItems={financeSection} />
 
       <LinearGradient
         colors={['#0C0C0C', '#0F971C']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        className="m-4 p-4 ">
+        className="m-4 p-4">
         <ExclusiveOffer />
       </LinearGradient>
 
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <LinearGradient
-        colors={['#bcf4ffff', '#657effff']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="m-4 p-4 ">
-        <ExclusiveOffer />
-      </LinearGradient>
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <LinearGradient
-        colors={['#1A2766', '#AE1B1E', '#FC9F32']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="m-4 p-4 ">
-        <ExclusiveOffer />
-      </LinearGradient>
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <CardSection title="Finance Section" iconTextItems={financeSection} />
-      <LinearGradient
-        colors={['#f70394ff', '#1b09ffff']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="m-4 p-4 ">
-        <ExclusiveOffer />
-      </LinearGradient>
-
-      <CardSection title="Insurance Section" iconTextItems={insuranceSection} />
+      <CardSection title="Insurance" iconTextItems={insuranceSection} />
     </ParallaxHeader>
   );
 };

@@ -1,4 +1,5 @@
-import apiClient from './client';
+import Axios from "@/services/axios.service";
+
 
 export interface Outlet {
   id: number;
@@ -39,31 +40,31 @@ export interface CreateOutletData {
 
 export const outletService = {
   createOutlet: async (data: CreateOutletData): Promise<Outlet> => {
-    const response = await apiClient.post<any, Outlet>('outlet/store', data, {
+    const response = await Axios.post<any, Outlet>('outlet/store', data, {
       headers: { 'Content-Type': 'application/json' },
     });
     return response;
   },
 
   getOutlets: async (mobile: string): Promise<Outlet[]> => {
-    const response = await apiClient.get<any, Outlet[]>('outlet', {
+    const response = await Axios.get<any, Outlet[]>('outlet', {
       params: { mobile_number: mobile },
     });
     return response;
   },
 
   getStates: async (): Promise<State[]> => {
-    const response = await apiClient.get<any, State[]>('outlet/state');
+    const response = await Axios.get<any, State[]>('outlet/state');
     return response;
   },
 
   getCities: async (stateId: number): Promise<City[]> => {
-    const response = await apiClient.get<any, City[]>(`outlet/city/${stateId}`);
+    const response = await Axios.get<any, City[]>(`outlet/city/${stateId}`);
     return response;
   },
 
   getDistricts: async (stateId: number): Promise<District[]> => {
-    const response = await apiClient.get<any, District[]>(
+    const response = await Axios.get<any, District[]>(
       `outlet/district/${stateId}`
     );
     return response;

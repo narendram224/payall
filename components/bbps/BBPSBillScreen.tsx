@@ -28,7 +28,7 @@ import BillerCard from '@/components/bbps/BillerCard';
 import BillFetchResult from '@/components/bbps/BillFetchResult';
 import PaymentConfirmSheet from '@/components/bbps/PaymentConfirmSheet';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
-import apiClient from '@/api/client';
+import Axios from '@/services/axios.service';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -124,7 +124,7 @@ const BBPSBillScreen: React.FC<BBPSBillScreenProps> = ({
   } = useQuery<Biller[]>({
     queryKey: ['bbps_billers', categorySlug],
     queryFn: async () => {
-      const res: any = await apiClient.get(`bbps/category/${categorySlug}`);
+      const res: any = await Axios.get(`bbps/category/${categorySlug}`);
       const list = res?.data ?? res?.billers ?? res ?? [];
       return Array.isArray(list) ? list : [];
     },
@@ -168,7 +168,7 @@ const BBPSBillScreen: React.FC<BBPSBillScreenProps> = ({
       Object.entries(params).forEach(([k, v]) => {
         fd.append(`customerParams[${k}]`, v);
       });
-      return await apiClient.post('bbps/fetch', fd);
+      return await Axios.post('bbps/fetch', fd);
     },
     onSuccess: (res: any) => {
       if (res?.status_id === 1) {
@@ -204,7 +204,7 @@ const BBPSBillScreen: React.FC<BBPSBillScreenProps> = ({
       Object.entries(formState.consumerParams).forEach(([k, v]) => {
         fd.append(`customerParams[${k}]`, v);
       });
-      return await apiClient.post('bbps/payment', fd);
+      return await Axios.post('bbps/payment', fd);
     },
     onSuccess: (res: any) => {
       if (res?.status_id === 1) {

@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface PolicyUrlResponse {
   status_id: number;
@@ -46,7 +46,7 @@ export const policyService = {
       formData.append('dob', data.dob);
     }
 
-    const response = await apiClient.post<any, PolicyUrlResponse>(
+    const response = await Axios.post<any, PolicyUrlResponse>(
       'v1/policy/encrypt',
       formData,
       {
@@ -62,7 +62,7 @@ export const policyService = {
     const formData = new FormData();
     formData.append('order_id', data.order_id);
 
-    const response = await apiClient.post<any, PolicyStatusResponse>(
+    const response = await Axios.post<any, PolicyStatusResponse>(
       'v1/policy/status',
       formData,
       {

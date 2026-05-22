@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as SecureStore from 'expo-secure-store';
-import { authService, LoginCredentials, RegisterCredentials } from '../api/auth';
+import { authService } from '@/services/auth/auth.service';
 import { useRouter } from 'expo-router';
+import { LoginCredentials, RegisterCredentials } from '@/services/auth/auth.dto';
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -27,6 +28,19 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
   staleTime: Infinity,
 });
 
+// 🌟 NEW HYDRATION HELPER: Updates both disk and memory cache instantly
+  const setOnboardingComplete = async () => {
+    try {
+      await SecureStore.setItemAsync('hasCompletedOnboarding', 'true');
+      queryClient.setQueryData(['auth_status'], (old: any) => ({
+        ...(old || {}),
+        hasCompletedOnboarding: true,
+      }));
+    } catch (error) {
+      console.error('Error writing onboarding complete state:', error);
+    }
+  };
+
   const { isAuthenticated, hasCompletedOnboarding } = authState;
   
   const loginMutation = useMutation({
@@ -34,6 +48,10 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
     onSuccess: async (data) => {
       if (data.token) {
         await SecureStore.setItemAsync('access_token', data.token);
+        queryClient.setQueryData(['auth_status'], (old: any) => ({
+          ...(old || {}),
+          isAuthenticated: true,
+        }));
         queryClient.setQueryData(['auth_status'], (old: any) => ({
           ...(old || {}),
           isAuthenticated: true,
@@ -73,7 +91,22 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
  const logout = async () => {
   try {
     // 1. Clear the authentication token from local hardware storage
+ const logout = async () => {
+  try {
+    // 1. Clear the authentication token from local hardware storage
     await SecureStore.deleteItemAsync('access_token');
+    
+    // 2. Instead of queryClient.clear(), explicitly update the auth payload 
+    // or invalidate it so it fetches fresh data from SecureStore
+    queryClient.setQueryData(['auth_status'], (old: any) => {
+      return {
+        isAuthenticated: false,
+        // Keep the old flag if it exists, otherwise fall back to true since they just logged out!
+        hasCompletedOnboarding: old?.hasCompletedOnboarding ?? true, 
+      };
+    });
+
+    // 3. Force clean redirect
     
     // 2. Instead of queryClient.clear(), explicitly update the auth payload 
     // or invalidate it so it fetches fresh data from SecureStore
@@ -91,11 +124,16 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
     console.error("Error during secure log out:", error);
   }
 };
+  } catch (error) {
+    console.error("Error during secure log out:", error);
+  }
+};
 
   return {
     isAuthenticated,
     hasCompletedOnboarding,
     isLoading,
+    setOnboardingComplete,
     login: loginMutation.mutate,
     loginAsync: loginMutation.mutateAsync,
     isLoggingIn: loginMutation.isPending,

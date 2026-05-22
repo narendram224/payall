@@ -1,24 +1,5 @@
-import apiClient from './client';
-export { userService } from './user';
-
-export interface LoginCredentials {
-  email: string;
-  password?: string;
-}
-
-export interface RegisterCredentials {
-  first_name?: string;
-  last_name?: string;
-  email: string;
-  mobile?: string;
-  password?: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  email: string;
-  // Add other properties if available
-}
+import Axios from '@/services/axios.service';
+import { LoginCredentials, AuthResponse, RegisterCredentials } from '@/services/auth/auth.dto';
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
@@ -28,7 +9,7 @@ export const authService = {
       formData.append('password', credentials.password);
     }
 
-    const data = await apiClient.post<any, AuthResponse>('token', formData, {
+    const data = await Axios.post<any, AuthResponse>('token', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -42,6 +23,8 @@ export const authService = {
   register: async (credentials: RegisterCredentials): Promise<any> => {
     // TODO: Replace with real API call once endpoint is available
     // Expected: POST /register with FormData { first_name, last_name, email, mobile, password }
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /register with FormData { first_name, last_name, email, mobile, password }
     console.log("Mock Registering user...", credentials);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -51,6 +34,8 @@ export const authService = {
   },
 
   forgotPassword: async (email: string): Promise<any> => {
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /forgot-password with FormData { email }
     // TODO: Replace with real API call once endpoint is available
     // Expected: POST /forgot-password with FormData { email }
     console.log("Mock Forgot Password for...", email);
@@ -64,6 +49,8 @@ export const authService = {
   resetPassword: async (password: string, token: string): Promise<any> => {
     // TODO: Replace with real API call once endpoint is available
     // Expected: POST /reset-password with FormData { password, token }
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /reset-password with FormData { password, token }
     console.log("Mock Reset Password with token...", token);
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -73,6 +60,8 @@ export const authService = {
   },
 
   verifyEmail: async (code: string): Promise<any> => {
+    // TODO: Replace with real API call once endpoint is available
+    // Expected: POST /verify-email with FormData { code }
     // TODO: Replace with real API call once endpoint is available
     // Expected: POST /verify-email with FormData { code }
     console.log("Mock Verify Email with code...", code);

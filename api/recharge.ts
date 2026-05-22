@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface RechargeRequest {
   mobile_number?: string;
@@ -103,7 +103,7 @@ export const rechargeService = {
       formData.append('reference_id', data.reference_id);
     }
 
-    const response = await apiClient.post<any, RechargeResponse>(
+    const response = await Axios.post<any, RechargeResponse>(
       'v1/payment/recharge',
       formData,
       {
@@ -121,7 +121,7 @@ export const rechargeService = {
     const formData = new FormData();
     formData.append('client_id', clientId);
 
-    const response = await apiClient.post<any, StatusResponse>(
+    const response = await Axios.post<any, StatusResponse>(
       'v1/payment/status',
       formData,
       {
@@ -136,7 +136,7 @@ export const rechargeService = {
 
   // Get providers (operators)
   getProviders: async (): Promise<ProvidersResponse> => {
-    const response = await apiClient.get<any, ProvidersResponse>('providers');
+    const response = await Axios.get<any, ProvidersResponse>('providers');
     return response;
   },
 };

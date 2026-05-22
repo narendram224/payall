@@ -7,7 +7,7 @@ import AmountInput from '@/components/recharge/AmountInput';
 import TransactionSummary from '@/components/recharge/TransactionSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import { Button } from '@/components/ui/button';
-import { rechargeService, Provider } from '@/api/recharge';
+import { rechargeService, Provider } from '@/services/recharge/recharge.service';
 
 const DTHRecharge = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -28,7 +28,7 @@ const DTHRecharge = () => {
       setLoading(true);
       const data = await rechargeService.getProviders();
       const dthProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 2 && p.active === 1,
+        (p: Provider) => p.service_id === 2 && p.active === 1
       );
       setProviders(dthProviders);
     } catch (error) {
@@ -110,9 +110,13 @@ const DTHRecharge = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
       <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT OPERATOR</Text>
+        <Text className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          SELECT OPERATOR
+        </Text>
       </View>
 
       {!showSummary ? (
@@ -138,7 +142,7 @@ const DTHRecharge = () => {
             quickAmounts={[100, 200, 300, 500, 1000]}
           />
 
-          <Button onPress={handleProceed} disabled={loading} className="w-full mt-2">
+          <Button onPress={handleProceed} disabled={loading} className="mt-2 w-full">
             <Text className="font-semibold text-primary-foreground">
               {loading ? 'Processing...' : 'Proceed'}
             </Text>
@@ -152,7 +156,7 @@ const DTHRecharge = () => {
             amount={amount}
           />
 
-          <View className="flex-row gap-3 mt-2">
+          <View className="mt-2 flex-row gap-3">
             <Button onPress={() => setShowSummary(false)} variant="outline" className="flex-1">
               <Text className="font-semibold text-foreground">Back</Text>
             </Button>

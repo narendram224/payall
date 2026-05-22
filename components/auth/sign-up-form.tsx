@@ -8,9 +8,9 @@ import { type TextInput, View, Pressable } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { Link, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { GradientButton } from './ui/gradient-button';
-import { useAuth } from '../hooks/useAuth';
-import ErrorMsg from './ui/error-msg';
+import { GradientButton } from '@/components/ui/gradient-button';
+import { useAuth } from '@/hooks/useAuth';
+import ErrorMsg from '@/components/ui/error-msg';
 
 interface SignUpFormData {
   first_name: string;
@@ -25,7 +25,7 @@ export function SignUpForm() {
   const emailInputRef = React.useRef<TextInput>(null);
   const mobileInputRef = React.useRef<TextInput>(null);
   const passwordInputRef = React.useRef<TextInput>(null);
-  
+
   const router = useRouter();
   const { registerAsync, isRegistering } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
@@ -137,23 +137,23 @@ export function SignUpForm() {
             name="email"
             rules={validationRules.email}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <Input
-                   ref={emailInputRef}
-                   id="email"
-                   className="h-14 bg-white"
-                   value={value}
-                   onChangeText={onChange}
-                   onBlur={onBlur}
-                   placeholder="m@example.com"
-                   keyboardType="email-address"
-                   autoComplete="email"
-                   autoCapitalize="none"
-                   returnKeyType="next"
-                   onSubmitEditing={() => mobileInputRef.current?.focus()}
-                 />
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <Input
+                  ref={emailInputRef}
+                  id="email"
+                  className="h-14 bg-white"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="m@example.com"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  onSubmitEditing={() => mobileInputRef.current?.focus()}
+                />
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>
@@ -165,21 +165,21 @@ export function SignUpForm() {
             name="mobile"
             rules={validationRules.mobile}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <Input
-                   ref={mobileInputRef}
-                   id="mobile"
-                   className="h-14 bg-white"
-                   value={value}
-                   onChangeText={onChange}
-                   onBlur={onBlur}
-                   placeholder="Enter 10-digit number"
-                   keyboardType="phone-pad"
-                   returnKeyType="next"
-                   onSubmitEditing={() => passwordInputRef.current?.focus()}
-                 />
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <Input
+                  ref={mobileInputRef}
+                  id="mobile"
+                  className="h-14 bg-white"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="Enter 10-digit number"
+                  keyboardType="phone-pad"
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordInputRef.current?.focus()}
+                />
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>
@@ -191,34 +191,33 @@ export function SignUpForm() {
             name="password"
             rules={validationRules.password}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <View className="relative justify-center">
-                   <Input
-                     ref={passwordInputRef}
-                     id="password"
-                     className="h-14 bg-white pr-12"
-                     value={value}
-                     onChangeText={onChange}
-                     onBlur={onBlur}
-                     placeholder="Enter your password"
-                     secureTextEntry={!showPassword}
-                     autoComplete="password"
-                     returnKeyType="done"
-                     onSubmitEditing={handleSubmit(onSubmit)}
-                   />
-                   <Pressable
-                     onPress={() => setShowPassword(!showPassword)}
-                     className="absolute right-4 p-1"
-                   >
-                     {showPassword ? (
-                       <EyeOff size={20} color="#666" />
-                     ) : (
-                       <Eye size={20} color="#666" />
-                     )}
-                   </Pressable>
-                 </View>
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <View className="relative justify-center">
+                  <Input
+                    ref={passwordInputRef}
+                    id="password"
+                    className="h-14 bg-white pr-12"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder="Enter your password"
+                    secureTextEntry={!showPassword}
+                    autoComplete="password"
+                    returnKeyType="done"
+                    onSubmitEditing={handleSubmit(onSubmit)}
+                  />
+                  <Pressable
+                    onPress={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 p-1">
+                    {showPassword ? (
+                      <EyeOff size={20} color="#666" />
+                    ) : (
+                      <Eye size={20} color="#666" />
+                    )}
+                  </Pressable>
+                </View>
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>

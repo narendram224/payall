@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { OTPInput } from '@/components/ui/otp-input';
 import { useMutation } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { toast } from 'react-native-sonner';
 
@@ -19,7 +19,7 @@ export default function VerifySenderScreen() {
       payload.append('mobile_number', mobile_number || '');
       payload.append('otp', otpValue);
 
-      const response = await apiClient.post('v2/dmt/add_sender_confirm', payload, {
+      const response = await Axios.post('v2/dmt/add_sender_confirm', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;

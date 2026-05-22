@@ -1,14 +1,13 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Text } from '@/components/ui/text';
 import * as React from 'react';
 import { type TextInput, View, Pressable } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { GradientButton } from './ui/gradient-button';
-import { useAuth } from '../hooks/useAuth';
-import ErrorMsg from './ui/error-msg';
+import { GradientButton } from '@/components/ui/gradient-button';
+import { useAuth } from '@/hooks/useAuth';
+import ErrorMsg from '@/components/ui/error-msg';
 
 interface ResetPasswordFormData {
   token: string;
@@ -59,20 +58,20 @@ export function ResetPasswordForm() {
             name="token"
             rules={validationRules.token}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <Input
-                   id="token"
-                   className="h-14 bg-white"
-                   value={value}
-                   onChangeText={onChange}
-                   onBlur={onBlur}
-                   placeholder="Enter your token"
-                   autoCapitalize="none"
-                   returnKeyType="next"
-                   onSubmitEditing={() => passwordInputRef.current?.focus()}
-                 />
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <Input
+                  id="token"
+                  className="h-14 bg-white"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="Enter your token"
+                  autoCapitalize="none"
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordInputRef.current?.focus()}
+                />
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>
@@ -84,34 +83,33 @@ export function ResetPasswordForm() {
             name="password"
             rules={validationRules.password}
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
-               <View>
-                 <View className="relative justify-center">
-                   <Input
-                     ref={passwordInputRef}
-                     id="password"
-                     className="h-14 bg-white pr-12"
-                     value={value}
-                     onChangeText={onChange}
-                     onBlur={onBlur}
-                     placeholder="Enter your new password"
-                     secureTextEntry={!showPassword}
-                     autoComplete="password-new"
-                     returnKeyType="done"
-                     onSubmitEditing={handleSubmit(onSubmit)}
-                   />
-                   <Pressable
-                     onPress={() => setShowPassword(!showPassword)}
-                     className="absolute right-4 p-1"
-                   >
-                     {showPassword ? (
-                       <EyeOff size={20} color="#666" />
-                     ) : (
-                       <Eye size={20} color="#666" />
-                     )}
-                   </Pressable>
-                 </View>
-                 {error && <ErrorMsg message={error.message} />}
-               </View>
+              <View>
+                <View className="relative justify-center">
+                  <Input
+                    ref={passwordInputRef}
+                    id="password"
+                    className="h-14 bg-white pr-12"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder="Enter your new password"
+                    secureTextEntry={!showPassword}
+                    autoComplete="password-new"
+                    returnKeyType="done"
+                    onSubmitEditing={handleSubmit(onSubmit)}
+                  />
+                  <Pressable
+                    onPress={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 p-1">
+                    {showPassword ? (
+                      <EyeOff size={20} color="#666" />
+                    ) : (
+                      <Eye size={20} color="#666" />
+                    )}
+                  </Pressable>
+                </View>
+                {error && <ErrorMsg message={error.message} />}
+              </View>
             )}
           />
         </View>

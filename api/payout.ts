@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface Customer {
   id: number;
@@ -60,7 +60,7 @@ export const payoutService = {
     const formData = new FormData();
     formData.append('mobile_number', mobile);
 
-    const response = await apiClient.post<any, Customer>(
+    const response = await Axios.post<any, Customer>(
       'v1/upi/get-customer',
       formData,
       {
@@ -76,7 +76,7 @@ export const payoutService = {
     formData.append('upi_id', data.upi_id);
     formData.append('name', data.name);
 
-    const response = await apiClient.post<any, any>(
+    const response = await Axios.post<any, any>(
       'v1/upi/add-customer',
       formData,
       {
@@ -91,7 +91,7 @@ export const payoutService = {
     formData.append('mobile_number', data.mobile_number);
     formData.append('otp', data.otp);
 
-    const response = await apiClient.post<any, any>(
+    const response = await Axios.post<any, any>(
       'v1/upi/add-customer-confirm',
       formData,
       {
@@ -111,7 +111,7 @@ export const payoutService = {
       formData.append('optional1', data.optional1);
     }
 
-    const response = await apiClient.post<any, PayoutResponse>(
+    const response = await Axios.post<any, PayoutResponse>(
       'v1/payout/upi_transfer',
       formData,
       {
@@ -133,7 +133,7 @@ export const payoutService = {
       formData.append('optional1', data.optional1);
     }
 
-    const response = await apiClient.post<any, PayoutResponse>(
+    const response = await Axios.post<any, PayoutResponse>(
       'v1/payout/bank_transfer',
       formData,
       {
@@ -144,7 +144,7 @@ export const payoutService = {
   },
 
   getBeneficiaries: async (mobile: string): Promise<Beneficiary[]> => {
-    const response = await apiClient.get<any, Beneficiary[]>(
+    const response = await Axios.get<any, Beneficiary[]>(
       `v1/payout/beneficiary`,
       { params: { mobile_number: mobile } }
     );

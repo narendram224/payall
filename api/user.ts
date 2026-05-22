@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface User {
   id: number;
@@ -25,12 +25,12 @@ export interface CommissionResponse {
 
 export const userService = {
   getUser: async (): Promise<User> => {
-    const response = await apiClient.get<any, User>('user');
+    const response = await Axios.get<any, User>('user');
     return response;
   },
 
   getCommission: async (): Promise<CommissionResponse> => {
-    const response = await apiClient.get<any, CommissionResponse>('report/my-commission');
+    const response = await Axios.get<any, CommissionResponse>('report/my-commission');
     return response;
   },
 };

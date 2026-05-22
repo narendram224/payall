@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from "@/services/axios.service";
 
 export interface BBPSCategory {
   id: number;
@@ -66,17 +66,17 @@ export interface BillPayResponse {
 
 export const bbpsService = {
   getCategories: async (): Promise<BBPSCategory[]> => {
-    const response = await apiClient.get<any, BBPSCategory[]>('bbps/category');
+    const response = await Axios.get<any, BBPSCategory[]>('bbps/category');
     return response;
   },
 
   getCategoryBySlug: async (slug: string): Promise<BBPSBiller[]> => {
-    const response = await apiClient.get<any, BBPSBiller[]>(`bbps/category/${slug}`);
+    const response = await Axios.get<any, BBPSBiller[]>(`bbps/category/${slug}`);
     return response;
   },
 
   getBiller: async (billerId: string): Promise<BBPSBiller> => {
-    const response = await apiClient.get<any, BBPSBiller>(`bbps/biller/${billerId}`);
+    const response = await Axios.get<any, BBPSBiller>(`bbps/biller/${billerId}`);
     return response;
   },
 
@@ -91,7 +91,7 @@ export const bbpsService = {
       formData.append(`customerParams[${key}]`, value);
     });
 
-    const response = await apiClient.post<any, BillFetchResponse>(
+    const response = await Axios.post<any, BillFetchResponse>(
       'bbps/fetch',
       formData,
       {
@@ -111,7 +111,7 @@ export const bbpsService = {
       formData.append(`customerParams[${key}]`, value);
     });
 
-    const response = await apiClient.post<any, BillPayResponse>(
+    const response = await Axios.post<any, BillPayResponse>(
       'bbps/payment',
       formData,
       {

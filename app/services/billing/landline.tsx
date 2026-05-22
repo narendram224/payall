@@ -8,7 +8,7 @@ import PaymentSummary from '@/components/shared/PaymentSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
 import { Button } from '@/components/ui/button';
-import { rechargeService, Provider } from '@/api/recharge';
+import { rechargeService, Provider } from '@/services/recharge/recharge.service';
 import AmountInput from '@/components/recharge/AmountInput';
 
 const Landline = () => {
@@ -32,14 +32,16 @@ const Landline = () => {
   ];
   const [selectedCircle, setSelectedCircle] = useState(circles[0]);
 
-  useEffect(() => { loadProviders(); }, []);
+  useEffect(() => {
+    loadProviders();
+  }, []);
 
   const loadProviders = async () => {
     try {
       setLoading(true);
       const data = await rechargeService.getProviders();
       const landlineProviders = data.providers.filter(
-        (p: Provider) => p.service_id === 4 && p.active === 1,
+        (p: Provider) => p.service_id === 4 && p.active === 1
       );
       setProviders(landlineProviders);
     } catch (error) {
@@ -51,9 +53,18 @@ const Landline = () => {
   };
 
   const handleFetchBill = async () => {
-    if (!selectedOperator) { Alert.alert('Error', 'Please select an operator'); return; }
-    if (!stdCode) { Alert.alert('Error', 'Please enter STD code'); return; }
-    if (!landlineNumber || landlineNumber.length < 6) { Alert.alert('Error', 'Please enter a valid landline number'); return; }
+    if (!selectedOperator) {
+      Alert.alert('Error', 'Please select an operator');
+      return;
+    }
+    if (!stdCode) {
+      Alert.alert('Error', 'Please enter STD code');
+      return;
+    }
+    if (!landlineNumber || landlineNumber.length < 6) {
+      Alert.alert('Error', 'Please enter a valid landline number');
+      return;
+    }
     try {
       setLoading(true);
       setBillDetails({
@@ -73,10 +84,22 @@ const Landline = () => {
   };
 
   const handleProceed = () => {
-    if (!selectedOperator) { Alert.alert('Error', 'Please select an operator'); return; }
-    if (!stdCode) { Alert.alert('Error', 'Please enter STD code'); return; }
-    if (!landlineNumber || landlineNumber.length < 6) { Alert.alert('Error', 'Please enter a valid landline number'); return; }
-    if (!amount || parseFloat(amount) <= 0) { Alert.alert('Error', 'Please enter a valid amount'); return; }
+    if (!selectedOperator) {
+      Alert.alert('Error', 'Please select an operator');
+      return;
+    }
+    if (!stdCode) {
+      Alert.alert('Error', 'Please enter STD code');
+      return;
+    }
+    if (!landlineNumber || landlineNumber.length < 6) {
+      Alert.alert('Error', 'Please enter a valid landline number');
+      return;
+    }
+    if (!amount || parseFloat(amount) <= 0) {
+      Alert.alert('Error', 'Please enter a valid amount');
+      return;
+    }
     handleFetchBill();
   };
 
@@ -118,9 +141,13 @@ const Landline = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 }}>
       <View className="mb-2">
-        <Text className="text-xs font-medium text-muted-foreground tracking-wider uppercase">SELECT OPERATOR</Text>
+        <Text className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          SELECT OPERATOR
+        </Text>
       </View>
 
       <View className="space-y-6">
@@ -169,7 +196,7 @@ const Landline = () => {
               className="mt-2"
             />
 
-            <View className="flex-row gap-3 mt-2">
+            <View className="mt-2 flex-row gap-3">
               <Button onPress={handleBack} variant="outline" className="flex-1">
                 <Text className="font-semibold">Back</Text>
               </Button>

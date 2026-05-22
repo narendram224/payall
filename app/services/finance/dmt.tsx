@@ -1,10 +1,5 @@
-import { useEffect } from 'react';
-import { router } from 'expo-router';
+import { Redirect } from 'expo-router';
 
-// DMT service now lives at /dmt — redirect there
 export default function DMTRedirect() {
-  useEffect(() => {
-    router.replace('/dmt' as any);
-  }, []);
-  return null;
+  return <Redirect href="/dmt" />;
 }

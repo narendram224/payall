@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView, StatusBar, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SignUpForm } from '@/components/sign-up-form';
+import { SignUpForm } from '@/components/auth/sign-up-form';
 import { Image } from 'expo-image';
 
 export default function SignUpScreen() {

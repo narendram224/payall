@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface VerificationResponse<T> {
   status_id: number;
@@ -81,7 +81,7 @@ export const verificationService = {
     const formData = new FormData();
     formData.append('aadhaar_number', aadhaar);
 
-    const response = await apiClient.post<
+    const response = await Axios.post<
       any,
       VerificationResponse<AadhaarOtpData>
     >('v1/verify/aadhaar/otp', formData, {
@@ -100,7 +100,7 @@ export const verificationService = {
     formData.append('otp', data.otp);
     formData.append('ref_id', data.ref_id);
 
-    const response = await apiClient.post<
+    const response = await Axios.post<
       any,
       VerificationResponse<AadhaarData>
     >('v1/verify/aadhaar/otp/verify', formData, {
@@ -113,7 +113,7 @@ export const verificationService = {
     const formData = new FormData();
     formData.append('pan_number', pan);
 
-    const response = await apiClient.post<any, VerificationResponse<PanData>>(
+    const response = await Axios.post<any, VerificationResponse<PanData>>(
       'v1/verify/pan',
       formData,
       {
@@ -127,7 +127,7 @@ export const verificationService = {
     const formData = new FormData();
     formData.append('upi_id', upi);
 
-    const response = await apiClient.post<any, VerificationResponse<UpiData>>(
+    const response = await Axios.post<any, VerificationResponse<UpiData>>(
       'v1/verify/upi',
       formData,
       {
@@ -144,7 +144,7 @@ export const verificationService = {
     formData.append('account_number', data.account_number);
     formData.append('ifsc', data.ifsc);
 
-    const response = await apiClient.post<
+    const response = await Axios.post<
       any,
       VerificationResponse<BankData>
     >('v1/verify/bank_account', formData, {
@@ -157,7 +157,7 @@ export const verificationService = {
     const formData = new FormData();
     formData.append('gst_number', gst);
 
-    const response = await apiClient.post<any, VerificationResponse<GstData>>(
+    const response = await Axios.post<any, VerificationResponse<GstData>>(
       'v1/verify/gst',
       formData,
       {
@@ -174,7 +174,7 @@ export const verificationService = {
     formData.append('challan_number', data.challan_number);
     formData.append('state', data.state);
 
-    const response = await apiClient.post<
+    const response = await Axios.post<
       any,
       VerificationResponse<ChallanData>
     >('v1/verify/chalan', formData, {
@@ -187,7 +187,7 @@ export const verificationService = {
     const formData = new FormData();
     formData.append('ifsc_code', ifsc);
 
-    const response = await apiClient.post<
+    const response = await Axios.post<
       any,
       VerificationResponse<IfscData>
     >('v1/verify/ifsc', formData, {

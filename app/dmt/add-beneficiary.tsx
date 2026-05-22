@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import Axios from '@/services/axios.service';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { toast } from 'react-native-sonner';
 
@@ -28,7 +28,7 @@ export default function AddBeneficiaryScreen() {
       payload.append('ifsc', data.ifsc);
       payload.append('bank_id', data.bank_id);
 
-      const response = await apiClient.post('v2/dmt/add_beneficiary', payload, {
+      const response = await Axios.post('v2/dmt/add_beneficiary', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;

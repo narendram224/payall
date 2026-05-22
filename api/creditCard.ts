@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from "@/services/axios.service";
 
 export interface CreditCardPayResponse {
   status_id: number;
@@ -29,7 +29,7 @@ export const creditCardService = {
       formData.append('card_number', data.card_number);
     }
 
-    const response = await apiClient.post<any, CreditCardPayResponse>(
+    const response = await Axios.post<any, CreditCardPayResponse>(
       'v1/payment/credit',
       formData,
       {

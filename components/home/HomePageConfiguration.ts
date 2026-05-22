@@ -116,24 +116,22 @@ const InsuranceSection = [
   {
     icon: require('@/assets/icons/insurance/bike.png'),
     text: 'Bike',
-    navigateTo: '/services/bike',
+    navigateTo: '/services/insurance/bike',
   },
   {
     icon: require('@/assets/icons/insurance/car-insurance.png'),
     text: 'Car',
-    navigateTo: '/services/card',
+    navigateTo: '/services/insurance/car',
   },
-
   {
     icon: require('@/assets/icons/insurance/health.png'),
     text: 'Health',
-    navigateTo: '/services/health',
+    navigateTo: '/services/insurance/health',
   },
-
   {
-    icon: require('@/assets/icons/insurance/health.png'),
+    icon: require('@/assets/icons/insurance/all.png'),
     text: 'Life',
-    navigateTo: '/services/life',
+    navigateTo: '/services/insurance/life',
   },
   {
     icon: require('@/assets/icons/insurance/all.png'),

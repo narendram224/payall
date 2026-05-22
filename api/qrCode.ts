@@ -1,4 +1,4 @@
-import apiClient from './client';
+import Axios from '@/services/axios.service';
 
 export interface QRCodeResponse {
   status_id: number;
@@ -23,7 +23,7 @@ export const qrCodeService = {
       formData.append('note', data.note);
     }
 
-    const response = await apiClient.post<any, QRCodeResponse>(
+    const response = await Axios.post<any, QRCodeResponse>(
       'v1/upi/qr_code_generate',
       formData,
       {
