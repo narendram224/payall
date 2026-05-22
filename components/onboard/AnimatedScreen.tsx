@@ -65,6 +65,7 @@ const IntroductionAnimationScreen: React.FC = () => {
     const currentVal = animationController.current.value;
 
     console.log('[Current Animation Value]', currentVal);
+    console.log('[Current Animation Value]', currentVal);
 
     if (currentVal >= 0 && currentVal < 0.2) {
       toValue = 0.2;

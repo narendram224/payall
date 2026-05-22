@@ -1,1 +1,3 @@
-export default function Tmp() { return null; }
+export default function Tmp() {
+  return null;
+}

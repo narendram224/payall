@@ -33,19 +33,50 @@ const PaymentGateway = () => {
   const calculateAmount = () => 1000;
 
   const handleProceed = () => {
-    if (!selectedMethod) { Alert.alert('Error', 'Please select a payment method'); return; }
-    if (['card', 'wallet'].includes(selectedMethod.type) && (!accountNumber || accountNumber.length < 16)) { Alert.alert('Error', 'Please enter a valid card number'); return; }
-    if (['card', 'wallet'].includes(selectedMethod.type) && !expiryDate) { Alert.alert('Error', 'Please enter expiry date'); return; }
-    if (['card', 'wallet'].includes(selectedMethod.type) && (!cvv || cvv.length !== 3)) { Alert.alert('Error', 'Please enter CVV'); return; }
-    if (['netbanking', 'upi'].includes(selectedMethod.type) && (!accountNumber || accountNumber.length < 9)) { Alert.alert('Error', 'Please enter valid account details'); return; }
-    if (['netbanking', 'upi'].includes(selectedMethod.type) && (!ifscCode || ifscCode.length !== 11)) { Alert.alert('Error', 'Please enter valid IFSC code'); return; }
+    if (!selectedMethod) {
+      Alert.alert('Error', 'Please select a payment method');
+      return;
+    }
+    if (
+      ['card', 'wallet'].includes(selectedMethod.type) &&
+      (!accountNumber || accountNumber.length < 16)
+    ) {
+      Alert.alert('Error', 'Please enter a valid card number');
+      return;
+    }
+    if (['card', 'wallet'].includes(selectedMethod.type) && !expiryDate) {
+      Alert.alert('Error', 'Please enter expiry date');
+      return;
+    }
+    if (['card', 'wallet'].includes(selectedMethod.type) && (!cvv || cvv.length !== 3)) {
+      Alert.alert('Error', 'Please enter CVV');
+      return;
+    }
+    if (
+      ['netbanking', 'upi'].includes(selectedMethod.type) &&
+      (!accountNumber || accountNumber.length < 9)
+    ) {
+      Alert.alert('Error', 'Please enter valid account details');
+      return;
+    }
+    if (
+      ['netbanking', 'upi'].includes(selectedMethod.type) &&
+      (!ifscCode || ifscCode.length !== 11)
+    ) {
+      Alert.alert('Error', 'Please enter valid IFSC code');
+      return;
+    }
     setShowSummary(true);
   };
 
   const handlePayment = async () => {
     try {
       setLoading(true);
-      setTransactionResult({ orderId: 'PG' + Date.now(), amount: calculateAmount(), status: 'success' });
+      setTransactionResult({
+        orderId: 'PG' + Date.now(),
+        amount: calculateAmount(),
+        status: 'success',
+      });
       setShowSuccess(true);
     } catch {
       Alert.alert('Error', 'Payment failed. Please try again.');
@@ -54,7 +85,9 @@ const PaymentGateway = () => {
     }
   };
 
-  const handleBack = () => { setShowSummary(false); };
+  const handleBack = () => {
+    setShowSummary(false);
+  };
 
   const handleSuccessComplete = () => {
     setShowSuccess(false);
@@ -79,8 +112,9 @@ const PaymentGateway = () => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#1c1c1c' }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 40 }}>
-
+    <ScrollView
+      style={{ flex: 1, backgroundColor: '#1c1c1c' }}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 40 }}>
       {/* Benefits Banner */}
       <View style={styles.benefitsBanner}>
         <Text style={styles.benefitsTitle}>💳 Payment Gateway</Text>
@@ -106,7 +140,7 @@ const PaymentGateway = () => {
       />
 
       {(selectedMethod?.type === 'card' || selectedMethod?.type === 'wallet') && (
-        <View className="space-y-4 mb-4">
+        <View className="mb-4 space-y-4">
           <BankDetailsInput
             accountNumber={accountNumber}
             setAccountNumber={setAccountNumber}
@@ -118,12 +152,19 @@ const PaymentGateway = () => {
           />
           <View className="flex-row gap-3">
             <View className="flex-1">
-              <Text className="text-sm font-semibold text-foreground mb-2">Expiry Date</Text>
+              <Text className="mb-2 text-sm font-semibold text-foreground">Expiry Date</Text>
               <Input placeholder="MM/YY" value={expiryDate} onChangeText={setExpiryDate} />
             </View>
             <View className="flex-1">
-              <Text className="text-sm font-semibold text-foreground mb-2">CVV</Text>
-              <Input placeholder="123" value={cvv} onChangeText={setCvv} maxLength={3} className="text-center" keyboardType="numeric" />
+              <Text className="mb-2 text-sm font-semibold text-foreground">CVV</Text>
+              <Input
+                placeholder="123"
+                value={cvv}
+                onChangeText={setCvv}
+                maxLength={3}
+                className="text-center"
+                keyboardType="numeric"
+              />
             </View>
           </View>
         </View>
@@ -144,7 +185,7 @@ const PaymentGateway = () => {
       )}
 
       {!showSummary && (
-        <Button onPress={handleProceed} className="w-full mt-2">
+        <Button onPress={handleProceed} className="mt-2 w-full">
           <Text className="font-semibold text-primary-foreground">Proceed</Text>
         </Button>
       )}
@@ -160,7 +201,7 @@ const PaymentGateway = () => {
             className="mb-4"
           />
 
-          <View className="flex-row gap-3 mt-2">
+          <View className="mt-2 flex-row gap-3">
             <Button onPress={handleBack} variant="outline" className="flex-1">
               <Text className="font-semibold text-foreground">Back</Text>
             </Button>

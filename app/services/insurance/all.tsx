@@ -74,7 +74,6 @@ export default function InsuranceHub() {
         style={styles.scroll}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
-
         {/* 2x2 Grid */}
         <View style={styles.grid}>
           {PLANS.map((plan, i) => {

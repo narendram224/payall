@@ -52,6 +52,10 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
           ...(old || {}),
           isAuthenticated: true,
         }));
+        queryClient.setQueryData(['auth_status'], (old: any) => ({
+          ...(old || {}),
+          isAuthenticated: true,
+        }));
         console.log("Auth Success", data.token);
 
         // Navigate to home after successful login
@@ -87,6 +91,9 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
  const logout = async () => {
   try {
     // 1. Clear the authentication token from local hardware storage
+ const logout = async () => {
+  try {
+    // 1. Clear the authentication token from local hardware storage
     await SecureStore.deleteItemAsync('access_token');
     
     // 2. Instead of queryClient.clear(), explicitly update the auth payload 
@@ -100,7 +107,23 @@ const { data: authState = { isAuthenticated: false, hasCompletedOnboarding: fals
     });
 
     // 3. Force clean redirect
+    
+    // 2. Instead of queryClient.clear(), explicitly update the auth payload 
+    // or invalidate it so it fetches fresh data from SecureStore
+    queryClient.setQueryData(['auth_status'], (old: any) => {
+      return {
+        isAuthenticated: false,
+        // Keep the old flag if it exists, otherwise fall back to true since they just logged out!
+        hasCompletedOnboarding: old?.hasCompletedOnboarding ?? true, 
+      };
+    });
+
+    // 3. Force clean redirect
     router.replace('/sign-in');
+  } catch (error) {
+    console.error("Error during secure log out:", error);
+  }
+};
   } catch (error) {
     console.error("Error during secure log out:", error);
   }

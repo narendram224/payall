@@ -3,20 +3,29 @@ import { View, ScrollView, TextInput, TouchableOpacity, Dimensions, Platform } f
 import { Text } from '../../components/ui/text';
 import { useTheme } from '../../context/ThemeContext';
 import {
-  Search, SlidersHorizontal, ArrowUpRight, ArrowDownLeft,
-  Receipt, HelpCircle, Landmark, Building2, Gift, CreditCard,
-  ArrowDownRight, CheckCircle2, ChevronDown, Filter
+  Search,
+  SlidersHorizontal,
+  ArrowUpRight,
+  ArrowDownLeft,
+  Receipt,
+  HelpCircle,
+  Landmark,
+  Building2,
+  Gift,
+  CreditCard,
+  CheckCircle2,
+  ChevronDown,
+  Filter,
 } from 'lucide-react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { LineChart } from 'react-native-chart-kit';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Input } from '@/components/ui/input';
 import { BottomSheet } from '../../components/ui/BottomSheet';
 
 const screenWidth = Dimensions.get('window').width;
 
 const WaveBackground = () => (
-  <View className="absolute top-0 left-0 right-0 h-[300px] opacity-20" pointerEvents="none">
+  <View className="absolute left-0 right-0 top-0 h-[300px] opacity-20" pointerEvents="none">
     <Svg height="100%" width="100%" viewBox="0 0 1440 320" preserveAspectRatio="none">
       <Defs>
         <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
@@ -47,24 +56,108 @@ interface Transaction {
 }
 
 const MOCK_TRANSACTIONS: Transaction[] = [
-  { id: '1', title: 'BMTC BUS KA51AJ8584', date: '12 May', month: 'MAY 2026', amount: 24, type: 'send', status: 'success', method: 'SBI' },
-  { id: '2', title: 'BMTC BUS KA57F1099', date: '12 May', month: 'MAY 2026', amount: 290, type: 'send', status: 'success', method: 'HDFC' },
-  { id: '3', title: 'Transfer to ******2033', date: '11 May', month: 'MAY 2026', amount: 7000, type: 'send', status: 'success', method: 'SBI' },
-  { id: '4', title: 'Transfer to ******7132', date: '07 May', month: 'MAY 2026', amount: 15000, type: 'send', status: 'success', method: 'ICICI' },
-  { id: '5', title: 'TANISHQ BHS', date: '05 May', month: 'MAY 2026', amount: 9649, type: 'send', status: 'success', method: 'SBI' },
-  { id: '6', title: 'Salary from Acme Corp', date: '01 May', month: 'MAY 2026', amount: 85000, type: 'received', status: 'success', method: 'SBI' },
-  { id: '7', title: 'Jio Prepaid Recharge', date: '28 Apr', month: 'APR 2026', amount: 299, type: 'recharge', status: 'success', method: 'SBI' },
-  { id: '8', title: 'Amazon Cashback', date: '25 Apr', month: 'APR 2026', amount: 50, type: 'cashback', status: 'success', method: 'Wallet' },
+  {
+    id: '1',
+    title: 'BMTC BUS KA51AJ8584',
+    date: '12 May',
+    month: 'MAY 2026',
+    amount: 24,
+    type: 'send',
+    status: 'success',
+    method: 'SBI',
+  },
+  {
+    id: '2',
+    title: 'BMTC BUS KA57F1099',
+    date: '12 May',
+    month: 'MAY 2026',
+    amount: 290,
+    type: 'send',
+    status: 'success',
+    method: 'HDFC',
+  },
+  {
+    id: '3',
+    title: 'Transfer to ******2033',
+    date: '11 May',
+    month: 'MAY 2026',
+    amount: 7000,
+    type: 'send',
+    status: 'success',
+    method: 'SBI',
+  },
+  {
+    id: '4',
+    title: 'Transfer to ******7132',
+    date: '07 May',
+    month: 'MAY 2026',
+    amount: 15000,
+    type: 'send',
+    status: 'success',
+    method: 'ICICI',
+  },
+  {
+    id: '5',
+    title: 'TANISHQ BHS',
+    date: '05 May',
+    month: 'MAY 2026',
+    amount: 9649,
+    type: 'send',
+    status: 'success',
+    method: 'SBI',
+  },
+  {
+    id: '6',
+    title: 'Salary from Acme Corp',
+    date: '01 May',
+    month: 'MAY 2026',
+    amount: 85000,
+    type: 'received',
+    status: 'success',
+    method: 'SBI',
+  },
+  {
+    id: '7',
+    title: 'Jio Prepaid Recharge',
+    date: '28 Apr',
+    month: 'APR 2026',
+    amount: 299,
+    type: 'recharge',
+    status: 'success',
+    method: 'SBI',
+  },
+  {
+    id: '8',
+    title: 'Amazon Cashback',
+    date: '25 Apr',
+    month: 'APR 2026',
+    amount: 50,
+    type: 'cashback',
+    status: 'success',
+    method: 'Wallet',
+  },
 ];
 
-const FilterChip = ({ label, selected, onPress, icon }: { label: string, selected: boolean, onPress: () => void, icon?: React.ReactNode }) => (
+const FilterChip = ({
+  label,
+  selected,
+  onPress,
+  icon,
+}: {
+  label: string;
+  selected: boolean;
+  onPress: () => void;
+  icon?: React.ReactNode;
+}) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`mr-2 flex-row items-center rounded-full px-4 py-2 border ${selected ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}
-  >
+    className={`mr-2 flex-row items-center rounded-full border px-4 py-2 ${selected ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}>
     {icon && <View className="mr-1">{icon}</View>}
-    <Text className={`text-xs tracking-wider uppercase font-medium ${selected ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>{label}</Text>
-    {!icon && <ChevronDown size={14} color={selected ? "#6366f1" : "#9ca3af"} className="ml-1" />}
+    <Text
+      className={`text-xs font-medium uppercase tracking-wider ${selected ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>
+      {label}
+    </Text>
+    {!icon && <ChevronDown size={14} color={selected ? '#6366f1' : '#9ca3af'} className="ml-1" />}
   </TouchableOpacity>
 );
 
@@ -80,11 +173,16 @@ const getTxIcon = (type: string, method: string) => {
     return <Landmark size={24} color="#3b82f6" />;
   }
   switch (type) {
-    case 'send': return <ArrowUpRight size={22} color="#ef4444" />;
-    case 'received': return <ArrowDownLeft size={22} color="#22c55e" />;
-    case 'recharge': return <Receipt size={22} color="#f59e0b" />;
-    case 'cashback': return <Gift size={22} color="#8b5cf6" />;
-    default: return <Receipt size={22} color="#6b7280" />;
+    case 'send':
+      return <ArrowUpRight size={22} color="#ef4444" />;
+    case 'received':
+      return <ArrowDownLeft size={22} color="#22c55e" />;
+    case 'recharge':
+      return <Receipt size={22} color="#f59e0b" />;
+    case 'cashback':
+      return <Gift size={22} color="#8b5cf6" />;
+    default:
+      return <Receipt size={22} color="#6b7280" />;
   }
 };
 
@@ -119,43 +217,50 @@ export default function HistoryScreen() {
     setIsFilterOpen(false);
   };
 
-  const filteredTransactions = MOCK_TRANSACTIONS.filter(tx => {
+  const filteredTransactions = MOCK_TRANSACTIONS.filter((tx) => {
     const matchesSearch = tx.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesMonth = selectedMonth === 'All' || tx.month === selectedMonth;
-    const matchesCategory = selectedCategory === 'All' || tx.type === selectedCategory.toLowerCase();
+    const matchesCategory =
+      selectedCategory === 'All' || tx.type === selectedCategory.toLowerCase();
     const matchesStatus = selectedStatus === 'All' || tx.status === selectedStatus.toLowerCase();
     return matchesSearch && matchesMonth && matchesCategory && matchesStatus;
   });
 
-  const groupedTransactions = filteredTransactions.reduce((acc, tx) => {
-    if (!acc[tx.month]) acc[tx.month] = [];
-    acc[tx.month].push(tx);
-    return acc;
-  }, {} as Record<string, typeof MOCK_TRANSACTIONS>);
+  const groupedTransactions = filteredTransactions.reduce(
+    (acc, tx) => {
+      if (!acc[tx.month]) acc[tx.month] = [];
+      acc[tx.month].push(tx);
+      return acc;
+    },
+    {} as Record<string, typeof MOCK_TRANSACTIONS>
+  );
 
   // Chart Data
   const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
     datasets: [
       {
         data: [2000, 4500, 2800, 8000, 5200],
         color: (opacity = 1) => `rgba(34, 197, 94, ${opacity})`, // Green for Income
-        strokeWidth: 2
+        strokeWidth: 2,
       },
       {
         data: [1000, 3000, 2000, 5000, 3000],
         color: (opacity = 1) => `rgba(239, 68, 68, ${opacity})`, // Red for Expense
-        strokeWidth: 2
-      }
+        strokeWidth: 2,
+      },
     ],
-    legend: ["Income", "Expense"]
+    legend: ['Income', 'Expense'],
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1" style={{ backgroundColor: theme.colors.background }}>
+    <SafeAreaView
+      edges={['top']}
+      className="flex-1"
+      style={{ backgroundColor: theme.colors.background }}>
       <WaveBackground />
 
-      <View className="mx-4 flex flex-row justify-between items-center">
+      <View className="mx-4 flex flex-row items-center justify-between">
         <Text className="text-2xl font-semibold">History</Text>
         <TouchableOpacity>
           <HelpCircle size={24} color="red" />
@@ -163,12 +268,11 @@ export default function HistoryScreen() {
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-
         {/* Search Bar */}
-        <View className="mx-4 mt-4 flex-row items-center rounded-full bg-background px-4 py-3 border border-[#3f3f46]">
+        <View className="mx-4 mt-4 flex-row items-center rounded-full border border-[#3f3f46] bg-background px-4 py-3">
           <Search size={20} color="#9ca3af" />
           <TextInput
-            className="ml-3 flex-1 text-base text-white p-0 "
+            className="ml-3 flex-1 p-0 text-base text-white "
             placeholder="Search transactions"
             placeholderTextColor="#9ca3af"
             value={searchQuery}
@@ -182,15 +286,19 @@ export default function HistoryScreen() {
         </View>
 
         {/* Filter Chips */}
-        <View className="mt-5 mb-2">
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4" contentContainerStyle={{ paddingRight: 32 }}>
+        <View className="mb-2 mt-5">
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="px-4"
+            contentContainerStyle={{ paddingRight: 32 }}>
             <FilterChip
               label="Filter"
               selected={false}
               onPress={openFilters}
               icon={<Filter size={14} color="#6b7280" />}
             />
-            {categories.map(cat => (
+            {categories.map((cat) => (
               <FilterChip
                 key={cat}
                 label={cat}
@@ -198,7 +306,7 @@ export default function HistoryScreen() {
                 onPress={() => setSelectedCategory(cat)}
               />
             ))}
-            {months.map(m => (
+            {months.map((m) => (
               <FilterChip
                 key={m}
                 label={m}
@@ -210,21 +318,21 @@ export default function HistoryScreen() {
         </View>
 
         {/* Analytics Chart */}
-        <View className="mx-4 mt-6 mb-2">
-          <Text className="text-white text-lg font-medium mb-4">Analytics Overview</Text>
+        <View className="mx-4 mb-2 mt-6">
+          <Text className="mb-4 text-lg font-medium text-white">Analytics Overview</Text>
           <LineChart
             data={chartData}
             width={screenWidth - 32}
             height={180}
             chartConfig={{
-              backgroundColor: "#1e1b4b",
-              backgroundGradientFrom: "#1e1b4b",
-              backgroundGradientTo: "#3730a3",
+              backgroundColor: '#1e1b4b',
+              backgroundGradientFrom: '#1e1b4b',
+              backgroundGradientTo: '#3730a3',
               decimalPlaces: 0,
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(156, 163, 175, ${opacity})`,
               style: { borderRadius: 16 },
-              propsForDots: { r: "4", strokeWidth: "2", stroke: "#1c1c1e" }
+              propsForDots: { r: '4', strokeWidth: '2', stroke: '#1c1c1e' },
             }}
             bezier
             style={{ borderRadius: 16 }}
@@ -233,35 +341,46 @@ export default function HistoryScreen() {
 
         {/* Transactions List */}
         <View className="mt-4 px-4 pb-20">
-          {Object.keys(groupedTransactions).map(month => (
+          {Object.keys(groupedTransactions).map((month) => (
             <View key={month} className="mb-6">
-              <Text className="text-[#9ca3af] text-xs font-bold tracking-[0.1em] mb-2 uppercase">
+              <Text className="mb-2 text-xs font-bold uppercase tracking-[0.1em] text-[#9ca3af]">
                 {month.replace(' 20', " '")}
               </Text>
 
-              <View >
+              <View>
                 {groupedTransactions[month].map((tx, index) => (
-                  <View key={tx.id} className={`flex-row items-center justify-between py-4 ${index !== groupedTransactions[month].length - 1 ? 'border-b border-[#374151] border-dashed' : ''}`}>
-                    <View className="flex-row items-center flex-1 pr-4">
-                      <View className={`w-12 h-12 rounded-full items-center justify-center mr-4 border border-[#374151] bg-[#1f2937]`}>
+                  <View
+                    key={tx.id}
+                    className={`flex-row items-center justify-between py-4 ${index !== groupedTransactions[month].length - 1 ? 'border-b border-dashed border-[#374151]' : ''}`}>
+                    <View className="flex-1 flex-row items-center pr-4">
+                      <View
+                        className={`mr-4 h-12 w-12 items-center justify-center rounded-full border border-[#374151] bg-[#1f2937]`}>
                         {getTxIcon(tx.type, tx.method)}
                       </View>
                       <View className="flex-1">
-                        <Text className="text-white text-[15px] font-medium" numberOfLines={1}>{tx.title}</Text>
-                        <View className="flex-row items-center mt-1">
+                        <Text className="text-[15px] font-medium text-white" numberOfLines={1}>
+                          {tx.title}
+                        </Text>
+                        <View className="mt-1 flex-row items-center">
                           <CheckCircle2 size={14} color="#22c55e" className="mr-1.5" />
-                          <Text className="text-[#9ca3af] text-[13px]">{tx.date}</Text>
+                          <Text className="text-[13px] text-[#9ca3af]">{tx.date}</Text>
                         </View>
                         {tx.method === 'HDFC' && tx.amount > 200 && (
-                          <View className="bg-green-900/30 rounded px-2 py-1 self-start mt-2">
-                            <Text className="text-green-400 text-[10px] font-bold tracking-wider uppercase">COMPLETED WITHIN 8 SECONDS</Text>
+                          <View className="mt-2 self-start rounded bg-green-900/30 px-2 py-1">
+                            <Text className="text-[10px] font-bold uppercase tracking-wider text-green-400">
+                              COMPLETED WITHIN 8 SECONDS
+                            </Text>
                           </View>
                         )}
                       </View>
                     </View>
                     <View className="items-end pl-2">
                       <Text className={`text-[15px] font-semibold text-white`}>
-                        ₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ₹
+                        {tx.amount.toLocaleString('en-IN', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </Text>
                     </View>
                   </View>
@@ -272,72 +391,81 @@ export default function HistoryScreen() {
 
           {Object.keys(groupedTransactions).length === 0 && (
             <View className="items-center justify-center py-10">
-              <Text className="text-[#9ca3af] text-base">No transactions found</Text>
+              <Text className="text-base text-[#9ca3af]">No transactions found</Text>
             </View>
           )}
         </View>
-
       </ScrollView>
 
       <BottomSheet isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
         <View className="mb-2">
-          <Text className="text-xl font-bold text-white mb-6">Filters</Text>
+          <Text className="mb-6 text-xl font-bold text-white">Filters</Text>
 
-          <Text className="text-sm font-semibold text-[#9ca3af] mb-3 uppercase tracking-wider">Category</Text>
-          <View className="flex-row flex-wrap mb-5">
-            {categories.map(cat => (
+          <Text className="mb-3 text-sm font-semibold uppercase tracking-wider text-[#9ca3af]">
+            Category
+          </Text>
+          <View className="mb-5 flex-row flex-wrap">
+            {categories.map((cat) => (
               <TouchableOpacity
                 key={cat}
                 onPress={() => setTempCategory(cat)}
-                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempCategory === cat ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}
-              >
-                <Text className={`text-sm font-medium ${tempCategory === cat ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>{cat}</Text>
+                className={`mb-3 mr-3 rounded-full border px-4 py-2 ${tempCategory === cat ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}>
+                <Text
+                  className={`text-sm font-medium ${tempCategory === cat ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>
+                  {cat}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          <Text className="text-sm font-semibold text-[#9ca3af] mb-3 uppercase tracking-wider">Month</Text>
-          <View className="flex-row flex-wrap mb-5">
-            {months.map(m => (
+          <Text className="mb-3 text-sm font-semibold uppercase tracking-wider text-[#9ca3af]">
+            Month
+          </Text>
+          <View className="mb-5 flex-row flex-wrap">
+            {months.map((m) => (
               <TouchableOpacity
                 key={m}
                 onPress={() => setTempMonth(m)}
-                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempMonth === m ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}
-              >
-                <Text className={`text-sm font-medium ${tempMonth === m ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>{m}</Text>
+                className={`mb-3 mr-3 rounded-full border px-4 py-2 ${tempMonth === m ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}>
+                <Text
+                  className={`text-sm font-medium ${tempMonth === m ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>
+                  {m}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          <Text className="text-sm font-semibold text-[#9ca3af] mb-3 uppercase tracking-wider">Status</Text>
-          <View className="flex-row flex-wrap mb-8">
-            {statuses.map(s => (
+          <Text className="mb-3 text-sm font-semibold uppercase tracking-wider text-[#9ca3af]">
+            Status
+          </Text>
+          <View className="mb-8 flex-row flex-wrap">
+            {statuses.map((s) => (
               <TouchableOpacity
                 key={s}
                 onPress={() => setTempStatus(s)}
-                className={`mr-3 mb-3 rounded-full px-4 py-2 border ${tempStatus === s ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}
-              >
-                <Text className={`text-sm font-medium ${tempStatus === s ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>{s}</Text>
+                className={`mb-3 mr-3 rounded-full border px-4 py-2 ${tempStatus === s ? 'border-[#6366f1] bg-[#6366f120]' : 'border-[#374151] bg-[#2d2d2d]'}`}>
+                <Text
+                  className={`text-sm font-medium ${tempStatus === s ? 'text-[#6366f1]' : 'text-[#9ca3af]'}`}>
+                  {s}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          <View className="flex-row items-center justify-between mt-2">
+          <View className="mt-2 flex-row items-center justify-between">
             <TouchableOpacity
-              className="flex-1 py-3.5 border border-gray-300 rounded-xl mr-2 items-center"
+              className="mr-2 flex-1 items-center rounded-xl border border-gray-300 py-3.5"
               onPress={() => {
                 setTempCategory('All');
                 setTempMonth('All');
                 setTempStatus('All');
-              }}
-            >
-              <Text className="text-gray-700 font-semibold text-base">Clear All</Text>
+              }}>
+              <Text className="text-base font-semibold text-gray-700">Clear All</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="flex-1 py-3.5 bg-blue-500 rounded-xl ml-2 items-center"
-              onPress={applyFilters}
-            >
-              <Text className="text-white font-semibold text-base">Apply Filters</Text>
+              className="ml-2 flex-1 items-center rounded-xl bg-blue-500 py-3.5"
+              onPress={applyFilters}>
+              <Text className="text-base font-semibold text-white">Apply Filters</Text>
             </TouchableOpacity>
           </View>
         </View>

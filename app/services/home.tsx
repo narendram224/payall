@@ -134,18 +134,18 @@ function FloatingOrb({ color, size, top, left, delayMs, reducedMotion }: OrbProp
     }
     opacity.value = withDelay(
       delayMs,
-      withTiming(0.1, { duration: 800, easing: Easing.out(Easing.cubic) }),
+      withTiming(0.1, { duration: 800, easing: Easing.out(Easing.cubic) })
     );
     translateY.value = withDelay(
       delayMs,
       withRepeat(
         withSequence(
           withTiming(-18, { duration: 3200, easing: Easing.inOut(Easing.cubic) }),
-          withTiming(18, { duration: 3200, easing: Easing.inOut(Easing.cubic) }),
+          withTiming(18, { duration: 3200, easing: Easing.inOut(Easing.cubic) })
         ),
         -1,
-        false,
-      ),
+        false
+      )
     );
   }, [reducedMotion]);
 
@@ -202,19 +202,16 @@ function CategoryCard({
               .duration(400)
               .easing(Easing.out(Easing.cubic))
       }
-      style={styles.categoryCardWrapper}
-    >
+      style={styles.categoryCardWrapper}>
       <TouchableOpacity
         activeOpacity={0.82}
         onPress={() => router.push(route as any)}
-        style={styles.categoryCardTouchable}
-      >
+        style={styles.categoryCardTouchable}>
         <LinearGradient
           colors={gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.categoryCardGradient}
-        >
+          style={styles.categoryCardGradient}>
           {/* Glow accent in top-right */}
           <View style={styles.categoryGlowAccent} />
           <View style={styles.categoryIconWrapper}>
@@ -251,15 +248,13 @@ function OfferCard({ badge, description, cta, gradient, index, reducedMotion }: 
           : FadeInDown.delay(300 + index * 80)
               .duration(400)
               .easing(Easing.out(Easing.cubic))
-      }
-    >
+      }>
       <TouchableOpacity activeOpacity={0.84} style={styles.offerCardTouchable}>
         <LinearGradient
           colors={gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.offerCard}
-        >
+          style={styles.offerCard}>
           {/* Star badge */}
           <View style={styles.offerStarRow}>
             <Star size={12} color="#fbbf24" fill="#fbbf24" />
@@ -318,8 +313,7 @@ export default function ServicesHomeScreen() {
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}>
           {/* ── Hero Header ── */}
           <Animated.View
             entering={
@@ -327,8 +321,7 @@ export default function ServicesHomeScreen() {
                 ? undefined
                 : FadeInDown.delay(0).duration(500).easing(Easing.out(Easing.cubic))
             }
-            style={styles.heroSection}
-          >
+            style={styles.heroSection}>
             <View style={styles.heroBadge}>
               <Star size={12} color="#a5b4fc" fill="#a5b4fc" />
               <Text style={styles.heroBadgeText}>Services Hub</Text>
@@ -343,8 +336,7 @@ export default function ServicesHomeScreen() {
               reducedMotion
                 ? undefined
                 : FadeInDown.delay(60).duration(400).easing(Easing.out(Easing.cubic))
-            }
-          >
+            }>
             <Text style={styles.sectionLabel}>Categories</Text>
           </Animated.View>
 
@@ -369,8 +361,7 @@ export default function ServicesHomeScreen() {
               reducedMotion
                 ? undefined
                 : FadeInDown.delay(200).duration(400).easing(Easing.out(Easing.cubic))
-            }
-          >
+            }>
             <View style={styles.sectionHeaderRow}>
               <Text style={styles.sectionLabel}>Exclusive Offers</Text>
               <TouchableOpacity>
@@ -382,8 +373,7 @@ export default function ServicesHomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.offersScrollContent}
-          >
+            contentContainerStyle={styles.offersScrollContent}>
             {OFFERS.map((offer, idx) => (
               <OfferCard
                 key={offer.badge}
@@ -404,15 +394,13 @@ export default function ServicesHomeScreen() {
                 ? undefined
                 : FadeInDown.delay(320).duration(400).easing(Easing.out(Easing.cubic))
             }
-            style={styles.whySection}
-          >
+            style={styles.whySection}>
             <Text style={styles.sectionLabel}>Why Pay2All?</Text>
             <LinearGradient
               colors={['#1e1b4b', '#1a1a2e']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={styles.whyCard}
-            >
+              style={styles.whyCard}>
               {/* Decorative line accent */}
               <View style={styles.whyAccentLine} />
               {WHY_POINTS.map((point, idx) => (
@@ -425,8 +413,7 @@ export default function ServicesHomeScreen() {
                           .duration(350)
                           .easing(Easing.out(Easing.cubic))
                   }
-                  style={styles.whyRow}
-                >
+                  style={styles.whyRow}>
                   <CheckCircle2 size={18} color="#6366f1" />
                   <Text style={styles.whyText}>{point}</Text>
                 </Animated.View>
@@ -440,8 +427,7 @@ export default function ServicesHomeScreen() {
               reducedMotion
                 ? undefined
                 : FadeInDown.delay(500).duration(400).easing(Easing.out(Easing.cubic))
-            }
-          >
+            }>
             <View style={styles.sectionHeaderRow}>
               <Text style={styles.sectionLabel}>Recent Recharges</Text>
               <TouchableOpacity>
@@ -456,8 +442,7 @@ export default function ServicesHomeScreen() {
                   style={[
                     styles.recentRow,
                     idx < RECENT_RECHARGES.length - 1 && styles.recentRowBorder,
-                  ]}
-                >
+                  ]}>
                   <View style={styles.recentIconWrapper}>
                     <Smartphone size={18} color="#6366f1" />
                   </View>
@@ -470,8 +455,7 @@ export default function ServicesHomeScreen() {
                     <TouchableOpacity
                       style={styles.rechargeAgainBtn}
                       activeOpacity={0.78}
-                      onPress={() => router.push('/services/recharge/mobile-recharge' as any)}
-                    >
+                      onPress={() => router.push('/services/recharge/mobile-recharge' as any)}>
                       <Text style={styles.rechargeAgainText}>Recharge Again</Text>
                     </TouchableOpacity>
                   </View>
@@ -487,18 +471,15 @@ export default function ServicesHomeScreen() {
                 ? undefined
                 : FadeInDown.delay(580).duration(400).easing(Easing.out(Easing.cubic))
             }
-            style={styles.contactCtaWrapper}
-          >
+            style={styles.contactCtaWrapper}>
             <TouchableOpacity
               activeOpacity={0.84}
-              onPress={() => router.push('/services/recharge/mobile-recharge' as any)}
-            >
+              onPress={() => router.push('/services/recharge/mobile-recharge' as any)}>
               <LinearGradient
                 colors={['#4f46e5', '#7c3aed']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={styles.contactCtaGradient}
-              >
+                style={styles.contactCtaGradient}>
                 <View style={styles.contactCtaIconWrapper}>
                   <Phone size={20} color="#fff" />
                 </View>

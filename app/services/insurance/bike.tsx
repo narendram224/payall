@@ -70,7 +70,6 @@ export default function BikeInsurance() {
         className="flex-1 px-4 pt-5"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}>
-
         {/* Info Banner */}
         <Animated.View
           entering={reducedMotion ? undefined : FadeInDown.delay(0).duration(300)}

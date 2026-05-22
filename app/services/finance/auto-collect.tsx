@@ -4,7 +4,7 @@ import { CheckCircle2 } from 'lucide-react-native';
 import { router } from 'expo-router';
 import UPIInput from '@/components/forms/UPIInput';
 import FrequencySelector from '@/components/forms/FrequencySelector';
-import  TransactionSummary  from '@/components/shared/TransactionSummary';
+import TransactionSummary from '@/components/shared/TransactionSummary';
 import SuccessScreen from '@/components/recharge/SuccessScreen';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
 import { Button } from '@/components/ui/button';
@@ -26,15 +26,24 @@ const AutoCollect = () => {
   ];
 
   const handleUPIVerification = async () => {
-    if (!upiId || !upiId.includes('@')) { Alert.alert('Error', 'Please enter a valid UPI ID'); return; }
+    if (!upiId || !upiId.includes('@')) {
+      Alert.alert('Error', 'Please enter a valid UPI ID');
+      return;
+    }
     setLoading(true);
     setStep('rules');
     setLoading(false);
   };
 
   const handleSetupRules = async () => {
-    if (!frequency) { Alert.alert('Error', 'Please select a frequency'); return; }
-    if (!amount || parseFloat(amount) <= 0) { Alert.alert('Error', 'Please enter a valid amount'); return; }
+    if (!frequency) {
+      Alert.alert('Error', 'Please select a frequency');
+      return;
+    }
+    if (!amount || parseFloat(amount) <= 0) {
+      Alert.alert('Error', 'Please enter a valid amount');
+      return;
+    }
     setStep('summary');
   };
 
@@ -79,8 +88,9 @@ const AutoCollect = () => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#1c1c1c' }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 24 }}>
-
+    <ScrollView
+      style={{ flex: 1, backgroundColor: '#1c1c1c' }}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 24 }}>
       {/* Benefits Banner */}
       <View style={styles.benefitsBanner}>
         <Text style={styles.benefitsTitle}>🔄 Auto Collect</Text>
@@ -99,9 +109,9 @@ const AutoCollect = () => {
       </View>
 
       {/* Step Indicator */}
-      <View className="flex-row justify-between mb-6 mt-2">
+      <View className="mb-6 mt-2 flex-row justify-between">
         {[0, 1, 2].map((idx) => (
-          <View key={idx} className="flex-1 mx-0.5 h-1.5 rounded-full bg-muted overflow-hidden">
+          <View key={idx} className="mx-0.5 h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
             <View
               className="h-full rounded-full bg-primary"
               style={{ width: idx <= activeStepIndex ? '100%' : '0%' }}
@@ -112,7 +122,7 @@ const AutoCollect = () => {
 
       {step === 'upi' && (
         <View className="space-y-6">
-          <Text className="text-lg font-semibold text-foreground mb-1">Step 1: Link UPI ID</Text>
+          <Text className="mb-1 text-lg font-semibold text-foreground">Step 1: Link UPI ID</Text>
           <UPIInput
             value={upiId}
             onChange={setUpiId}
@@ -127,7 +137,9 @@ const AutoCollect = () => {
 
       {step === 'rules' && (
         <View className="space-y-6">
-          <Text className="text-lg font-semibold text-foreground mb-1">Step 2: Set Auto Collect Rules</Text>
+          <Text className="mb-1 text-lg font-semibold text-foreground">
+            Step 2: Set Auto Collect Rules
+          </Text>
           <FrequencySelector
             frequencies={frequencies}
             selectedFrequency={frequency}
@@ -136,17 +148,19 @@ const AutoCollect = () => {
           />
           <View className="space-y-4">
             <View>
-              <Text className="text-sm font-semibold text-foreground mb-2">Amount (₹)</Text>
+              <Text className="mb-2 text-sm font-semibold text-foreground">Amount (₹)</Text>
               <Input
                 placeholder="Enter amount to collect"
                 value={amount}
                 onChangeText={setAmount}
                 keyboardType="numeric"
-                className="text-xl font-bold text-center h-14"
+                className="h-14 text-center text-xl font-bold"
               />
             </View>
             <View>
-              <Text className="text-sm font-semibold text-foreground mb-2">Description (Optional)</Text>
+              <Text className="mb-2 text-sm font-semibold text-foreground">
+                Description (Optional)
+              </Text>
               <Input
                 placeholder="Add a description for this auto collect"
                 value={description}
@@ -157,7 +171,7 @@ const AutoCollect = () => {
               />
             </View>
           </View>
-          <Button onPress={handleSetupRules} className="w-full mt-2">
+          <Button onPress={handleSetupRules} className="mt-2 w-full">
             <Text className="font-semibold text-primary-foreground">Review Setup</Text>
           </Button>
           <Button onPress={handleBack} variant="outline" className="w-full">
@@ -168,17 +182,19 @@ const AutoCollect = () => {
 
       {step === 'summary' && (
         <View className="space-y-6">
-          <Text className="text-lg font-semibold text-foreground mb-1">Step 3: Review & Activate</Text>
-          <View className="bg-card rounded-xl p-4 border border-border">
-            <View className="flex-row justify-between mb-3">
+          <Text className="mb-1 text-lg font-semibold text-foreground">
+            Step 3: Review & Activate
+          </Text>
+          <View className="rounded-xl border border-border bg-card p-4">
+            <View className="mb-3 flex-row justify-between">
               <Text className="text-sm text-muted-foreground">UPI ID</Text>
               <Text className="text-base font-semibold text-foreground">{upiId}</Text>
             </View>
-            <View className="flex-row justify-between mb-3">
+            <View className="mb-3 flex-row justify-between">
               <Text className="text-sm text-muted-foreground">Frequency</Text>
               <Text className="text-base font-semibold text-foreground">{frequency?.label}</Text>
             </View>
-            <View className="flex-row justify-between mb-3">
+            <View className="mb-3 flex-row justify-between">
               <Text className="text-sm text-muted-foreground">Amount</Text>
               <Text className="text-base font-semibold text-foreground">₹{amount}</Text>
             </View>
@@ -199,7 +215,7 @@ const AutoCollect = () => {
             className="mb-2"
           />
 
-          <View className="flex-row gap-3 mt-2">
+          <View className="mt-2 flex-row gap-3">
             <Button onPress={handleBack} variant="outline" className="flex-1">
               <Text className="font-semibold text-foreground">Back</Text>
             </Button>
